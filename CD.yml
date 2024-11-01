@@ -22,5 +22,5 @@ steps:
       azureSubscription: 'Azure for Students(3825a1c0-e294-4a3a-9d64-47657021c39a)'
       appType: 'webApp'
       appName: 'GreenMarket'
-      package: '$(System.DefaultWorkingDirectory)/greenMarketArtifact/*.zip'
+      package: '$(Build.ArtifactsDirectory)/greenMarketArtifact/*.zip'
       deploymentMethod: 'auto'
