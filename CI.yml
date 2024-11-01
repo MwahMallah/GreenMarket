@@ -1,0 +1,34 @@
+trigger:
+  branches:
+    include:
+      - master
+
+pool:
+  vmImage: 'windows-latest' 
+
+variables:
+  buildConfiguration: "Release"
+  solution: "**/GreenMarket.sln"
+  project: "**/GreenMarket.csproj"
+
+steps:
+  - task: NuGetToolInstaller@1
+    
+  - task: NuGetCommand@2
+    inputs:
+      command: 'restore'
+      restoreSolution: '$(solution)'
+      feedsToUse: 'select'
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'build'
+      projects: '$(project)'
+      arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+      zipAfterPublish: true
+  
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'greenMarketArtifact'
+      publishLocation: 'Container'
