@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GreenMarket.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace GreenMarket.DAL;
 
@@ -19,17 +20,23 @@ public class GreenMarketDbContext : DbContext
             new UserEntity
             {
                 Id = Guid.NewGuid(),
-                Name = "Maksim"
+                Name = "Maksim",
+                Password = "123",
+                Username = "MaksimDubr"
             },
             new UserEntity
             {
                 Id = Guid.NewGuid(),
-                Name = "Anton"
+                Name = "Anton",
+                Password = "123456",
+                Username = "AntonHavl"
             },
             new UserEntity
             {
                 Id = Guid.NewGuid(),
-                Name = "Nastya"
+                Name = "Nastya",
+                Password = "1234",
+                Username = "NastyaMiro"
             }
         ]);
     }

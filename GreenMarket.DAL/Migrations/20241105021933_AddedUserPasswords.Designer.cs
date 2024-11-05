@@ -4,6 +4,7 @@ using GreenMarket.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GreenMarket.DAL.Migrations
 {
     [DbContext(typeof(GreenMarketDbContext))]
-    partial class GreenMarketDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241105021933_AddedUserPasswords")]
+    partial class AddedUserPasswords
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,39 +38,28 @@ namespace GreenMarket.DAL.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("Username")
-                        .IsUnique();
 
                     b.ToTable("Users");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c1032404-bb69-4884-9102-ef0c76f58ab1"),
+                            Id = new Guid("a751a174-d892-462d-b0b1-244057920553"),
                             Name = "Maksim",
-                            Password = "123",
-                            Username = "MaksimDubr"
+                            Password = "123"
                         },
                         new
                         {
-                            Id = new Guid("8974a081-674a-46a2-9a2c-216699afbc77"),
+                            Id = new Guid("4b9b55ac-ce43-4672-8f45-b77be61ae03c"),
                             Name = "Anton",
-                            Password = "123456",
-                            Username = "AntonHavl"
+                            Password = "123456"
                         },
                         new
                         {
-                            Id = new Guid("36b44d17-5068-4d81-be40-14b0887e48a2"),
+                            Id = new Guid("73c6eb52-f1d0-415e-a96d-615686175d22"),
                             Name = "Nastya",
-                            Password = "1234",
-                            Username = "NastyaMiro"
+                            Password = "1234"
                         });
                 });
 #pragma warning restore 612, 618
