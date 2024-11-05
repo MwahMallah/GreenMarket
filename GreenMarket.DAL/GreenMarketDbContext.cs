@@ -10,4 +10,27 @@ public class GreenMarketDbContext : DbContext
         : base(options)
     {
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<UserEntity>().HasData([
+            new UserEntity
+            {
+                Id = Guid.NewGuid(),
+                Name = "Maksim"
+            },
+            new UserEntity
+            {
+                Id = Guid.NewGuid(),
+                Name = "Anton"
+            },
+            new UserEntity
+            {
+                Id = Guid.NewGuid(),
+                Name = "Nastya"
+            }
+        ]);
+    }
 }
