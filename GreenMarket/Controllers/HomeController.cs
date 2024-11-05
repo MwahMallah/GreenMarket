@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using GreenMarket.DAL;
 using Microsoft.AspNetCore.Mvc;
 using GreenMarket.Models;
 
@@ -7,16 +8,18 @@ namespace GreenMarket.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    private readonly GreenMarketDbContext _dbContext;
+    
+    public HomeController(ILogger<HomeController> logger, GreenMarketDbContext dbContext)
     {
         _logger = logger;
+        _dbContext = dbContext;
     }
 
     public IActionResult Index()
     {
-        _logger.LogInformation("user visited index");
-        return View();
+        var users = _dbContext.Users.ToList();
+        return View(users);
     }
 
     public IActionResult Privacy()
