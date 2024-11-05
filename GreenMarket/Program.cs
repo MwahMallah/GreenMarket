@@ -7,8 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<GreenMarketDbContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    Console.WriteLine("Using connection string: " + connectionString);
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
@@ -28,6 +26,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+app.Logger.LogInformation(connectionString);
 
 app.MapControllerRoute(
     name: "default",

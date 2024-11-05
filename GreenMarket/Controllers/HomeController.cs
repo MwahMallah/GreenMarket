@@ -15,6 +15,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        _logger.LogInformation("user visited index");
         return View();
     }
 
