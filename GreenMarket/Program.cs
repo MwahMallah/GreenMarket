@@ -1,4 +1,9 @@
+using GreenMarket.BL.Services;
+using GreenMarket.BL.Services.Interfaces;
+using GreenMarket.BL.Settings;
 using GreenMarket.DAL;
+using GreenMarket.DAL.Repositories;
+using GreenMarket.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +14,11 @@ builder.Services.AddDbContext<GreenMarketDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserAuthenticator, UserAuthenticator>();
+builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 
 var app = builder.Build();
 

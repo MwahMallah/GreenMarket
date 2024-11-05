@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\GreenMarket.BL\GreenMarket.BL.csproj" />
       <ProjectReference Include="..\GreenMarket.DAL\GreenMarket.DAL.csproj" />
     </ItemGroup>
 
