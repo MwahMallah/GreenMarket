@@ -27,7 +27,9 @@ public class JwtProvider : IJwtProvider
         
         var claims = new[]
         {
-            new Claim("role", "biba")
+            new Claim(ClaimTypes.Role, user.Role.ToString()),
+            new Claim(ClaimTypes.Name, user.Username),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
         
         var token = new JwtSecurityToken(
