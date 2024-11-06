@@ -15,4 +15,8 @@
       </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\GreenMarket.Common\GreenMarket.Common.csproj" />
+    </ItemGroup>
+
 </Project>
