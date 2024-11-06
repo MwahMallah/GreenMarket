@@ -1,4 +1,5 @@
-﻿using GreenMarket.DAL.Entities;
+﻿using GreenMarket.Common.Enums;
+using GreenMarket.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace GreenMarket.DAL;
@@ -20,23 +21,34 @@ public class GreenMarketDbContext : DbContext
             new UserEntity
             {
                 Id = Guid.NewGuid(),
+                Name = "admin",
+                Password = "admin",
+                Username = "admin",
+                Role = UserRole.Admin
+            },
+            new UserEntity
+            {
+                Id = Guid.NewGuid(),
                 Name = "Maksim",
                 Password = "123",
-                Username = "MaksimDubr"
+                Username = "MaksimDubr",
+                Role = UserRole.User
             },
             new UserEntity
             {
                 Id = Guid.NewGuid(),
                 Name = "Anton",
                 Password = "123456",
-                Username = "AntonHavl"
+                Username = "AntonHavl",
+                Role = UserRole.User
             },
             new UserEntity
             {
                 Id = Guid.NewGuid(),
                 Name = "Nastya",
                 Password = "1234",
-                Username = "NastyaMiro"
+                Username = "NastyaMiro",
+                Role = UserRole.User
             }
         ]);
     }
