@@ -2,6 +2,7 @@ using System.Diagnostics;
 using GreenMarket.DAL;
 using Microsoft.AspNetCore.Mvc;
 using GreenMarket.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GreenMarket.Controllers;
 
@@ -18,8 +19,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var users = _dbContext.Users.ToList();
-        return View(users);
+        return View();
     }
 
     public IActionResult Privacy()
