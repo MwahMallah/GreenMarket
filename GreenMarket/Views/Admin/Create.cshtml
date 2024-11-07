@@ -1,0 +1,41 @@
+﻿@model CreateUserViewModel
+
+<div class="container">
+    <div class="row">
+        <h2 class="text-success">Create User</h2>
+    </div>
+    <form method="post">
+        <div class="row gy-2">
+            <div class="form-floating">
+                <input asp-for="UserEntity.Name" type="text" id="name" 
+                       class="form-control" placeholder="Name">
+                <label for="name" class="form-label">Name</label>
+                <span asp-validation-for="UserEntity.Name" class="text-danger field-validation-error"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="UserEntity.Username" type="text" id="username" 
+                       class="form-control" placeholder="Username">
+                <label for="username" class="form-label">Username</label>
+                <span asp-validation-for="UserEntity.Username" class="text-danger field-validation-error"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="UserEntity.Password" type="text" id="pwd" 
+                       class="form-control" placeholder="Password">
+                <label for="pwd" class="form-label">Password</label>
+                <span asp-validation-for="UserEntity.Password" class="text-danger field-validation-error"></span>
+            </div>
+            <div class="form-floating">
+                <select asp-for="UserEntity.Role" asp-items="@Model.RolesList" class="form-select border-0 shadow">
+                    <option selected>--Select Category--</option>
+                </select>
+                <span asp-validation-for="UserEntity.Role" class="text-danger field-validation-error"></span>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div>
+                <button type="submit" class="btn btn-success">Submit</button>
+                <a asp-controller="Admin" asp-action="Index" class="btn btn-dark">Back to List</a>
+            </div>
+        </div>
+    </form>
+</div>
