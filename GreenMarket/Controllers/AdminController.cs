@@ -2,6 +2,7 @@
 using GreenMarket.DAL.Entities;
 using GreenMarket.DAL.Repositories.Interfaces;
 using GreenMarket.Models;
+using GreenMarket.Models.Admin;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

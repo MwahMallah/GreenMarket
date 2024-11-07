@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GreenMarket.Models;
+namespace GreenMarket.Models.Account;
 
-public record AccountViewModel
+public record AccountLoginViewModel
 {
     [Required]
     public required string Username { get; set; }

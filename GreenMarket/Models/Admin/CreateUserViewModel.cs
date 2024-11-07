@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using GreenMarket.Common.Enums;
+﻿using GreenMarket.Common.Enums;
 using GreenMarket.DAL.Entities;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace GreenMarket.Models;
+namespace GreenMarket.Models.Admin;
 
 public record CreateUserViewModel
 {
