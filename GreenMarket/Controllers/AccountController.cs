@@ -1,7 +1,11 @@
-﻿using GreenMarket.BL.Services.Interfaces;
+﻿using System.Reflection.Metadata;
+using GreenMarket.BL.Services.Interfaces;
+using GreenMarket.Common.Constants;
+using GreenMarket.Common.Enums;
 using GreenMarket.DAL.Entities;
 using GreenMarket.DAL.Repositories.Interfaces;
 using GreenMarket.Models;
+using GreenMarket.Models.Account;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenMarket.Controllers;
@@ -28,26 +32,58 @@ public class AccountController : Controller
     }
     
     [HttpPost]
-    public IActionResult Login(AccountViewModel accountViewModel)
+    public IActionResult Login(AccountLoginViewModel accountLoginViewModel)
     {
         if (!ModelState.IsValid)
-            return View(accountViewModel);
+            return View(accountLoginViewModel);
 
-        var user = _userRepository.GetByUsername(accountViewModel.Username);
-        if (user != null && _userAuthenticator.Verify(user, accountViewModel.Password))
+        var user = _userRepository.GetByUsername(accountLoginViewModel.Username);
+        if (user != null && _userAuthenticator.Verify(user, accountLoginViewModel.Password))
         {
             AddTokenCookie(user);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(Index), "Home");
         }
         
         ModelState.AddModelError("user", "Wrong Credentials");
-        return View(accountViewModel);
+        return View(accountLoginViewModel);
+    }
+
+    public ActionResult Logout()
+    {
+        Response.Cookies.Delete(Constants.AuthToken);
+        return RedirectToAction("Login");
+    }
+    
+    public ActionResult Register()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public ActionResult Register(AccountRegisterViewModel viewModel)
+    {
+        var user = _userRepository.GetByUsername(viewModel.Username);
+        if (user != null)
+        {
+            ModelState.AddModelError("user", "User with given username is already registered");
+            return View(viewModel);
+        }
+        
+        var registeredUser = _userRepository.Create(new UserEntity
+        {
+            Username = viewModel.Username,
+            Password = viewModel.Password,
+            Role = UserRole.User
+        });
+        
+        AddTokenCookie(registeredUser);
+        return RedirectToAction(nameof(Index), "Home");
     }
 
     private void AddTokenCookie(UserEntity user)
     {
         var token = _jwtProvider.CreateToken(user);
-        Response.Cookies.Append("AuthToken", token, new CookieOptions()
+        Response.Cookies.Append(Constants.AuthToken, token, new CookieOptions()
         {
             HttpOnly = true
         });

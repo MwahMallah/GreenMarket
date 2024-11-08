@@ -1,22 +1,28 @@
-﻿@model AccountLoginViewModel
+﻿@model AccountRegisterViewModel
+
 
 <div class="container text-center">
     <div asp-validation-summary="All" class="text-danger"></div>
-    <form asp-action="Login">
+    <form asp-action="Register">
         <div>
             <label asp-for="Username"></label>
             <input type="text" asp-for="Username">
             <span asp-validation-for="Username"></span>
         </div>
         <div>
+            <label asp-for="Name"></label>
+            <input type="text" asp-for="Name">
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div>
             <label asp-for="Password"></label>
             <input type="text" asp-for="Password">
             <span asp-validation-for="Password"></span>
         </div>
-        <button type="submit">Login</button>
+        <button type="submit">Register</button>
         <div>
-            Not registered yet?
-            <a asp-controller="Account" asp-action="Register">Register</a>
+            Already registered?
+            <a asp-controller="Account" asp-action="Login">Login</a>
         </div>
     </form>
 </div>
