@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using GreenMarket.BL.Settings;
+using GreenMarket.Common.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -37,7 +38,7 @@ public static class AuthExtension
                 {
                     OnMessageReceived = context =>
                     {
-                        context.Token = context.Request.Cookies["AuthToken"]; // Extract token from cookie
+                        context.Token = context.Request.Cookies[Constants.AuthToken]; // Extract token from cookie
                         return Task.CompletedTask; // Complete the event handling
                     }
                 };

@@ -1,7 +1,6 @@
-﻿using GreenMarket.DAL;
-using GreenMarket.DAL.Entities;
+﻿using GreenMarket.DAL.Entities;
 using GreenMarket.DAL.Repositories.Interfaces;
-using GreenMarket.Models;
+using GreenMarket.Models.Admin;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,18 +9,16 @@ namespace GreenMarket.Controllers;
 [Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
-    private readonly GreenMarketDbContext _dbContext;
     private readonly IUserRepository _userRepository;
 
-    public AdminController(GreenMarketDbContext dbContext, IUserRepository userRepository)
+    public AdminController(IUserRepository userRepository)
     {
-        _dbContext = dbContext;
         _userRepository = userRepository;
     }
 
     public ActionResult Index()
     {
-        var users = _dbContext.Users.ToList();
+        var users = _userRepository.GetAll();
         return View(users);
     }
 

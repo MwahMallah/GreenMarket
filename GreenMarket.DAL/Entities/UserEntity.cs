@@ -11,6 +11,8 @@ public class UserEntity : IEntity
     public Guid Id { get; set; }
     [MaxLength(100)]
     public string? Name { get; set; }
+    [MaxLength(2048)]
+    public string? ImgUrl { get; set; }
     [Required]
     [MaxLength(30)]
     public required string Username { get; set; }

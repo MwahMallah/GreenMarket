@@ -26,10 +26,11 @@ public abstract class RepositoryBase<TEntity> : IRepository<TEntity>
         return _entities;
     }
 
-    public void Create(TEntity entity)
+    public TEntity Create(TEntity entity)
     {
-        _entities.Add(entity);
+        var addedEntity = _entities.Add(entity).Entity;
         _dbContext.SaveChanges();
+        return addedEntity;
     }
 
     public virtual void Update(TEntity updatedEntity)
