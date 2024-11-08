@@ -22,6 +22,7 @@ public class GreenMarketDbContext : DbContext
             {
                 Id = Guid.NewGuid(),
                 Name = "admin",
+                ImgUrl = "",
                 Password = "admin",
                 Username = "admin",
                 Role = UserRole.Admin
@@ -30,6 +31,7 @@ public class GreenMarketDbContext : DbContext
             {
                 Id = Guid.NewGuid(),
                 Name = "Maksim",
+                ImgUrl = "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_3x4.jpg",
                 Password = "123",
                 Username = "MaksimDubr",
                 Role = UserRole.User
@@ -38,6 +40,7 @@ public class GreenMarketDbContext : DbContext
             {
                 Id = Guid.NewGuid(),
                 Name = "Anton",
+                ImgUrl = "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg",
                 Password = "123456",
                 Username = "AntonHavl",
                 Role = UserRole.User
@@ -46,6 +49,7 @@ public class GreenMarketDbContext : DbContext
             {
                 Id = Guid.NewGuid(),
                 Name = "Nastya",
+                ImgUrl = "https://cdn.pixabay.com/photo/2021/09/20/09/17/dog-6640280_1280.jpg",
                 Password = "1234",
                 Username = "NastyaMiro",
                 Role = UserRole.User
