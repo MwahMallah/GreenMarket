@@ -7,7 +7,7 @@ public interface IRepository<TEntity>
 {
     public TEntity? GetById(Guid id);
     public IEnumerable<TEntity> GetAll();
-    public void Create(TEntity entity);
+    public TEntity Create(TEntity entity);
     public void Update(TEntity updatedEntity);
     public void Delete(TEntity entityToDelete);
 }
