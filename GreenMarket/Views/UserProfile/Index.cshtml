@@ -1,0 +1,10 @@
+﻿@model UserEntity
+
+<div class="container text-center">
+    <a asp-controller="UserProfile" asp-action="Edit" asp-route-id="@Model.Id">Edit Profile</a>
+    <img src="@Model.ImgUrl" alt="User profile picture" class="w-25">
+    <p>Name - @Model.Name!</p>
+    <p>Username - @Model.Username</p>
+    <a asp-controller="Account" asp-action="Logout">Log out</a>
+</div>
+
