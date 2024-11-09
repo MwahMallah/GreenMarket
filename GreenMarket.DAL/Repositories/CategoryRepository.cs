@@ -15,8 +15,9 @@ public class CategoryRepository : RepositoryBase<CategoryEntity>, ICategoryRepos
 
     public IEnumerable<CategoryEntity> GetMain()
     {
+        var root = _dbContext.Categories.FirstOrDefault(c => c.ParentId == null);
         return _dbContext.Categories
-            .Where(c => c.ParentId == null)
+            .Where(c => c.ParentId == root!.Id)
             .Include(c => c.Products)
             .Include(c => c.SubCategories);
     }

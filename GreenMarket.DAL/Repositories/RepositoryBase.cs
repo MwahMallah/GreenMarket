@@ -16,7 +16,7 @@ public abstract class RepositoryBase<TEntity> : IRepository<TEntity>
         _entities = dbContext.Set<TEntity>();
     }
     
-    public virtual TEntity? GetById(Guid id)
+    public virtual TEntity? GetById(Guid? id)
     {
         return _entities.FirstOrDefault(e => e.Id == id);
     }

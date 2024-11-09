@@ -1,7 +1,9 @@
 using System.Diagnostics;
+using GreenMarket.DAL.Entities;
 using GreenMarket.DAL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using GreenMarket.Models;
+using GreenMarket.Models.Products;
 
 namespace GreenMarket.Controllers;
 
@@ -19,7 +21,13 @@ public class ProductsController : Controller
     public IActionResult Index()
     {
         var categories = _categoryRepository.GetMain();
-        return View(nameof(Categories), categories);
+        
+        var categoryViewModel = new CategoryViewModel
+        {
+            Categories = categories,
+            ParentList = []
+        };
+        return View(nameof(Categories), categoryViewModel);
     }
 
     public IActionResult Categories(Guid id)
@@ -29,14 +37,20 @@ public class ProductsController : Controller
             return NotFound();
         }
 
-        var categories = _categoryRepository.GetByParentId(id);
+        var categories = _categoryRepository.GetByParentId(id).ToList();
 
         if (!categories.Any())
         {
             return RedirectToAction(nameof(Products), new {categoryId=id});
         }
 
-        return View(nameof(Categories), categories);
+        var categoryViewModel = new CategoryViewModel
+        {
+            Categories = categories,
+            ParentList = GetCategoryParents(id)
+        };
+        
+        return View(nameof(Categories), categoryViewModel);
     }
 
     public IActionResult Products(Guid categoryId)
@@ -50,5 +64,19 @@ public class ProductsController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+    
+    private IEnumerable<CategoryEntity> GetCategoryParents(Guid id)
+    {
+        var parents = new List<CategoryEntity>();
+        var parentCategory = _categoryRepository.GetById(id);
+        while (parentCategory != null)
+        {
+            parents.Add(parentCategory);
+            parentCategory = _categoryRepository.GetById(parentCategory.ParentId);
+        }
+
+        parents.Reverse();
+        return parents;
     }
 }

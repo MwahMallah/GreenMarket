@@ -13,17 +13,17 @@
             <!-- Attributes Column -->
             <div class="col-12 col-md-8">
                 <h5>@product.Name</h5>
-                <ul class="list-unstyled">
+                <div class="row">
                     @foreach (var attr in product.Attributes)
                     {
-                        <li>
+                        <div class="col-6">
                             <strong>@attr.Attribute.Name:</strong> <span>@attr.Value</span>
-                        </li>
+                        </div>
                     }
-                </ul>
+                </div>
             </div>
 
-            <!-- Buy Button Column -->
+            <!-- Order Button Column -->
             <div class="col-12 col-md-2 text-center">
                 <button class="btn btn-primary">Order</button>
             </div>
