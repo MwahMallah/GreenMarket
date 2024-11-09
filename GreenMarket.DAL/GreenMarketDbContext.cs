@@ -7,6 +7,8 @@ namespace GreenMarket.DAL;
 public class GreenMarketDbContext : DbContext
 {
     public DbSet<UserEntity> Users { get; set; }
+    public DbSet<CategoryEntity> Categories { get; set; }
+    public DbSet<ProductEntity> Products { get; set; }
 
     public GreenMarketDbContext(DbContextOptions<GreenMarketDbContext> options)
         : base(options)
@@ -16,7 +18,65 @@ public class GreenMarketDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        SeedUsers(modelBuilder);
+        SeedProductsAndCategories(modelBuilder);
+    }
 
+    private void SeedProductsAndCategories(ModelBuilder modelBuilder)
+    {
+        var tomatoCategoryId = Guid.NewGuid();
+        var watermelonCategoryId = Guid.NewGuid();
+        
+        modelBuilder.Entity<CategoryEntity>().HasData([
+            new CategoryEntity
+            {
+                Id = tomatoCategoryId,
+                Name = "Tomato"
+            },
+            new CategoryEntity
+            {
+                Id = watermelonCategoryId,
+                Name = "Watermelon"
+            }
+        ]);
+        
+        modelBuilder.Entity<ProductEntity>().HasData([
+            new ProductEntity
+            {
+                Id = Guid.NewGuid(),
+                Name = "Tomino",
+                CategoryId = tomatoCategoryId,
+            },
+            new ProductEntity
+            {
+                Id = Guid.NewGuid(),
+                Name = "Roma",
+                CategoryId = tomatoCategoryId,
+            },
+            new ProductEntity
+            {
+                Id = Guid.NewGuid(),
+                Name = "Augusta",
+                CategoryId = watermelonCategoryId,
+            },
+            new ProductEntity
+            {
+                Id = Guid.NewGuid(),
+                Name = "Dragon King",
+                CategoryId = watermelonCategoryId,
+            },
+            new ProductEntity
+            {
+                Id = Guid.NewGuid(),
+                Name = "Happy family",
+                CategoryId = watermelonCategoryId,
+            }
+        ]);
+    }
+
+
+    private void SeedUsers(ModelBuilder modelBuilder)
+    {
         modelBuilder.Entity<UserEntity>().HasData([
             new UserEntity
             {
