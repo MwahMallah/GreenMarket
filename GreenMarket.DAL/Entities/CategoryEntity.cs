@@ -18,4 +18,5 @@ public class CategoryEntity : IEntity
     public CategoryEntity? Parent { get; set; }
 
     public ICollection<CategoryEntity> SubCategories { get; set; } = new List<CategoryEntity>();
+    public ICollection<AttributeEntity> Attributes { get; set; } = new List<AttributeEntity>();
 }
