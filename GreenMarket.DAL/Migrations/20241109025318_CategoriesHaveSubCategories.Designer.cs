@@ -4,6 +4,7 @@ using GreenMarket.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GreenMarket.DAL.Migrations
 {
     [DbContext(typeof(GreenMarketDbContext))]
-    partial class GreenMarketDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241109025318_CategoriesHaveSubCategories")]
+    partial class CategoriesHaveSubCategories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,10 +30,6 @@ namespace GreenMarket.DAL.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ImgUrl")
-                        .HasMaxLength(2048)
-                        .HasColumnType("nvarchar(2048)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -49,36 +48,25 @@ namespace GreenMarket.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3a455230-4da9-4a10-975b-0f3592280dda"),
-                            ImgUrl = "https://www.healthyeating.org/images/default-source/home-0.0/nutrition-topics-2.0/general-nutrition-wellness/2-2-2-3foodgroups_fruits_detailfeature_thumb.jpg?sfvrsn=7abe71fe_4",
+                            Id = new Guid("b0e2e36b-baea-4c5c-98b2-df904865657d"),
                             Name = "Fruits"
                         },
                         new
                         {
-                            Id = new Guid("ee4ddd7b-eb68-4782-9ea4-e825fdb1e0d3"),
-                            ImgUrl = "https://cdn.britannica.com/17/196817-159-9E487F15/vegetables.jpg",
+                            Id = new Guid("5b3a9cec-5945-40e2-b419-1135963808f6"),
                             Name = "Vegetables"
                         },
                         new
                         {
-                            Id = new Guid("56987bd2-b5f2-432b-95f8-9cd4d6e4cf10"),
-                            ImgUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNIY9W5DxVGXTtV4gR1ZU5qipQsRkpK2pZ3Q&s",
+                            Id = new Guid("4e5ec121-6883-460f-9072-219b7322b57c"),
                             Name = "Tomato",
-                            ParentId = new Guid("ee4ddd7b-eb68-4782-9ea4-e825fdb1e0d3")
+                            ParentId = new Guid("5b3a9cec-5945-40e2-b419-1135963808f6")
                         },
                         new
                         {
-                            Id = new Guid("80261e76-71d6-4f85-baec-73dd48dd4419"),
-                            ImgUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Patates.jpg/1200px-Patates.jpg",
-                            Name = "Potato",
-                            ParentId = new Guid("ee4ddd7b-eb68-4782-9ea4-e825fdb1e0d3")
-                        },
-                        new
-                        {
-                            Id = new Guid("637c997a-fafa-4691-bdfd-9b9a28f804ba"),
-                            ImgUrl = "https://btiscience.org/wp-content/uploads/US-Watermelon-Varieties_600dpi.jpg",
+                            Id = new Guid("e71083da-5451-4833-875a-28d0e4580532"),
                             Name = "Watermelon",
-                            ParentId = new Guid("3a455230-4da9-4a10-975b-0f3592280dda")
+                            ParentId = new Guid("b0e2e36b-baea-4c5c-98b2-df904865657d")
                         });
                 });
 
@@ -105,32 +93,32 @@ namespace GreenMarket.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a1c3f47e-0859-4925-bd42-d0dcb809ea71"),
-                            CategoryId = new Guid("56987bd2-b5f2-432b-95f8-9cd4d6e4cf10"),
+                            Id = new Guid("c41f0066-2100-420f-bc17-3e8ea9f16bbe"),
+                            CategoryId = new Guid("4e5ec121-6883-460f-9072-219b7322b57c"),
                             Name = "Tomino"
                         },
                         new
                         {
-                            Id = new Guid("987a4be3-3de2-4b36-b745-1befa66b1d07"),
-                            CategoryId = new Guid("56987bd2-b5f2-432b-95f8-9cd4d6e4cf10"),
+                            Id = new Guid("4a1f1ffe-92c6-46be-ac35-6635fb41099d"),
+                            CategoryId = new Guid("4e5ec121-6883-460f-9072-219b7322b57c"),
                             Name = "Roma"
                         },
                         new
                         {
-                            Id = new Guid("06ac1c7e-5316-4d97-8974-f6e992a28eed"),
-                            CategoryId = new Guid("637c997a-fafa-4691-bdfd-9b9a28f804ba"),
+                            Id = new Guid("b01b3ab8-400f-4584-a48b-5b47d51a4433"),
+                            CategoryId = new Guid("e71083da-5451-4833-875a-28d0e4580532"),
                             Name = "Augusta"
                         },
                         new
                         {
-                            Id = new Guid("a962d78c-02f4-4aeb-94a1-47d75201473c"),
-                            CategoryId = new Guid("637c997a-fafa-4691-bdfd-9b9a28f804ba"),
+                            Id = new Guid("77e99af3-5e28-4787-b64b-3e24029cee5a"),
+                            CategoryId = new Guid("e71083da-5451-4833-875a-28d0e4580532"),
                             Name = "Dragon King"
                         },
                         new
                         {
-                            Id = new Guid("120cceda-ac17-4b70-94e0-02a0b8e02398"),
-                            CategoryId = new Guid("637c997a-fafa-4691-bdfd-9b9a28f804ba"),
+                            Id = new Guid("3de07655-8539-450d-b2ac-3e2bd295c3d9"),
+                            CategoryId = new Guid("e71083da-5451-4833-875a-28d0e4580532"),
                             Name = "Happy family"
                         });
                 });
@@ -172,7 +160,7 @@ namespace GreenMarket.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0eabe5de-01c1-4fa5-a54a-e396f7091873"),
+                            Id = new Guid("29beb381-8bb5-4b81-9c32-466e3277ee36"),
                             ImgUrl = "",
                             Name = "admin",
                             Password = "admin",
@@ -181,7 +169,7 @@ namespace GreenMarket.DAL.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f293feec-09d9-4342-912a-57f69252b622"),
+                            Id = new Guid("113f028a-1b15-4853-95b9-48c085716673"),
                             ImgUrl = "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_3x4.jpg",
                             Name = "Maksim",
                             Password = "123",
@@ -190,7 +178,7 @@ namespace GreenMarket.DAL.Migrations
                         },
                         new
                         {
-                            Id = new Guid("58ddd58c-c219-4295-9130-3ee7926c87a6"),
+                            Id = new Guid("d43e7e4b-fd25-439a-90f2-e50e39aa5d20"),
                             ImgUrl = "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg",
                             Name = "Anton",
                             Password = "123456",
@@ -199,7 +187,7 @@ namespace GreenMarket.DAL.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ec0dbbdc-275a-4828-b25d-9dcf07fd94ef"),
+                            Id = new Guid("460299fc-b4bb-432b-95e7-913ea186c6eb"),
                             ImgUrl = "https://cdn.pixabay.com/photo/2021/09/20/09/17/dog-6640280_1280.jpg",
                             Name = "Nastya",
                             Password = "1234",

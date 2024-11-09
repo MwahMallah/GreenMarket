@@ -1,9 +1,7 @@
-using GreenMarket.BL.Services;
-using GreenMarket.BL.Services.Interfaces;
+using GreenMarket.BL.Installers;
 using GreenMarket.BL.Settings;
 using GreenMarket.DAL;
-using GreenMarket.DAL.Repositories;
-using GreenMarket.DAL.Repositories.Interfaces;
+using GreenMarket.DAL.Installers;
 using GreenMarket.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,9 +15,8 @@ builder.Services.AddDbContext<GreenMarketDbContext>(options =>
 });
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserAuthenticator, UserAuthenticator>();
-builder.Services.AddScoped<IJwtProvider, JwtProvider>();
+builder.Services.InstallDal();
+builder.Services.InstallBl();
 builder.Services.UseAuthentication(builder.Configuration);
 
 var app = builder.Build();
@@ -45,6 +42,6 @@ app.Logger.LogInformation(connectionString);
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}");
+    pattern: "{controller=Products}/{action=Index}");
 
 app.Run();
