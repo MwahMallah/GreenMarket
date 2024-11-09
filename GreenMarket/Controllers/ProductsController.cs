@@ -1,9 +1,7 @@
 using System.Diagnostics;
-using GreenMarket.DAL;
 using GreenMarket.DAL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using GreenMarket.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace GreenMarket.Controllers;
 
@@ -21,18 +19,24 @@ public class ProductsController : Controller
     public IActionResult Index()
     {
         var categories = _categoryRepository.GetMain();
-        return View(categories);
+        return View(nameof(Categories), categories);
     }
 
     public IActionResult Categories(Guid id)
     {
-        var category = _categoryRepository.GetById(id);
-        if (category == null)
+        if (_categoryRepository.GetById(id) == null)
         {
             return NotFound();
         }
 
-        return RedirectToAction(nameof(Products), new {categoryId=id});
+        var categories = _categoryRepository.GetByParentId(id);
+
+        if (categories.Count() == 0)
+        {
+            return RedirectToAction(nameof(Products), new {categoryId=id});
+        }
+
+        return View(nameof(Categories), categories);
     }
 
     public IActionResult Products(Guid categoryId)
