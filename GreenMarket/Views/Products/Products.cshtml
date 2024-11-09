@@ -1,8 +1,32 @@
 ﻿@model IEnumerable<ProductEntity>
 
-@foreach (var product in Model)
-{
-    <div>
-        @product.Name
-    </div>
-}
+<div class="container-fluid">
+    @foreach (var product in Model)
+    {
+        <div class="row align-items-center border rounded my-1 p-2">
+            <!-- Image Column -->
+            <div class="col-12 col-md-2 text-center">
+                <img src="@product.ImgUrl" alt="Product image" class="img-fluid rounded"
+                     style="width: 80px; height: 80px; object-fit: cover;">
+            </div>
+
+            <!-- Attributes Column -->
+            <div class="col-12 col-md-8">
+                <h5>@product.Name</h5>
+                <ul class="list-unstyled">
+                    @foreach (var attr in product.Attributes)
+                    {
+                        <li>
+                            <strong>@attr.Attribute.Name:</strong> <span>@attr.Value</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <!-- Buy Button Column -->
+            <div class="col-12 col-md-2 text-center">
+                <button class="btn btn-primary">Order</button>
+            </div>
+        </div>
+    }
+</div>

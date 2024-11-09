@@ -31,7 +31,7 @@ public class ProductsController : Controller
 
         var categories = _categoryRepository.GetByParentId(id);
 
-        if (categories.Count() == 0)
+        if (!categories.Any())
         {
             return RedirectToAction(nameof(Products), new {categoryId=id});
         }
