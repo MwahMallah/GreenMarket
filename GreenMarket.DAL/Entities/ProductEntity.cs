@@ -10,7 +10,6 @@ public record ProductEntity : IEntity
     [Required]
     [MaxLength(100)]
     public required string Name { get; set; }
-    
     [Required]
     public required Guid CategoryId { get; set; }
     [ForeignKey(nameof(CategoryId))]
