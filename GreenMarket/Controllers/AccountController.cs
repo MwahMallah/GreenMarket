@@ -41,7 +41,7 @@ public class AccountController : Controller
         if (user != null && _userAuthenticator.Verify(user, accountLoginViewModel.Password))
         {
             AddTokenCookie(user);
-            return RedirectToAction(nameof(Index), "Home");
+            return RedirectToAction(nameof(Index), "Products");
         }
         
         ModelState.AddModelError("user", "Wrong Credentials");
@@ -77,7 +77,7 @@ public class AccountController : Controller
         });
         
         AddTokenCookie(registeredUser);
-        return RedirectToAction(nameof(Index), "Home");
+        return RedirectToAction(nameof(Index), "Products");
     }
 
     private void AddTokenCookie(UserEntity user)
