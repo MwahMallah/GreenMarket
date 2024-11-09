@@ -21,7 +21,7 @@ public abstract class RepositoryBase<TEntity> : IRepository<TEntity>
         return _entities.FirstOrDefault(e => e.Id == id);
     }
 
-    public IEnumerable<TEntity> GetAll()
+    public virtual IEnumerable<TEntity> GetAll()
     {
         return _entities;
     }
