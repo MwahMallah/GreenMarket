@@ -1,0 +1,9 @@
+﻿@model IEnumerable<CategoryEntity>
+
+
+@foreach (var category in Model)
+{
+    <div>
+        <a asp-action="Categories" asp-route-id="@category.Id">@category.Name</a>
+    </div>
+}
