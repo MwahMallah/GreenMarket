@@ -11,7 +11,8 @@ public class GreenMarketDbContext : DbContext
     public DbSet<ProductEntity> Products { get; set; }
     public DbSet<AttributeEntity> Attributes { get; set; }
     public DbSet<ProductAttributeEntity> ProductAttribute { get; set; }
-    
+
+    private readonly Guid _cropCategoryId = Guid.NewGuid();
     private readonly Guid _vegetableCategoryId = Guid.NewGuid();
     private readonly Guid _fruitCategoryId = Guid.NewGuid();
         
@@ -19,6 +20,9 @@ public class GreenMarketDbContext : DbContext
     private readonly Guid _watermelonCategoryId = Guid.NewGuid();
     private readonly Guid _avocadoCategoryId = Guid.NewGuid();
     private readonly Guid _potatoCategoryId = Guid.NewGuid();
+    
+    private readonly Guid _tominoCategoryId = Guid.NewGuid();
+    private readonly Guid _romaCategoryId = Guid.NewGuid();
     
     private readonly Guid _orangeSweetPotatoProductId = Guid.NewGuid();
     private readonly Guid _russetPotatoProductId = Guid.NewGuid();
@@ -128,15 +132,22 @@ public class GreenMarketDbContext : DbContext
         modelBuilder.Entity<CategoryEntity>().HasData([
             new CategoryEntity
             {
+                Id = _cropCategoryId,
+                Name = "Crops",
+            },
+            new CategoryEntity
+            {
                 Id = _fruitCategoryId,
                 Name = "Fruits",
-                ImgUrl = "https://www.healthyeating.org/images/default-source/home-0.0/nutrition-topics-2.0/general-nutrition-wellness/2-2-2-3foodgroups_fruits_detailfeature_thumb.jpg?sfvrsn=7abe71fe_4"
+                ImgUrl = "https://www.healthyeating.org/images/default-source/home-0.0/nutrition-topics-2.0/general-nutrition-wellness/2-2-2-3foodgroups_fruits_detailfeature_thumb.jpg?sfvrsn=7abe71fe_4",
+                ParentId = _cropCategoryId
             },
             new CategoryEntity
             {
                 Id = _vegetableCategoryId,
                 Name = "Vegetables",
-                ImgUrl = "https://cdn.britannica.com/17/196817-159-9E487F15/vegetables.jpg"
+                ImgUrl = "https://cdn.britannica.com/17/196817-159-9E487F15/vegetables.jpg",
+                ParentId = _cropCategoryId
             },
             new CategoryEntity
             {
@@ -144,6 +155,20 @@ public class GreenMarketDbContext : DbContext
                 Name = "Tomato",
                 ParentId = _vegetableCategoryId,
                 ImgUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNIY9W5DxVGXTtV4gR1ZU5qipQsRkpK2pZ3Q&s"
+            },
+            new CategoryEntity()
+            {
+                Id = _tominoCategoryId,
+                Name = "Tomino",
+                ImgUrl = "https://volyne.e-coop.cz/pub/media/catalog/product/cache/5e943ec86580054ec2fda73128d751b9/e/p/ep_2004800329.jpeg",
+                ParentId = _tomatoCategoryId,
+            },
+            new CategoryEntity()
+            {
+                Id = _romaCategoryId,
+                Name = "Roma",
+                ImgUrl = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSaogrbCqgly8ABLDeqzUKy3Q73FtM_p1XeKseySN5uIjauTVtz",
+                ParentId = _tomatoCategoryId,
             },
             new CategoryEntity
             {
@@ -186,14 +211,14 @@ public class GreenMarketDbContext : DbContext
             new ProductEntity
             {
                 Id = Guid.NewGuid(),
-                Name = "Tomino",
-                CategoryId = _tomatoCategoryId,
+                Name = "Anton's tasty tomino",
+                CategoryId = _tominoCategoryId,
             },
             new ProductEntity
             {
                 Id = Guid.NewGuid(),
-                Name = "Roma",
-                CategoryId = _tomatoCategoryId,
+                Name = "Ilya's sweet tomino",
+                CategoryId = _tominoCategoryId,
             },
             new ProductEntity
             {
