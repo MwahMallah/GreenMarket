@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using GreenMarket.DAL.Entities.Interfaces;
 
 namespace GreenMarket.DAL.Entities;
@@ -10,4 +11,9 @@ public class CategoryEntity : IEntity
     [MaxLength(100)]
     public required string Name { get; set; }
     public ICollection<ProductEntity> Products { get; set; } = new List<ProductEntity>();
+    public Guid? ParentId { get; set; }
+    [ForeignKey(nameof(ParentId))]
+    public CategoryEntity? Parent { get; set; }
+
+    public ICollection<CategoryEntity> SubCategories { get; set; } = new List<CategoryEntity>();
 }

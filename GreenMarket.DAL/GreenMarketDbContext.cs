@@ -24,19 +24,33 @@ public class GreenMarketDbContext : DbContext
 
     private void SeedProductsAndCategories(ModelBuilder modelBuilder)
     {
+        var vegetableCategoryId = Guid.NewGuid();
+        var fruitCategoryId = Guid.NewGuid();
         var tomatoCategoryId = Guid.NewGuid();
         var watermelonCategoryId = Guid.NewGuid();
         
         modelBuilder.Entity<CategoryEntity>().HasData([
             new CategoryEntity
             {
+                Id = fruitCategoryId,
+                Name = "Fruits"
+            },
+            new CategoryEntity
+            {
+                Id = vegetableCategoryId,
+                Name = "Vegetables"
+            },
+            new CategoryEntity
+            {
                 Id = tomatoCategoryId,
-                Name = "Tomato"
+                Name = "Tomato",
+                ParentId = vegetableCategoryId
             },
             new CategoryEntity
             {
                 Id = watermelonCategoryId,
-                Name = "Watermelon"
+                Name = "Watermelon",
+                ParentId = fruitCategoryId
             }
         ]);
         
