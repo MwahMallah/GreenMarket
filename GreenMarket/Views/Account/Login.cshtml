@@ -1,8 +1,45 @@
 ﻿@model AccountLoginViewModel
 
-<div class="container text-center">
+<div class="container text-center login-container">
+    <style>
+        .login-container {
+            width: 300px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 2px solid black;
+            border-radius: 10px;
+        }
+        .login-container label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid black;
+            border-radius: 10px;
+        }
+        .login-container button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: lightgray;
+            border: 1px solid black;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .login-container .text-danger {
+            margin-bottom: 15px;
+        }
+    </style>
+
     <div asp-validation-summary="All" class="text-danger"></div>
     <form asp-action="Login">
+        <div>
+            <h2>SIGN IN</h2>
+        </div>
         <div>
             <label asp-for="Username"></label>
             <input type="text" asp-for="Username">
@@ -10,11 +47,11 @@
         </div>
         <div>
             <label asp-for="Password"></label>
-            <input type="text" asp-for="Password">
+            <input type="password" asp-for="Password">
             <span asp-validation-for="Password"></span>
         </div>
         <button type="submit">Login</button>
-        <div>
+        <div style="margin-top: 10px; text-align: center;">
             Not registered yet?
             <a asp-controller="Account" asp-action="Register">Register</a>
         </div>
