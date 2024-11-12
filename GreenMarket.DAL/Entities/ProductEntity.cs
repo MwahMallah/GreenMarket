@@ -19,4 +19,5 @@ public record ProductEntity : IEntity
     public CategoryEntity Category { get; set; } = null!;
 
     public ICollection<ProductAttributeEntity> Attributes { get; set; } = new List<ProductAttributeEntity>();
+    public ICollection<UserOrderEntity> Customers { get; set; } = new List<UserOrderEntity>();
 }

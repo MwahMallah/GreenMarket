@@ -25,4 +25,5 @@ public class UserEntity : IEntity
     public required string Password { get; set; }
     [Required]
     public required UserRole Role { get; set; }
+    public ICollection<UserOrderEntity> Orders { get; set; } = new List<UserOrderEntity>();
 }

@@ -49,6 +49,16 @@ public class GreenMarketDbContext : DbContext
             .WithMany(p => p.Products)
             .OnDelete(DeleteBehavior.NoAction);
         
+        modelBuilder.Entity<UserOrderEntity>()
+            .HasOne(uo => uo.Product)
+            .WithMany(p => p.Customers)
+            .OnDelete(DeleteBehavior.NoAction);
+        
+        modelBuilder.Entity<UserOrderEntity>()
+            .HasOne(uo => uo.User)
+            .WithMany(u => u.Orders)
+            .OnDelete(DeleteBehavior.NoAction);
+        
         SeedUsers(modelBuilder);
         SeedProductsAndCategories(modelBuilder);
         SeedAttributes(modelBuilder);
