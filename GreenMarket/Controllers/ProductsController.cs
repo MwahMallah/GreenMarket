@@ -56,7 +56,14 @@ public class ProductsController : Controller
     public IActionResult Products(Guid categoryId)
     {
         var products = _productRepository.GetByCategoryId(categoryId);
-        return View(products);
+        
+        var productViewModel = new ProductViewModel()
+        {
+            Products = products, 
+            ParentList = GetCategoryParents(categoryId)
+        };
+        
+        return View(productViewModel);
     }
     
 
