@@ -57,3 +57,25 @@
         </div>
     </form>
 </div>
+
+<!-- Add Toastify.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css" />
+
+<script>
+    // Display TempData message as a toast notification if it's available
+    @if (TempData["message"] != null)
+    {
+        <text>
+            Toastify({
+                text: '@TempData["message"]',
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "center", 
+                backgroundColor: "blue",
+                stopOnFocus: true
+            }).showToast();
+        </text>
+    }
+</script>
