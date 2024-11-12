@@ -1,20 +1,32 @@
-﻿@model IEnumerable<CategoryEntity>
+@model CategoryViewModel
 
+<div class="d-flex align-items-center mb-3">
+    @foreach (var parent in Model.ParentList)
+    {
+        <a asp-action="Categories" asp-route-id="@parent.Id">
+            @parent.Name
+        </a>
+        @if (parent != Model.ParentList.Last())
+        {
+            <i class="bi bi-arrow-right-short"></i>
+        }
+    }
+</div>
 
 <div class="d-flex flex-wrap">
-    @foreach (var category in Model)
+    @foreach (var category in Model.Categories)
     {
-        <div class="col-12 col-md-4 col-lg-4 p-2"> 
-            <div class="position-relative text-center">
+        <div class="col-12 col-md-4 col-lg-4 p-2">
+            <a asp-action="Categories" asp-route-id="@category.Id" 
+               class="position-relative text-center d-block text-decoration-none">
                 <img src="@category.ImgUrl" alt="Category image" class="img-fluid rounded" 
                      style="width: auto; height: 200px;">
-                
-                <a asp-action="Categories" asp-route-id="@category.Id" 
-                   class="position-absolute top-50 start-50 translate-middle text-white text-decoration-none fw-bold"
-                   style="background-color: rgba(0, 0, 0, 0.5); padding: 5px 10px; border-radius: 5px;">
+
+                <div class="position-absolute top-50 start-50 translate-middle text-white fw-bold"
+                     style="background-color: rgba(0, 0, 0, 0.5); padding: 5px 10px; border-radius: 5px;">
                     @category.Name
-                </a>
-            </div>
+                </div>
+            </a>
         </div>
     }
 </div>

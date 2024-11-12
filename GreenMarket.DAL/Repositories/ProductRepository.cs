@@ -1,5 +1,6 @@
 ﻿using GreenMarket.DAL.Entities;
 using GreenMarket.DAL.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace GreenMarket.DAL.Repositories;
 
@@ -14,6 +15,9 @@ public class ProductRepository : RepositoryBase<ProductEntity>, IProductReposito
 
     public IEnumerable<ProductEntity> GetByCategoryId(Guid categoryId)
     {
-        return _dbContext.Products.Where(p => p.CategoryId == categoryId);
+        return _dbContext.Products
+            .Where(p => p.CategoryId == categoryId)
+            .Include(p => p.Attributes)
+            .ThenInclude(pa => pa.Attribute);
     }
 }

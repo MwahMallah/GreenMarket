@@ -1,8 +1,45 @@
-﻿@model IEnumerable<ProductEntity>
+﻿@model ProductViewModel
 
-@foreach (var product in Model)
-{
-    <div>
-        @product.Name
-    </div>
-}
+<div class="d-flex align-items-center mb-3">
+    @foreach (var parent in Model.ParentList)
+    {
+        <a asp-action="Categories" asp-route-id="@parent.Id">
+            @parent.Name
+        </a>
+        @if (parent != Model.ParentList.Last())
+        {
+            <i class="bi bi-arrow-right-short"></i>
+        }
+    }
+</div>
+
+<div class="container-fluid">
+    @foreach (var product in Model.Products)
+    {
+        <div class="row align-items-center border rounded my-1 p-2">
+            <!-- Image Column -->
+            <div class="col-12 col-md-2 text-center">
+                <img src="@product.ImgUrl" alt="Product image" class="img-fluid rounded"
+                     style="width: 80px; height: 80px; object-fit: cover;">
+            </div>
+
+            <!-- Attributes Column -->
+            <div class="col-12 col-md-8">
+                <h5>@product.Name</h5>
+                <div class="row">
+                    @foreach (var attr in product.Attributes)
+                    {
+                        <div class="col-6">
+                            <strong>@attr.Attribute.Name:</strong> <span>@attr.Value</span>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Order Button Column -->
+            <div class="col-12 col-md-2 text-center">
+                <button class="btn btn-primary">Order</button>
+            </div>
+        </div>
+    }
+</div>
