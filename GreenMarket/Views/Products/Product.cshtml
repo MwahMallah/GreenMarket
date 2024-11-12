@@ -1,0 +1,10 @@
+﻿@model ProductEntity
+
+<p>@Model.Name</p>
+<p>@Model.Description</p>
+@foreach (var attr in Model.Attributes)
+{
+    <p>@attr.Attribute.Name - @attr.Value</p>
+}
+
+<a class="btn btn-primary">Order</a>

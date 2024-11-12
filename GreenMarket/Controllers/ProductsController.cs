@@ -65,7 +65,24 @@ public class ProductsController : Controller
         
         return View(productViewModel);
     }
-    
+
+    public IActionResult Product(Guid id)
+    {
+        var product = _productRepository.GetById(id);
+
+        if (product == null)
+        {
+            return NotFound();
+        }
+
+        if (!(bool)User.Identity?.IsAuthenticated)
+        {
+            TempData["message"] = "You have to log in to order product";
+            return RedirectToAction("Login", "Account");
+        }
+        
+        return View(product);
+    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
