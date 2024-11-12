@@ -1,9 +1,45 @@
 ﻿@model AccountRegisterViewModel
 
+<div class="container text-center register-container">
+    <style>
+        .register-container {
+            width: 300px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 2px solid black;
+            border-radius: 10px;
+        }
+        .register-container label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        .register-container input[type="text"],
+        .register-container input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid black;
+            border-radius: 10px;
+        }
+        .register-container button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: lightgray;
+            border: 1px solid black;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .register-container .text-danger {
+            margin-bottom: 15px;
+        }
+    </style>
 
-<div class="container text-center">
     <div asp-validation-summary="All" class="text-danger"></div>
     <form asp-action="Register">
+        <div>
+            <h2>REGISTER</h2>
+        </div>
         <div>
             <label asp-for="Username"></label>
             <input type="text" asp-for="Username">
@@ -22,7 +58,7 @@
         <button type="submit">Register</button>
         <div>
             Already registered?
-            <a asp-controller="Account" asp-action="Login">Login</a>
+            <a asp-controller="Account" asp-action="Login">Sign in</a>
         </div>
     </form>
 </div>
