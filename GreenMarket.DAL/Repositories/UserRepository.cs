@@ -16,4 +16,9 @@ public class UserRepository : RepositoryBase<UserEntity>, IUserRepository
     {
         return _dbContext.Users.FirstOrDefault(u => u.Username == username);
     }
+
+    public UserEntity? GetByEmail(string email)
+    {
+        return _dbContext.Users.FirstOrDefault(u => u.Email == email);
+    }
 }
