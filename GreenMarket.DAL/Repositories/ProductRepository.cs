@@ -15,10 +15,12 @@ public class ProductRepository : RepositoryBase<ProductEntity>, IProductReposito
 
     public override ProductEntity? GetById(Guid? id)
     {
-        return _dbContext.Products.Where(p => p.Id == id)
+        return _dbContext.Products
             .Include(p => p.Attributes)
-            .ThenInclude(pa => pa.Attribute)
-            .FirstOrDefault();
+                .ThenInclude(pa => pa.Attribute)
+            .Include(p => p.Customers)
+                .ThenInclude(c => c.User)
+            .FirstOrDefault(p => p.Id == id);
     }
 
     public IEnumerable<ProductEntity> GetByCategoryId(Guid categoryId)

@@ -1,10 +1,35 @@
 ﻿@model ProductEntity
 
+@{
+    var pronoun = Model.Customers.Count > 1 ? "Customers" : "Customer";
+}
+
 <p>@Model.Name</p>
 <p>@Model.Description</p>
+<p>@Model.Customers.Count @pronoun Already bought this!</p>
 @foreach (var attr in Model.Attributes)
 {
     <p>@attr.Attribute.Name - @attr.Value</p>
 }
 
-<a class="btn btn-primary">Order</a>
+<form asp-route-id="@Model.Id" method="post">
+    <button type="submit" class="btn btn-primary">Order</button>
+</form>
+
+<script>
+    // Display TempData message as a toast notification if it's available
+    @if (TempData["message"] != null)
+    {
+        <text>
+            Toastify({
+                text: '@TempData["message"]',
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "center", 
+                backgroundColor: "green",
+                stopOnFocus: true
+            }).showToast();
+        </text>
+    }
+</script>

@@ -1,5 +1,6 @@
 ﻿using GreenMarket.DAL.Entities;
 using GreenMarket.DAL.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace GreenMarket.DAL.Repositories;
 
@@ -10,6 +11,14 @@ public class UserRepository : RepositoryBase<UserEntity>, IUserRepository
     public UserRepository(GreenMarketDbContext dbContext) : base(dbContext)
     {
         _dbContext = dbContext;
+    }
+
+    public override UserEntity? GetById(Guid? id)
+    {
+        return _dbContext.Users
+            .Include(u => u.Orders)
+            .ThenInclude(o => o.Product)
+            .FirstOrDefault(u => u.Id == id);
     }
 
     public UserEntity? GetByUsername(string username)

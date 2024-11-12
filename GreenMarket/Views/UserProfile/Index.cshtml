@@ -75,15 +75,17 @@
         <h3>User Details</h3>
         <p><strong>Name:</strong> @Model.Name</p>
         <p><strong>Surname:</strong> @Model.Name</p>
-        <p><strong>Phone:</strong> @Model.Name</p>
-        <p><strong>E-mail:</strong> @Model.Name</p>
-
-        <h3>Delivery Address:</h3>
-        <p>StreetName HouseNumber</p>
-        <p>TownName, PostalCode</p>
-        <p>Country</p>
+        <p><strong>E-mail:</strong> @Model.Email</p>
+        
     </div>
 
+    <div>
+        @foreach (var order in Model.Orders)
+        {
+            <p>@order.Product.Name</p>
+        }
+    </div>
+    
     <div class="profile-links">
         <a asp-controller="UserProfile" asp-action="Edit" asp-route-id="@Model.Id">Edit profile</a>
         <a asp-controller="Account" asp-action="Logout">Log out</a>
