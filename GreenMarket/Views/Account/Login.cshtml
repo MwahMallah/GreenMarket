@@ -21,24 +21,12 @@
             border: 1px solid black;
             border-radius: 10px;
         }
-        .login-container button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: lightgray;
-            border: 1px solid black;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        .login-container button:hover {
-            background-color: rgb(152, 152, 152);
-        }
         .login-container .text-danger {
             margin-bottom: 15px;
         }
     </style>
 
-    <div asp-validation-summary="All" class="text-danger visually-hidden"></div>
+    <div asp-validation-summary="All" class="text-danger error-all visually-hidden"></div>
     <form asp-action="Login" method="post">
         <div>
             <h2>SIGN IN</h2>
@@ -46,12 +34,14 @@
         <div>
             <label asp-for="Username"></label>
             <input type="text" class="username" asp-for="Username">
+            <span asp-validation-for="Username" class="text-danger visually-hidden"></span>
         </div>
         <div>
             <label asp-for="Password"></label>
             <input type="password" class="password" asp-for="Password">
+            <span asp-validation-for="Password" class="text-danger visually-hidden"></span>
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" class="submit-btn btn btn-primary btn-lg">Login</button>
         <div style="margin-top: 10px; text-align: center;">
             Not registered yet?
             <a asp-controller="Account" asp-action="Register">Register</a>
@@ -61,6 +51,46 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        const usernameInput = document.querySelector('.username');
+        const passwordInput = document.querySelector('.password');
+        const submitButton = document.querySelector('.submit-btn');
+
+        let inputs = [usernameInput, passwordInput];
+        const inputStatus = {};
+
+        inputs.forEach((input) => {
+            if (input.value.trim() == '') {
+                inputStatus[input.className] = false;
+            }
+            else {
+                inputStatus[input.className] = true;
+            }
+        });
+
+        submitButton.disabled = true;
+
+        function validateInput(event) {
+            let input = event.target;
+
+            if (input.value.trim() == '') {
+                input.classList.add('border');
+                input.classList.add('border-3');
+                input.classList.add('border-danger');
+                inputStatus[input.className] = false;
+            } else {
+                input.classList.remove('border');
+                input.classList.remove('border-3');
+                input.classList.remove('border-danger');
+                inputStatus[input.className] = true;
+            }
+
+            const allInputsValid = Object.values(inputStatus).every((status) => status === true);
+            submitButton.disabled = !allInputsValid;
+        }
+
+        inputs.forEach((input) => {
+            input.addEventListener('input', validateInput);
+        });
         // Display TempData message as a toast notification if it's available
         @if (TempData["message"] != null)
         {
@@ -77,7 +107,7 @@
         }
 
         // Check for validation errors and display them as toast notifications
-        const validationErrors = document.querySelectorAll('.text-danger');
+        const validationErrors = document.querySelectorAll('.error-all');
         validationErrors.forEach((error) => {
             if (error.textContent.trim() !== '') {
                 Toastify({
