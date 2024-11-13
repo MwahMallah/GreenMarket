@@ -8,8 +8,8 @@ public record UserOrderEntity : IEntity
 {
     public Guid Id { get; set; }
 
-    [MaxLength(100)]
-    public int Amount { get; set; }
+    [Required]
+    public required int Amount { get; set; }
     
     [Required]
     public required Guid UserId { get; set; }

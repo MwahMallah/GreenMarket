@@ -82,7 +82,7 @@
     <div>
         @foreach (var order in Model.Orders)
         {
-            <p>@order.Product.Name</p>
+            <p>You ordered @order.Amount @order.Product.Name</p>
         }
     </div>
     
