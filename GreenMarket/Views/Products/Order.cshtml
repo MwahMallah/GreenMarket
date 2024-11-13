@@ -1,0 +1,30 @@
+﻿@model ProductEntity
+
+<div class="container mt-4">
+    <h3 class="mb-3">You want to buy @Model.Name</h3>
+    <form method="post" class="form-inline">
+        <div class="form-group mb-3">
+            <label for="amount" class="form-label">Amount:</label>
+            <input type="number" name="amount" id="amount" class="form-control ml-2" min="1" max="100" step="1" value="1" required>
+        </div>
+        <button type="submit" class="btn btn-success ml-2">Buy!</button>
+    </form>
+</div>
+
+<script>
+    // Display TempData message as a toast notification if it's available
+    @if (TempData["message"] != null)
+    {
+        <text>
+            Toastify({
+                text: '@TempData["message"]',
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "center", 
+                backgroundColor: "green",
+                stopOnFocus: true
+            }).showToast();
+        </text>
+    }
+</script>

@@ -80,7 +80,19 @@ public class ProductsController : Controller
         {
             return NotFound();
         }
+        
+        return View(product);
+    }
 
+    public IActionResult Order(Guid id)
+    {
+        var product = _productRepository.GetById(id);
+
+        if (product == null)
+        {
+            return NotFound();
+        }
+        
         if (!(bool)User.Identity?.IsAuthenticated)
         {
             TempData["message"] = "You have to log in to order product";
@@ -89,10 +101,10 @@ public class ProductsController : Controller
         
         return View(product);
     }
-
+    
     [HttpPost]
-    [ActionName("Product")]
-    public IActionResult ProductBuy(Guid id)
+    [ActionName("Order")]
+    public IActionResult OrderMake(Guid id, int amount)
     {
         var userId = Guid.Parse(
             User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty);
@@ -107,7 +119,8 @@ public class ProductsController : Controller
         var uo = new UserOrderEntity
         {
             UserId = user.Id,
-            ProductId = product.Id
+            ProductId = product.Id,
+            Amount = amount
         };
         
         user.Orders.Add(uo);
@@ -115,7 +128,7 @@ public class ProductsController : Controller
         TempData["message"] = $"You ordered {product.Name}!";
         return View(product);
     }
-
+    
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
