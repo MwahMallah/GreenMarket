@@ -10,7 +10,7 @@ public record UserOrderEntity : IEntity
 
     [Required]
     public required int Amount { get; set; }
-    
+    public float? Rating { get; set; }
     [Required]
     public required Guid UserId { get; set; }
     [ForeignKey(nameof(UserId))]
