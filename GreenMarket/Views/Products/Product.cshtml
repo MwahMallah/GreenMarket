@@ -1,7 +1,7 @@
 ﻿@model ProductEntity
 
 @{
-    var pronoun = Model.Customers.Count > 1 ? "Customers" : "Customer";
+    var pronoun = Model.Customers.Count != 1 ? "Customer" : "Customers";
 }
 
 <div class="product-page-container">
@@ -19,7 +19,8 @@
             border-right: 1px solid black;
             padding: 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
         }
 
@@ -64,10 +65,15 @@
         }
     </style>
 
-    <div class="product-container">
+    <div class="product-container rounded">
         <div class="product-image">
             <!-- ADD SRC FROM MODEL src=""-->
             <img src="@Model.ImgUrl" alt="Product Image">
+            
+            <div class="product-order">
+                <p>@Model.Customers.Count @pronoun already bought this product</p>
+                <a class="btn btn-primary" asp-action="Order" asp-route-id="@Model.Id">ORDER</a>
+            </div>
         </div>
         <div class="product-details">
             <!-- This is a variety name -->
@@ -82,11 +88,6 @@
                 <p><strong>@attr.Attribute.Name</strong>: @attr.Value</p>
             }
             <p><strong>Description</strong>: @Model.Description</p>
-            
-        </div>
-        <div class="product-order">
-            <p>@Model.Customers.Count @pronoun already bought this product</p>
-            <a class="btn btn-primary" asp-action="Order" asp-route-id="@Model.Id">ORDER</a>
         </div>
     </div>
 </div>
