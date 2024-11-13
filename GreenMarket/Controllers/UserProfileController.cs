@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using GreenMarket.DAL.Entities;
 using GreenMarket.DAL.Repositories.Interfaces;
+using GreenMarket.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -56,6 +57,12 @@ public class UserProfileController : Controller
 
         _userRepository.Update(user);
         return RedirectToAction(nameof(Index), new {id=id});
+    }
+
+    [HttpPost]
+    public ActionResult RateProduct([FromBody] OrderRatingRequest request)
+    {
+        return Ok($"Thank you for your review!");
     }
 
     private bool UserIsAuthorized(Guid id)
