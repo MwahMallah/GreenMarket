@@ -1,0 +1,114 @@
+﻿.product-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap on small screens */
+    border: 1px solid black;
+    width: 100%;
+    margin: 50px auto;
+    padding: 20px;
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+}
+
+.product-image {
+    width: 40%;
+    border-right: 1px solid black;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.product-image img {
+    max-width: 100%;
+    height: auto;
+    max-height: 300px;
+}
+
+.product-details {
+    width: 60%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.product-details h1 {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.product-details p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.product-order {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0044cc;
+    color: white;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.btn:hover {
+    background-color: #003399;
+}
+
+/* Mobile screen adjustments */
+@media (max-width: 768px) {
+    .product-container {
+        flex-direction: column; /* Stack image and details vertically on small screens */
+        width: 100%;
+    }
+
+    .product-image {
+        width: 100%;
+        border-right: none;
+        margin-bottom: 20px; /* Add space below the image */
+    }
+
+    .product-details {
+        width: 100%;
+    }
+
+    .product-details h1 {
+        font-size: 28px; /* Slightly smaller font size on mobile */
+    }
+
+    .product-details p {
+        font-size: 16px; /* Smaller text for mobile */
+    }
+
+    .product-order {
+        margin-top: 10px;
+    }
+
+    .btn {
+        font-size: 16px; /* Smaller button text for mobile */
+        padding: 8px 16px; /* Adjust padding for mobile */
+    }
+}
+
+/* Extra small screens (phones in portrait mode) */
+@media (max-width: 576px) {
+    .product-details h1 {
+        font-size: 24px; /* Further reduce font size for very small screens */
+    }
+
+    .product-details p {
+        font-size: 14px; /* Even smaller font size for very small screens */
+    }
+
+    .btn {
+        font-size: 14px; /* Further decrease button font size */
+        padding: 6px 12px; /* Adjust padding for extra small screens */
+    }
+}
