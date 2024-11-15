@@ -78,7 +78,7 @@ public class AccountController : Controller
             Username = viewModel.Username,
             Password = viewModel.Password,
             Role = UserRole.User,
-            Email = "example@mail.com"
+            Email = viewModel.Email
         });
         
         AddTokenCookie(registeredUser);
