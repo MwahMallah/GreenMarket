@@ -4,67 +4,9 @@
     var pronoun = Model.Customers.Count != 1 ? "Customer" : "Customers";
 }
 
+<link rel="stylesheet" href="/css/product_detail.css">
+
 <div class="product-page-container">
-    <style>
-        .product-container {
-            display: flex;
-            border: 1px solid black;
-            width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-        }
-
-        .product-image {
-            width: 40%;
-            border-right: 1px solid black;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .product-image img {
-            max-width: 100%;
-            max-height: 300px;
-        }
-
-        .product-details {
-            width: 60%;
-            padding: 20px;
-        }
-
-        .product-details h1 {
-            font-size: 32px;
-            margin-bottom: 15px;
-        }
-
-        .product-details p {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .product-order {
-            margin-top: 20px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #0044cc;
-            color: white;
-            text-align: center;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        .btn:hover {
-            background-color: #003399;
-        }
-    </style>
-
     <div class="product-container rounded">
         <div class="product-image">
             <!-- ADD SRC FROM MODEL src=""-->

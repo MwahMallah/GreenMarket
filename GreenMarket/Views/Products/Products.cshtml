@@ -1,6 +1,7 @@
 ﻿@model ProductViewModel
 
 <link rel="stylesheet" href="/css/rating.css"/>
+<link rel="stylesheet" href="/css/product_list.css">
 
 <div class="d-flex align-items-center mb-3">
     @foreach (var parent in Model.ParentList)
@@ -16,30 +17,6 @@
 </div>
 
 <div class="container-fluid">
-    <style>
-        .product-list-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly;
-        }
-        .product-image-wrap {
-            width: 100px;
-            height: 80px;
-            border: 1px solid black;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0 0 0 0;
-        }
-
-        .product-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-    </style>
-
     @foreach (var product in Model.Products)
     {
         <div class="row align-items-center border rounded my-1 p-2 product-list-item">
