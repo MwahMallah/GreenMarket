@@ -1,0 +1,75 @@
+﻿@model UserEntity
+
+<link rel="stylesheet" href="/css/rating.css"/>
+<link rel="stylesheet" href="/css/product_list.css">
+
+
+<div class="container-fluid">
+    
+<div class="text-center fs-1">
+    Your products
+</div>
+
+<div class="container-fluid">
+    @foreach (var product in Model.CreatedProducts)
+    {
+        <div class="row align-items-center border rounded my-1 p-2 product-list-item">
+            <!-- Image Column -->
+            <div class="col-12 col-md-2 text-center rounded product-image-wrap">
+                <img src="@product.ImgUrl" alt="Product image" class="img-fluid rounded product-image">
+            </div>
+
+            <!-- Attributes Column -->
+            <div class="col-12 col-md-8">
+                <h5>@product.Name</h5>
+                <div class="row">
+                    @foreach (var attr in product.Attributes)
+                    {
+                        <div class="col-6">
+                            <strong>@attr.Attribute.Name:</strong> 
+                            <span>@attr.Value</span>
+                        </div>
+                    }
+                    <div class="rating">
+                        <div class="rating__body">
+                            <div class="rating__active"></div>
+                            <div class="rating__items">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <input type="radio" 
+                                           value="@i" 
+                                           name="rating" 
+                                           class="rating__item">
+                                }
+                            </div>
+                        </div>
+                        <div class="rating__value">
+                            @(
+                            product.Customers.Count > 0 
+                                ? string.Format(System.Globalization.CultureInfo.InvariantCulture, 
+                                    "{0:0.0}",
+                                    product.Customers.Select(c => c.Rating).Sum() / product.Customers.Count)
+                                : "No reviews"
+                            )
+                            
+                        </div>
+                        @if (product.Customers.Count > 0)
+                        {
+                            <div class="fs-6 m-lg-1">
+                                (@product.Customers.Count)
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Button Column -->
+            <div class="col-12 col-md-2 text-center">
+                <a class="btn btn-primary" asp-route-id="@product.Id">Details</a>
+            </div>
+        </div>
+    }
+</div>
+</div>
+
+<script src="/js/rating.js"></script>
