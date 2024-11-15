@@ -28,6 +28,7 @@ public class ProductRepository : RepositoryBase<ProductEntity>, IProductReposito
         return _dbContext.Products
             .Where(p => p.CategoryId == categoryId)
             .Include(p => p.Attributes)
-            .ThenInclude(pa => pa.Attribute);
+            .ThenInclude(pa => pa.Attribute)
+            .Include(p => p.Customers);
     }
 }
