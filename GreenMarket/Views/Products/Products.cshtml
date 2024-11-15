@@ -1,5 +1,7 @@
 ﻿@model ProductViewModel
 
+<link rel="stylesheet" href="/css/rating.css"/>
+
 <div class="d-flex align-items-center mb-3">
     @foreach (var parent in Model.ParentList)
     {
@@ -53,9 +55,40 @@
                     @foreach (var attr in product.Attributes)
                     {
                         <div class="col-6">
-                            <strong>@attr.Attribute.Name:</strong> <span>@attr.Value</span>
+                            <strong>@attr.Attribute.Name:</strong> 
+                            <span>@attr.Value</span>
                         </div>
                     }
+                    <div class="rating">
+                        <div class="rating__body">
+                            <div class="rating__active"></div>
+                            <div class="rating__items">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <input type="radio" 
+                                           value="@i" 
+                                           name="rating" 
+                                           class="rating__item">
+                                }
+                            </div>
+                        </div>
+                        <div class="rating__value">
+                            @(
+                            product.Customers.Count > 0 
+                                ? string.Format(System.Globalization.CultureInfo.InvariantCulture, 
+                                    "{0:0.0}",
+                                    product.Customers.Select(c => c.Rating).Sum() / product.Customers.Count)
+                                : "No reviews"
+                            )
+                            
+                        </div>
+                        @if (product.Customers.Count > 0)
+                        {
+                            <div class="fs-6 m-lg-1">
+                                (@product.Customers.Count)
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
 
@@ -66,3 +99,5 @@
         </div>
     }
 </div>
+
+<script src="/js/rating.js"></script>
