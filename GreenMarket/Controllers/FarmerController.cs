@@ -9,12 +9,10 @@ namespace GreenMarket.Controllers;
 public class FarmerController : Controller
 {
     private readonly IUserRepository _userRepository;
-    private readonly IProductRepository _productRepository;
 
-    public FarmerController(IUserRepository userRepository, IProductRepository productRepository)
+    public FarmerController(IUserRepository userRepository)
     {
         _userRepository = userRepository;
-        _productRepository = productRepository;
     }
     public ActionResult Index()
     {
