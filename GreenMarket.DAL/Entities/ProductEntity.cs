@@ -18,6 +18,10 @@ public record ProductEntity : IEntity
     [ForeignKey(nameof(CategoryId))]
     public CategoryEntity Category { get; set; } = null!;
 
+    [Required]
+    public required Guid CreatorId { get; set; }
+    [ForeignKey(nameof(CreatorId))]
+    public UserEntity Creator { get; set; } = null!;
     public ICollection<ProductAttributeEntity> Attributes { get; set; } = new List<ProductAttributeEntity>();
     public ICollection<UserOrderEntity> Customers { get; set; } = new List<UserOrderEntity>();
 }

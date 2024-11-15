@@ -26,4 +26,5 @@ public class UserEntity : IEntity
     [Required]
     public required UserRole Role { get; set; }
     public ICollection<UserOrderEntity> Orders { get; set; } = new List<UserOrderEntity>();
+    public ICollection<ProductEntity> CreatedProducts { get; set; } = [];
 }
