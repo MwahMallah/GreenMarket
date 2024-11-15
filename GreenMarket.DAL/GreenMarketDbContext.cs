@@ -49,6 +49,16 @@ public class GreenMarketDbContext : DbContext
             .WithMany(p => p.Products)
             .OnDelete(DeleteBehavior.NoAction);
         
+        modelBuilder.Entity<UserOrderEntity>()
+            .HasOne(uo => uo.Product)
+            .WithMany(p => p.Customers)
+            .OnDelete(DeleteBehavior.NoAction);
+        
+        modelBuilder.Entity<UserOrderEntity>()
+            .HasOne(uo => uo.User)
+            .WithMany(u => u.Orders)
+            .OnDelete(DeleteBehavior.NoAction);
+        
         SeedUsers(modelBuilder);
         SeedProductsAndCategories(modelBuilder);
         SeedAttributes(modelBuilder);
@@ -212,12 +222,14 @@ public class GreenMarketDbContext : DbContext
             {
                 Id = Guid.NewGuid(),
                 Name = "Anton's tasty tomino",
+                Description = "A sweet and smooth tomino, offering a unique balance of sweetness and creaminess.",
                 CategoryId = _tominoCategoryId,
             },
             new ProductEntity
             {
                 Id = Guid.NewGuid(),
                 Name = "Ilya's sweet tomino",
+                Description = "A delicious, creamy tomino with a rich, savory flavor. Perfect for any tomato lover!",
                 CategoryId = _tominoCategoryId,
             },
             new ProductEntity
@@ -242,6 +254,7 @@ public class GreenMarketDbContext : DbContext
             {
                 Id = _fuerteAvocadoProductId,
                 Name = "Fuerte",
+                Description = "Fuerte avocados are medium to large with smooth, thick skin and a mild, creamy flavor. Perfect for slicing and enjoying in salads, or on toast.",
                 ImgUrl = "https://www.tomorrowsharvest.com/store/pub/media/catalog/product/cache/49e19764d17a195b05fde2ec48914513/2/2/2210_fuerte_avocado_fruit-full.jpg",
                 CategoryId = _avocadoCategoryId,
             },
@@ -249,6 +262,7 @@ public class GreenMarketDbContext : DbContext
             {
                 Id = _gwenAvocadoProductId,
                 Name = "Gwen",
+                Description = "Gwen avocados are a variety known for their creamy texture and rich, nutty flavor. They are slightly smaller than Has avocados and have a smoother texture.",
                 ImgUrl = "https://www.producemarketguide.com/media/user_v1oz1Yz27j/584/gwen-avocado_variety-page.png",
                 CategoryId = _avocadoCategoryId,
             }
@@ -266,16 +280,19 @@ public class GreenMarketDbContext : DbContext
                 ImgUrl = "",
                 Password = "admin",
                 Username = "admin",
-                Role = UserRole.Admin
+                Role = UserRole.Admin,
+                Email = "admin@admin.com"
             },
             new UserEntity
             {
                 Id = Guid.NewGuid(),
                 Name = "Maksim",
-                ImgUrl = "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_3x4.jpg",
+                ImgUrl =
+                    "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_3x4.jpg",
                 Password = "123",
                 Username = "MaksimDubr",
-                Role = UserRole.User
+                Role = UserRole.User,
+                Email = "maksim@mail.com"
             },
             new UserEntity
             {
@@ -284,7 +301,8 @@ public class GreenMarketDbContext : DbContext
                 ImgUrl = "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg",
                 Password = "123456",
                 Username = "AntonHavl",
-                Role = UserRole.User
+                Role = UserRole.User,
+                Email = "anton@mail.com"
             },
             new UserEntity
             {
@@ -293,7 +311,8 @@ public class GreenMarketDbContext : DbContext
                 ImgUrl = "https://cdn.pixabay.com/photo/2021/09/20/09/17/dog-6640280_1280.jpg",
                 Password = "1234",
                 Username = "NastyaMiro",
-                Role = UserRole.User
+                Role = UserRole.User,
+                Email = "nastya@mail.com"
             }
         ]);
     }

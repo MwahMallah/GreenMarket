@@ -1,10 +1,8 @@
-﻿using System.Reflection.Metadata;
-using GreenMarket.BL.Services.Interfaces;
+﻿using GreenMarket.BL.Services.Interfaces;
 using GreenMarket.Common.Constants;
 using GreenMarket.Common.Enums;
 using GreenMarket.DAL.Entities;
 using GreenMarket.DAL.Repositories.Interfaces;
-using GreenMarket.Models;
 using GreenMarket.Models.Account;
 using Microsoft.AspNetCore.Mvc;
 
@@ -62,10 +60,16 @@ public class AccountController : Controller
     [HttpPost]
     public ActionResult Register(AccountRegisterViewModel viewModel)
     {
-        var user = _userRepository.GetByUsername(viewModel.Username);
-        if (user != null)
+        if (!ModelState.IsValid)
         {
-            ModelState.AddModelError("user", "User with given username is already registered");
+            return View(viewModel);
+        }
+        
+        var foundUserWithUsername = _userRepository.GetByUsername(viewModel.Username) != null;
+        var foundUserWithEmail = _userRepository.GetByEmail(viewModel.Email) != null;
+        if (foundUserWithUsername || foundUserWithEmail)
+        {
+            ModelState.AddModelError("user", "User with given username/email is already registered");
             return View(viewModel);
         }
         
@@ -73,7 +77,8 @@ public class AccountController : Controller
         {
             Username = viewModel.Username,
             Password = viewModel.Password,
-            Role = UserRole.User
+            Role = UserRole.User,
+            Email = viewModel.Email
         });
         
         AddTokenCookie(registeredUser);

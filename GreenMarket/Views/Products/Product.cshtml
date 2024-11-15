@@ -1,0 +1,93 @@
+﻿@model ProductEntity
+
+@{
+    var pronoun = Model.Customers.Count != 1 ? "Customer" : "Customers";
+}
+
+<div class="product-page-container">
+    <style>
+        .product-container {
+            display: flex;
+            border: 1px solid black;
+            width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .product-image {
+            width: 40%;
+            border-right: 1px solid black;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            max-height: 300px;
+        }
+
+        .product-details {
+            width: 60%;
+            padding: 20px;
+        }
+
+        .product-details h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .product-details p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .product-order {
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #0044cc;
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .btn:hover {
+            background-color: #003399;
+        }
+    </style>
+
+    <div class="product-container rounded">
+        <div class="product-image">
+            <!-- ADD SRC FROM MODEL src=""-->
+            <img src="@Model.ImgUrl" alt="Product Image">
+            
+            <div class="product-order">
+                <p>@Model.Customers.Count @pronoun already bought this product</p>
+                <a class="btn btn-primary" asp-action="Order" asp-route-id="@Model.Id">ORDER</a>
+            </div>
+        </div>
+        <div class="product-details">
+            <!-- This is a variety name -->
+            <h1>@Model.Name</h1>
+            <!-- I also need product name -->
+            <p><strong>In Stock</strong>: xxx pieces</p>
+            <!--
+            <p><strong>Price</strong>: xxx per piece</p>
+            <p><strong>Origin</strong>: xxx</p>
+            -->
+            @foreach (var attr in Model.Attributes) {
+                <p><strong>@attr.Attribute.Name</strong>: @attr.Value</p>
+            }
+            <p><strong>Description</strong>: @Model.Description</p>
+        </div>
+    </div>
+</div>

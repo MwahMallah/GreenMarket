@@ -30,12 +30,15 @@
             border-radius: 10px;
             cursor: pointer;
         }
+        .register-container button:hover{
+            background-color: rgb(152, 152, 152);
+        }
         .register-container .text-danger {
             margin-bottom: 15px;
         }
     </style>
 
-    <div asp-validation-summary="All" class="text-danger"></div>
+    <div asp-validation-summary="All" class="text-danger visually-hidden"></div>
     <form asp-action="Register">
         <div>
             <h2>REGISTER</h2>
@@ -43,17 +46,18 @@
         <div>
             <label asp-for="Username"></label>
             <input type="text" asp-for="Username">
-            <span asp-validation-for="Username"></span>
         </div>
         <div>
-            <label asp-for="Name"></label>
-            <input type="text" asp-for="Name">
-            <span asp-validation-for="Name"></span>
+            <label asp-for="Email"></label>
+            <input type="text" asp-for="Email">
         </div>
         <div>
             <label asp-for="Password"></label>
-            <input type="text" asp-for="Password">
-            <span asp-validation-for="Password"></span>
+            <input type="password" asp-for="Password">
+        </div>
+        <div>
+            <label asp-for="PasswordConfirm"></label>
+            <input type="password" asp-for="PasswordConfirm">
         </div>
         <button type="submit">Register</button>
         <div>
@@ -62,3 +66,50 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Display TempData message as a toast notification if it's available
+        @if (TempData["message"] != null)
+        {
+            <text>
+                Toastify({
+                    text: '@TempData["message"]',
+                    duration: 3000,
+                    gravity: "top",
+                    position: "center",
+                    backgroundColor: "red",
+                    stopOnFocus: true
+                }).showToast();
+            </text>
+        }
+
+        // Check for validation errors and display them as toast notifications
+        const validationErrors = document.querySelectorAll('.text-danger');
+        validationErrors.forEach((error) => {
+            if (error.textContent.trim() !== '') {
+                Toastify({
+                    text: error.textContent,
+                    duration: 3000,
+                    gravity: "top",
+                    position: "center",
+                    backgroundColor: "red",
+                    stopOnFocus: true
+                }).showToast();
+
+                /*
+                let splitError = error.textContent.split(" ");
+                console.log(splitError);
+                for (let i = 1; i < splitError.length; i += 4) {
+                    console.log(splitError[i]);
+                    let inputField = document.querySelector('.' + splitError[i].toLowerCase());
+                    if (inputField != null) {
+                        inputField.classList.add('border');
+                        inputField.classList.add('border-danger');
+                    }
+                }
+                */
+            }
+        });
+    });
+</script>

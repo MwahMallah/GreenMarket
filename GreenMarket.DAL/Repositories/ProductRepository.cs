@@ -13,11 +13,22 @@ public class ProductRepository : RepositoryBase<ProductEntity>, IProductReposito
         _dbContext = dbContext;
     }
 
+    public override ProductEntity? GetById(Guid? id)
+    {
+        return _dbContext.Products
+            .Include(p => p.Attributes)
+                .ThenInclude(pa => pa.Attribute)
+            .Include(p => p.Customers)
+                .ThenInclude(c => c.User)
+            .FirstOrDefault(p => p.Id == id);
+    }
+
     public IEnumerable<ProductEntity> GetByCategoryId(Guid categoryId)
     {
         return _dbContext.Products
             .Where(p => p.CategoryId == categoryId)
             .Include(p => p.Attributes)
-            .ThenInclude(pa => pa.Attribute);
+            .ThenInclude(pa => pa.Attribute)
+            .Include(p => p.Customers);
     }
 }

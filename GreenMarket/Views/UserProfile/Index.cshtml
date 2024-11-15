@@ -58,7 +58,8 @@
             text-decoration: underline;
         }
     </style>
-
+    <link rel="stylesheet" href="css/rating.css">
+    
     <div class="profile-container">
     <h2>USER PROFILE</h2>
     <hr>
@@ -75,19 +76,46 @@
         <h3>User Details</h3>
         <p><strong>Name:</strong> @Model.Name</p>
         <p><strong>Surname:</strong> @Model.Name</p>
-        <p><strong>Phone:</strong> @Model.Name</p>
-        <p><strong>E-mail:</strong> @Model.Name</p>
-
-        <h3>Delivery Address:</h3>
-        <p>StreetName HouseNumber</p>
-        <p>TownName, PostalCode</p>
-        <p>Country</p>
+        <p><strong>E-mail:</strong> @Model.Email</p>
+        
     </div>
 
+    <div>
+        @foreach (var order in Model.Orders)
+        {
+            <div class="mt-5 d-flex justify-content-between align-items-center">
+                <h5 class="review-stat">@order.Amount @order.Product.Name</h5>
+                <div class="rating rating__set">
+                    <div class="rating__body">
+                        <div class="rating__active"></div>
+                        <div class="rating__items">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <input type="radio" 
+                                       value="@i" 
+                                       order_id="@order.Id"
+                                       name="rating" 
+                                       class="rating__item">
+                            }
+                        </div>
+                    </div>
+                    <div class="rating__value">
+                        @((order.Rating.HasValue) 
+                            ? order.Rating.Value
+                                .ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) 
+                            : "Rate product")
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    
     <div class="profile-links">
         <a asp-controller="UserProfile" asp-action="Edit" asp-route-id="@Model.Id">Edit profile</a>
-        <!-- <a asp-controller="Account" asp-action="ChangePassword">Change password</a> -->
+        <a asp-controller="Account" asp-action="Logout">Log out</a>
     </div>
 </div>
 </div>
 
+
+<script src="js/rating.js" ></script>

@@ -1,9 +1,11 @@
 using System.Diagnostics;
+using System.Security.Claims;
 using GreenMarket.DAL.Entities;
 using GreenMarket.DAL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using GreenMarket.Models;
 using GreenMarket.Models.Products;
+using Microsoft.Identity.Client;
 
 namespace GreenMarket.Controllers;
 
@@ -11,11 +13,15 @@ public class ProductsController : Controller
 {
     private readonly ICategoryRepository _categoryRepository;
     private readonly IProductRepository _productRepository;
+    private readonly IUserRepository _userRepository;
 
-    public ProductsController(ICategoryRepository categoryRepository, IProductRepository productRepository)
+    public ProductsController(ICategoryRepository categoryRepository, 
+        IProductRepository productRepository,
+        IUserRepository userRepository)
     {
         _categoryRepository = categoryRepository;
         _productRepository = productRepository;
+        _userRepository = userRepository;
     }
 
     public IActionResult Index()
@@ -65,8 +71,64 @@ public class ProductsController : Controller
         
         return View(productViewModel);
     }
-    
 
+    public IActionResult Product(Guid id)
+    {
+        var product = _productRepository.GetById(id);
+
+        if (product == null)
+        {
+            return NotFound();
+        }
+        
+        return View(product);
+    }
+
+    public IActionResult Order(Guid id)
+    {
+        var product = _productRepository.GetById(id);
+
+        if (product == null)
+        {
+            return NotFound();
+        }
+        
+        if (!(bool)User.Identity?.IsAuthenticated)
+        {
+            TempData["message"] = "You have to log in to order product";
+            return RedirectToAction("Login", "Account");
+        }
+        
+        return View(product);
+    }
+    
+    [HttpPost]
+    [ActionName("Order")]
+    public IActionResult OrderMake(Guid id, int amount)
+    {
+        var userId = Guid.Parse(
+            User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty);
+        var user = _userRepository.GetById(userId);
+        var product = _productRepository.GetById(id);
+
+        if (product == null || user == null)
+        {
+            return NotFound();
+        }
+
+        var uo = new UserOrderEntity
+        {
+            UserId = user.Id,
+            ProductId = product.Id,
+            Amount = amount
+        };
+        
+        user.Orders.Add(uo);
+        _userRepository.Update(user);
+        TempData["message"] = $"You ordered {product.Name}!";
+        return View(product);
+    }
+    
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

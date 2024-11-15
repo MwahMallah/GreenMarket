@@ -1,0 +1,58 @@
+﻿@model ProductEntity
+
+<div class="container mt-4 d-flex flex-column align-items-center">
+    <h3 class="mb-4 text-center">You want to buy @Model.Name</h3>
+    <form method="post" class="w-50">
+        <div class="mt-3 d-flex justify-content-center align-items-center">
+            <div class="row">
+                <div class="col d-flex justify-content-center align-items-center">
+                    <label for="amount" class="mr-2 text-center">Amount:</label>
+                </div>
+                <div class="col">
+                    <input type="number" name="amount" id="amount" class="form-control" style="max-width: 150px;" min="1" max="100" step="1" value="1" required>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3 text-center">
+            <p class="font-weight-bold">Total Price: <span id="totalPrice">$0.00</span></p>
+        </div>
+        <div class="mt-3 d-flex justify-content-center">
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-danger">Cancel</button>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-success">Buy!</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Script to calculate and update total price based on user input
+    document.getElementById('amount').addEventListener('input', function() {
+        const amount = parseInt(this.value) || 1;
+        const pricePerItem = @Model.Attributes.FirstOrDefault(a => a.Attribute.Name == "Price/piece");
+        document.getElementById('totalPrice').textContent = `$${(amount * pricePerItem).toFixed(2)}`;
+    });
+</script>
+
+
+<script>
+    // Display TempData message as a toast notification if it's available
+    @if (TempData["message"] != null)
+    {
+        <text>
+            Toastify({
+                text: '@TempData["message"]',
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "center", 
+                backgroundColor: "green",
+                stopOnFocus: true
+            }).showToast();
+        </text>
+    }
+</script>

@@ -1,5 +1,7 @@
 ﻿@model ProductViewModel
 
+<link rel="stylesheet" href="/css/rating.css"/>
+
 <div class="d-flex align-items-center mb-3">
     @foreach (var parent in Model.ParentList)
     {
@@ -14,13 +16,36 @@
 </div>
 
 <div class="container-fluid">
+    <style>
+        .product-list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+        .product-image-wrap {
+            width: 100px;
+            height: 80px;
+            border: 1px solid black;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 0 0 0;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+
     @foreach (var product in Model.Products)
     {
-        <div class="row align-items-center border rounded my-1 p-2">
+        <div class="row align-items-center border rounded my-1 p-2 product-list-item">
             <!-- Image Column -->
-            <div class="col-12 col-md-2 text-center">
-                <img src="@product.ImgUrl" alt="Product image" class="img-fluid rounded"
-                     style="width: 80px; height: 80px; object-fit: cover;">
+            <div class="col-12 col-md-2 text-center rounded product-image-wrap">
+                <img src="@product.ImgUrl" alt="Product image" class="img-fluid rounded product-image">
             </div>
 
             <!-- Attributes Column -->
@@ -30,16 +55,49 @@
                     @foreach (var attr in product.Attributes)
                     {
                         <div class="col-6">
-                            <strong>@attr.Attribute.Name:</strong> <span>@attr.Value</span>
+                            <strong>@attr.Attribute.Name:</strong> 
+                            <span>@attr.Value</span>
                         </div>
                     }
+                    <div class="rating">
+                        <div class="rating__body">
+                            <div class="rating__active"></div>
+                            <div class="rating__items">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <input type="radio" 
+                                           value="@i" 
+                                           name="rating" 
+                                           class="rating__item">
+                                }
+                            </div>
+                        </div>
+                        <div class="rating__value">
+                            @(
+                            product.Customers.Count > 0 
+                                ? string.Format(System.Globalization.CultureInfo.InvariantCulture, 
+                                    "{0:0.0}",
+                                    product.Customers.Select(c => c.Rating).Sum() / product.Customers.Count)
+                                : "No reviews"
+                            )
+                            
+                        </div>
+                        @if (product.Customers.Count > 0)
+                        {
+                            <div class="fs-6 m-lg-1">
+                                (@product.Customers.Count)
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
 
             <!-- Order Button Column -->
             <div class="col-12 col-md-2 text-center">
-                <button class="btn btn-primary">Order</button>
+                <a class="btn btn-primary" asp-action="Product" asp-route-id="@product.Id">See Details</a>
             </div>
         </div>
     }
 </div>
+
+<script src="/js/rating.js"></script>
