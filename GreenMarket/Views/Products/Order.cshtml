@@ -1,4 +1,5 @@
-﻿@model ProductEntity
+﻿@using System.Text.Json
+@model ProductEntity
 
 <div class="container mt-4 d-flex flex-column align-items-center">
     <h3 class="mb-4 text-center">You want to buy @Model.Name</h3>
@@ -30,14 +31,24 @@
 </div>
 
 <script>
-    // Script to calculate and update total price based on user input
+    @{
+        var attr = Model.Attributes.FirstOrDefault(a => a.Attribute.Name.StartsWith("Price"));
+        var price = 0;
+        if (attr != null) {
+            price = Convert.ToInt32(attr.Value);
+        }
+    }
+    // Set initial value
+    const displayTotalPrice = document.getElementById('totalPrice');
+    displayTotalPrice.textContent = `$${(@price).toFixed(2)}`;
+    
+    // Calculate and update total price based on user input
     document.getElementById('amount').addEventListener('input', function() {
-        const amount = parseInt(this.value) || 1;
-        const pricePerItem = @Model.Attributes.FirstOrDefault(a => a.Attribute.Name == "Price/piece");
-        document.getElementById('totalPrice').textContent = `$${(amount * pricePerItem).toFixed(2)}`;
+        const amount = parseInt(this.value) || 0;
+        const price = @price;
+        displayTotalPrice.textContent = `$${(amount * price).toFixed(2)}`;
     });
 </script>
-
 
 <script>
     // Display TempData message as a toast notification if it's available
