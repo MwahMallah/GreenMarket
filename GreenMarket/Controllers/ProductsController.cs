@@ -116,7 +116,7 @@ public class ProductsController : Controller
             return NotFound();
         }
 
-        var uo = new UserOrderEntity
+        var uo = new OrderEntity
         {
             UserId = user.Id,
             ProductId = product.Id,

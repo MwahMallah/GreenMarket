@@ -4,7 +4,7 @@ using GreenMarket.DAL.Entities.Interfaces;
 
 namespace GreenMarket.DAL.Entities;
 
-public record UserOrderEntity : IEntity
+public record OrderEntity : IEntity
 {
     public Guid Id { get; set; }
 

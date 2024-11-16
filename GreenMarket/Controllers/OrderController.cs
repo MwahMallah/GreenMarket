@@ -20,7 +20,8 @@ public class OrderController : Controller
 
         if (user == null)
         {
-            return NotFound();
+            TempData["message"] = "You have to log in to see your orders";
+            return RedirectToAction("Login", "Account");
         }
         
         return user.Orders.Count == 0 ? View("NoOrders") : View(user);
