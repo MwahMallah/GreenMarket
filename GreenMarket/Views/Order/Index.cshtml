@@ -48,31 +48,33 @@
                         <h5 class="card-title">@order.Product.Name</h5>
                         <p class="card-text">Amount: <strong>@order.Amount</strong></p>
                     </div>
-                </a>
-
-                <div class="card-footer">
-                    <div class="rating rating__set">
-                        <div class="rating__body">
-                            <div class="rating__active"></div>
-                            <div class="rating__items">
-                                @for (int i = 1; i <= 5; i++)
-                                {
-                                    <input type="radio"
-                                           value="@i"
-                                           order_id="@order.Id"
-                                           name="rating_@order.Id"
-                                           class="rating__item">
-                                }
+                    <div class="card-footer pb-0">
+                        <div class="rating-text d-flex h-25">
+                            <p style="color:gray">Your rating for this product</p>
+                        </div>
+                        <div class="rating rating__set mt-3">
+                            <div class="rating__body">
+                                <div class="rating__active"></div>
+                                <div class="rating__items">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <input  type="radio"
+                                                value="@i"
+                                                order_id="@order.Id"
+                                                name="rating_@order.Id"
+                                                class="rating__item">
+                                    }
+                                </div>
+                            </div>
+                            <div class="rating__value text-muted">
+                                @((order.Rating.HasValue)
+                                    ? order.Rating.Value
+                                        .ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)
+                                    : "Rate this product")
                             </div>
                         </div>
-                        <div class="rating__value text-muted">
-                            @((order.Rating.HasValue)
-                                ? order.Rating.Value
-                                    .ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)
-                                : "Rate this product")
-                        </div>
                     </div>
-                </div>
+                </a>
             </div>
         }
     </div>
