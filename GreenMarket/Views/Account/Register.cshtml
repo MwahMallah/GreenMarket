@@ -21,51 +21,45 @@
             border: 1px solid black;
             border-radius: 10px;
         }
-        .register-container button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: lightgray;
-            border: 1px solid black;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        .register-container button:hover{
-            background-color: rgb(152, 152, 152);
-        }
         .register-container .text-danger {
             margin-bottom: 15px;
         }
     </style>
 
-    <div asp-validation-summary="All" class="text-danger visually-hidden"></div>
+    <div asp-validation-summary="All" class="text-danger error-all visually-hidden"></div>
     <form asp-action="Register">
         <div>
             <h2>REGISTER</h2>
         </div>
         <div>
             <label asp-for="Username"></label>
-            <input type="text" asp-for="Username">
+            <input type="text" class="username validation_required" asp-for="Username">
+            <span asp-validation-for="Username" class="text-danger visually-hidden"></span>
         </div>
         <div>
             <label asp-for="Email"></label>
-            <input type="text" asp-for="Email">
+            <input type="text" class="email validation_required" asp-for="Email">
+            <span asp-validation-for="Email" class="text-danger visually-hidden"></span>
         </div>
         <div>
             <label asp-for="Password"></label>
-            <input type="password" asp-for="Password">
+            <input type="password" class="password validation_required validation_equal" asp-for="Password">
+            <span asp-validation-for="Password" class="text-danger visually-hidden"></span>
         </div>
         <div>
             <label asp-for="PasswordConfirm"></label>
-            <input type="password" asp-for="PasswordConfirm">
+            <input type="password" class="confirm-password validation_required validation_equal" asp-for="PasswordConfirm">
+            <span asp-validation-for="PasswordConfirm" class="text-danger visually-hidden"></span>
         </div>
-        <button type="submit">Register</button>
+        <button type="submit" class="submit-btn btn btn-primary btn-lg">Register</button>
         <div>
             Already registered?
             <a asp-controller="Account" asp-action="Login">Sign in</a>
         </div>
     </form>
 </div>
+
+<script src="/js/validation.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -85,7 +79,7 @@
         }
 
         // Check for validation errors and display them as toast notifications
-        const validationErrors = document.querySelectorAll('.text-danger');
+        const validationErrors = document.querySelectorAll('.error-all');
         validationErrors.forEach((error) => {
             if (error.textContent.trim() !== '') {
                 Toastify({
