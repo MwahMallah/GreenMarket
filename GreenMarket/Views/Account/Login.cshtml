@@ -60,10 +60,10 @@
 
         inputs.forEach((input) => {
             if (input.value.trim() == '') {
-                inputStatus[input.className] = false;
+                inputStatus[input] = false;
             }
             else {
-                inputStatus[input.className] = true;
+                inputStatus[input] = true;
             }
         });
 
@@ -71,20 +71,24 @@
 
         function validateInput(event) {
             let input = event.target;
+            console.log("biba");
 
-            if (input.value.trim() == '') {
+            if (input.value.trim() === '') {
                 input.classList.add('border');
                 input.classList.add('border-3');
                 input.classList.add('border-danger');
-                inputStatus[input.className] = false;
+                inputStatus[input] = false;
+                console.log(input, "Not valid");
             } else {
                 input.classList.remove('border');
                 input.classList.remove('border-3');
                 input.classList.remove('border-danger');
-                inputStatus[input.className] = true;
+                inputStatus[input] = true;
+                console.log(input, "valid");
             }
 
             const allInputsValid = Object.values(inputStatus).every((status) => status === true);
+            console.log(Object.values(inputStatus));
             submitButton.disabled = !allInputsValid;
         }
 
