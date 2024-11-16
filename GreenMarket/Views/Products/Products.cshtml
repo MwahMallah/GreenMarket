@@ -51,18 +51,18 @@
                         </div>
                         <div class="rating__value">
                             @(
-                            product.Customers.Count > 0 
+                            product.Orders.Count > 0 
                                 ? string.Format(System.Globalization.CultureInfo.InvariantCulture, 
                                     "{0:0.0}",
-                                    product.Customers.Select(c => c.Rating).Sum() / product.Customers.Count)
+                                    product.Orders.Select(c => c.Rating).Sum() / product.Orders.Count)
                                 : "No reviews"
                             )
                             
                         </div>
-                        @if (product.Customers.Count > 0)
+                        @if (product.Orders.Count > 0)
                         {
                             <div class="fs-6 m-lg-1">
-                                (@product.Customers.Count)
+                                (@product.Orders.Count)
                             </div>
                         }
                     </div>

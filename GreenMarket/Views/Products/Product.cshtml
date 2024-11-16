@@ -1,7 +1,7 @@
 ﻿@model ProductEntity
 
 @{
-    var pronoun = Model.Customers.Count != 1 ? "Customer" : "Customers";
+    var pronoun = Model.Orders.Count != 1 ? "Customer" : "Customers";
 }
 
 <link rel="stylesheet" href="/css/product_detail.css">
@@ -14,7 +14,7 @@
             <img src="@Model.ImgUrl" alt="Product Image">
             
             <div class="product-order">
-                <p>@Model.Customers.Count @pronoun already bought this product</p>
+                <p>@Model.Orders.Count @pronoun already bought this product</p>
                 <a class="btn btn-primary" asp-action="Order" asp-route-id="@Model.Id">ORDER</a>
             </div>
         </div>
@@ -37,19 +37,19 @@
                     </div>
                     <div class="rating__value">
                         @(
-                        Model.Customers.Count > 0 
+                        Model.Orders.Count > 0 
                             ? string.Format(System.Globalization.CultureInfo.InvariantCulture, 
                                 "{0:0.0}",
-                                Model.Customers.Select(c => c.Rating).Sum() 
-                                / Model.Customers.Count)
+                                Model.Orders.Select(c => c.Rating).Sum() 
+                                / Model.Orders.Count)
                             : "No reviews"
                         )
                         
                     </div>
-                    @if (Model.Customers.Count > 0)
+                    @if (Model.Orders.Count > 0)
                     {
                         <div class="fs-6 m-lg-1">
-                            (@Model.Customers.Count)
+                            (@Model.Orders.Count)
                         </div>
                     }
                 </div>

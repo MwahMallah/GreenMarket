@@ -28,7 +28,7 @@ public class UserRepository : RepositoryBase<UserEntity>, IUserRepository
                 .ThenInclude(p => p.Attributes)
                 .ThenInclude(pa => pa.Attribute)
             .Include(u => u.CreatedProducts)
-                .ThenInclude(p => p.Customers)
+                .ThenInclude(p => p.Orders)
             .FirstOrDefault(u => u.Id == id);
     }
 
