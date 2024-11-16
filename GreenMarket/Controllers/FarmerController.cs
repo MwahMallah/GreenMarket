@@ -5,6 +5,7 @@ using GreenMarket.Extensions;
 using GreenMarket.Models.Farmer;
 using GreenMarket.Requests;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GreenMarket.Controllers;
 
@@ -97,6 +98,26 @@ public class FarmerController : Controller
     {
         var children = _categoryRepository.GetByParentId(id);
         return Ok(children);
+    }
+
+    public IActionResult Edit(Guid id)
+    {
+        var product = _productRepository.GetById(id);
+        return View(product);
+    }
+
+    [HttpPost]
+    public IActionResult Edit(ProductEntity product)
+    {
+        if (product.Name.IsNullOrEmpty())
+        {
+            ModelState.AddModelError("Name", "Name is required");
+            return View(product);
+        }
+        
+        _productRepository.Update(product);
+        TempData["message"] = $"You edited {product.Name}";
+        return RedirectToAction(nameof(Index));
     }
 
     private UserEntity? GetCurrentUser()
