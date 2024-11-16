@@ -79,4 +79,20 @@
 </div>
 </div>
 
+<script >
+    @if (TempData["message"] != null)
+    {
+        <text>
+            Toastify({
+                text: @TempData["message"],
+                duration: 3000,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "green",
+                stopOnFocus: true
+            }).showToast();
+        </text>
+    }
+</script>
+
 <script src="/js/rating.js"></script>
