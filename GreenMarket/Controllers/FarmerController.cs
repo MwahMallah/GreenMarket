@@ -114,6 +114,13 @@ public class FarmerController : Controller
             ModelState.AddModelError("Name", "Name is required");
             return View(product);
         }
+
+        if ((ModelState.ContainsKey("Stock") && ModelState["Stock"]!.Errors.Any()) 
+            || product.Stock < 0)
+        {
+            ModelState.AddModelError("Stock", "Invalid input for stock");
+            return View(product);
+        }   
         
         _productRepository.Update(product);
         TempData["message"] = $"You edited {product.Name}";
