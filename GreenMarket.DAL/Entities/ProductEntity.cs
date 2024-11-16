@@ -13,15 +13,15 @@ public record ProductEntity : IEntity
     [MaxLength(5000)]
     public string? Description { get; set; }
     public string? ImgUrl { get; set; }
+    public int Stock { get; set; } = 0;
     [Required]
     public required Guid CategoryId { get; set; }
     [ForeignKey(nameof(CategoryId))]
     public CategoryEntity Category { get; set; } = null!;
-
     [Required]
     public required Guid CreatorId { get; set; }
     [ForeignKey(nameof(CreatorId))]
     public UserEntity Creator { get; set; } = null!;
     public ICollection<ProductAttributeEntity> Attributes { get; set; } = new List<ProductAttributeEntity>();
-    public ICollection<UserOrderEntity> Customers { get; set; } = new List<UserOrderEntity>();
+    public ICollection<OrderEntity> Orders { get; set; } = new List<OrderEntity>();
 }
