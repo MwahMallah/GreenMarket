@@ -2,6 +2,7 @@
 using GreenMarket.Common.Enums;
 using GreenMarket.DAL.Entities;
 using GreenMarket.DAL.Repositories.Interfaces;
+using GreenMarket.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenMarket.Controllers;
@@ -47,11 +48,7 @@ public class FarmerController : Controller
 
     private UserEntity? GetCurrentUser()
     {
-        var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-        if (userIdClaim == null)
-            return null;
-        
-        var userId = Guid.Parse(userIdClaim.Value);
+        var userId = this.GetCurrentUserId();
         var user = _userRepository.GetByIdWithCreatedProducts(userId);
         return user;
     }

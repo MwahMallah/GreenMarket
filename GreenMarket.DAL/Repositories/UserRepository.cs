@@ -21,11 +21,12 @@ public class UserRepository : RepositoryBase<UserEntity>, IUserRepository
             .FirstOrDefault(u => u.Id == id);
     }
     
-    public UserEntity? GetByIdWithCreatedProducts(Guid id)
+    public UserEntity? GetByIdWithCreatedProducts(Guid? id)
     {
         return _dbContext.Users
             .Include(u => u.CreatedProducts)
                 .ThenInclude(p => p.Attributes)
+                .ThenInclude(pa => pa.Attribute)
             .Include(u => u.CreatedProducts)
                 .ThenInclude(p => p.Customers)
             .FirstOrDefault(u => u.Id == id);
