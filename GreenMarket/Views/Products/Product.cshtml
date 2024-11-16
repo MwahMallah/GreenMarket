@@ -56,10 +56,6 @@
             </div>
             <!-- I also need product name -->
             <p><strong>In Stock</strong>: xxx pieces</p>
-            <!--
-            <p><strong>Price</strong>: xxx per piece</p>
-            <p><strong>Origin</strong>: xxx</p>
-            -->
             @foreach (var attr in Model.Attributes) {
                 <p><strong>@attr.Attribute.Name</strong>: @attr.Value</p>
             }

@@ -1,8 +1,8 @@
-﻿using System.Security.Claims;
-using GreenMarket.Common.Enums;
+﻿using GreenMarket.Common.Enums;
 using GreenMarket.DAL.Entities;
 using GreenMarket.DAL.Repositories.Interfaces;
 using GreenMarket.Extensions;
+using GreenMarket.Models.Farmer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenMarket.Controllers;
@@ -10,10 +10,12 @@ namespace GreenMarket.Controllers;
 public class FarmerController : Controller
 {
     private readonly IUserRepository _userRepository;
+    private readonly ICategoryRepository _categoryRepository;
 
-    public FarmerController(IUserRepository userRepository)
+    public FarmerController(IUserRepository userRepository, ICategoryRepository categoryRepository)
     {
         _userRepository = userRepository;
+        _categoryRepository = categoryRepository;
     }
     public ActionResult Index()
     {
@@ -44,6 +46,34 @@ public class FarmerController : Controller
         _userRepository.Update(user);
         
         return RedirectToAction("Index");
+    }
+    
+    public IActionResult Create()
+    {
+        var mainCategories = _categoryRepository.GetMain();
+        var createProductViewModel = new CreateProductViewModel
+        {
+            CategoryList = mainCategories
+        };
+        return View(createProductViewModel);
+    }
+
+    [HttpGet("Farmer/Category/{id:guid}")]
+    public ActionResult<IEnumerable<CategoryEntity>> Category(Guid id)
+    {
+        var children = _categoryRepository.GetByParentId(id);
+        return Ok(children);
+    }
+    
+    [HttpPost]
+    public ActionResult Create(CreateProductViewModel createUserViewModel)
+    {
+        if (ModelState.IsValid)
+        {
+            // _userRepository.Create(createUserViewModel.User);
+            return RedirectToAction(nameof(Index));
+        }
+        return View(createUserViewModel);
     }
 
     private UserEntity? GetCurrentUser()
