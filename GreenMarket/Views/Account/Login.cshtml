@@ -33,12 +33,12 @@
         </div>
         <div>
             <label asp-for="Username"></label>
-            <input type="text" class="username" asp-for="Username">
+            <input type="text" class="username validation_required" asp-for="Username">
             <span asp-validation-for="Username" class="text-danger visually-hidden"></span>
         </div>
         <div>
             <label asp-for="Password"></label>
-            <input type="password" class="password" asp-for="Password">
+            <input type="password" class="password validation_required" asp-for="Password">
             <span asp-validation-for="Password" class="text-danger visually-hidden"></span>
         </div>
         <button type="submit" class="submit-btn btn btn-primary btn-lg">Login</button>
@@ -51,50 +51,6 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const usernameInput = document.querySelector('.username');
-        const passwordInput = document.querySelector('.password');
-        const submitButton = document.querySelector('.submit-btn');
-
-        let inputs = [usernameInput, passwordInput];
-        const inputStatus = {};
-
-        inputs.forEach((input) => {
-            if (input.value.trim() == '') {
-                inputStatus[input] = false;
-            }
-            else {
-                inputStatus[input] = true;
-            }
-        });
-
-        submitButton.disabled = true;
-
-        function validateInput(event) {
-            let input = event.target;
-            console.log("biba");
-
-            if (input.value.trim() === '') {
-                input.classList.add('border');
-                input.classList.add('border-3');
-                input.classList.add('border-danger');
-                inputStatus[input] = false;
-                console.log(input, "Not valid");
-            } else {
-                input.classList.remove('border');
-                input.classList.remove('border-3');
-                input.classList.remove('border-danger');
-                inputStatus[input] = true;
-                console.log(input, "valid");
-            }
-
-            const allInputsValid = Object.values(inputStatus).every((status) => status === true);
-            console.log(Object.values(inputStatus));
-            submitButton.disabled = !allInputsValid;
-        }
-
-        inputs.forEach((input) => {
-            input.addEventListener('input', validateInput);
-        });
         // Display TempData message as a toast notification if it's available
         @if (TempData["message"] != null)
         {
@@ -139,3 +95,5 @@
         });
     });
 </script>
+
+<script src="/js/validation.js"></script>

@@ -33,22 +33,22 @@
         </div>
         <div>
             <label asp-for="Username"></label>
-            <input type="text" class="username" asp-for="Username">
+            <input type="text" class="username validation_required" asp-for="Username">
             <span asp-validation-for="Username" class="text-danger visually-hidden"></span>
         </div>
         <div>
             <label asp-for="Email"></label>
-            <input type="text" class="email" asp-for="Email">
+            <input type="text" class="email validation_required" asp-for="Email">
             <span asp-validation-for="Email" class="text-danger visually-hidden"></span>
         </div>
         <div>
             <label asp-for="Password"></label>
-            <input type="password" class="password" asp-for="Password">
+            <input type="password" class="password validation_required validation_equal" asp-for="Password">
             <span asp-validation-for="Password" class="text-danger visually-hidden"></span>
         </div>
         <div>
             <label asp-for="PasswordConfirm"></label>
-            <input type="password" class="confirm-password" asp-for="PasswordConfirm">
+            <input type="password" class="confirm-password validation_required validation_equal" asp-for="PasswordConfirm">
             <span asp-validation-for="PasswordConfirm" class="text-danger visually-hidden"></span>
         </div>
         <button type="submit" class="submit-btn btn btn-primary btn-lg">Register</button>
@@ -59,77 +59,10 @@
     </form>
 </div>
 
+<script src="/js/validation.js"></script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const usernameInput = document.querySelector('.username');
-        const emailInput = document.querySelector('.email');
-        const passwordInput = document.querySelector('.password');
-        const confirmPasswordInput = document.querySelector('.confirm-password');
-        const submitButton = document.querySelector('.submit-btn');
-
-        let inputs = [usernameInput, emailInput, passwordInput, confirmPasswordInput];
-        const inputStatus = {};
-
-        inputs.forEach((input) => {
-            if (input.value.trim() === '') {
-                inputStatus[input.className] = false;
-            }
-            else {
-                inputStatus[input.className] = true;
-            }
-        });
-        inputStatus['passwordEqual'] = false;
-
-        submitButton.disabled = true;
-
-        function validateInput(event) {
-            let input = event.target;
-
-            if (input.value.trim() === '') {
-                input.classList.add('border');
-                input.classList.add('border-3');
-                input.classList.add('border-danger');
-                inputStatus[input.className] = false;
-            } else {
-                input.classList.remove('border');
-                input.classList.remove('border-3');
-                input.classList.remove('border-danger');
-                inputStatus[input.className] = true;
-            }
-
-            const allInputsValid = Object.values(inputStatus).every((status) => status === true);
-            submitButton.disabled = !allInputsValid;
-        }
-
-        function IsPasswordEqual() {
-            if (passwordInput.value !== confirmPasswordInput.value) {
-                passwordInput.classList.add('border');
-                passwordInput.classList.add('border-3');
-                passwordInput.classList.add('border-danger');
-                confirmPasswordInput.classList.add('border');
-                confirmPasswordInput.classList.add('border-3');
-                confirmPasswordInput.classList.add('border-danger');
-                inputStatus['passwordEqual'] = false;
-            } else {
-                passwordInput.classList.remove('border');
-                passwordInput.classList.remove('border-3');
-                passwordInput.classList.remove('border-danger');
-                confirmPasswordInput.classList.remove('border');
-                confirmPasswordInput.classList.remove('border-3');
-                confirmPasswordInput.classList.remove('border-danger');
-                inputStatus['passwordEqual'] = true;
-            }
-
-            const allInputsValid = Object.values(inputStatus).every((status) => status === true);
-            submitButton.disabled = !allInputsValid;
-        } 
-
-        inputs.forEach((input) => {
-            input.addEventListener('input', validateInput);
-        });
-        passwordInput.addEventListener('input', IsPasswordEqual);
-        confirmPasswordInput.addEventListener('input', IsPasswordEqual);
-        
         // Display TempData message as a toast notification if it's available
         @if (TempData["message"] != null)
         {
