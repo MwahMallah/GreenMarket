@@ -3,6 +3,7 @@ using GreenMarket.DAL.Entities;
 using GreenMarket.DAL.Repositories.Interfaces;
 using GreenMarket.Extensions;
 using GreenMarket.Models.Farmer;
+using GreenMarket.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenMarket.Controllers;
@@ -11,11 +12,15 @@ public class FarmerController : Controller
 {
     private readonly IUserRepository _userRepository;
     private readonly ICategoryRepository _categoryRepository;
+    private readonly IProductRepository _productRepository;
 
-    public FarmerController(IUserRepository userRepository, ICategoryRepository categoryRepository)
+    public FarmerController(IUserRepository userRepository, 
+        ICategoryRepository categoryRepository,
+        IProductRepository productRepository)
     {
         _userRepository = userRepository;
         _categoryRepository = categoryRepository;
+        _productRepository = productRepository;
     }
     public ActionResult Index()
     {
@@ -58,22 +63,40 @@ public class FarmerController : Controller
         return View(createProductViewModel);
     }
 
+    [HttpPost]
+    public ActionResult Create([FromBody] ProductCreateRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            var errors = ModelState
+                .Where(ms => ms.Value != null && ms.Value.Errors.Count > 0)
+                .ToDictionary(
+                    ms => ms.Key.Replace("$.", ""), 
+                    ms => ms.Value?.Errors.Select(e => e.ErrorMessage).ToList()
+                );
+
+            return BadRequest(new
+            {
+                Message = "Validation failed",
+                Errors = errors
+            });
+        }
+
+        var newProduct = CreateProductEntityFrom(request);
+        if (newProduct == null)
+        {
+            return Unauthorized();
+        }
+        _productRepository.Create(newProduct);
+        TempData["message"] = "You created new product";
+        return RedirectToAction("Index");
+    }
+
     [HttpGet("Farmer/Category/{id:guid}")]
     public ActionResult<IEnumerable<CategoryEntity>> Category(Guid id)
     {
         var children = _categoryRepository.GetByParentId(id);
         return Ok(children);
-    }
-    
-    [HttpPost]
-    public ActionResult Create(CreateProductViewModel createUserViewModel)
-    {
-        if (ModelState.IsValid)
-        {
-            // _userRepository.Create(createUserViewModel.User);
-            return RedirectToAction(nameof(Index));
-        }
-        return View(createUserViewModel);
     }
 
     private UserEntity? GetCurrentUser()
@@ -86,5 +109,24 @@ public class FarmerController : Controller
     private bool RoleIsAppropriate(UserRole role)
     {
         return role is UserRole.Farmer or UserRole.Admin or UserRole.Moderator;
+    }
+
+    private ProductEntity? CreateProductEntityFrom(ProductCreateRequest request)
+    {
+        var creatorId = this.GetCurrentUserId();
+        if (creatorId == null) {
+            return null;
+        }
+        
+        var newProduct = new ProductEntity
+        {
+            Name = request.Name,
+            CategoryId = request.CategoryId,
+            CreatorId = creatorId.Value,
+            Description = request.Description,
+            ImgUrl = request.ImgUrl
+        };
+
+        return newProduct;
     }
 }

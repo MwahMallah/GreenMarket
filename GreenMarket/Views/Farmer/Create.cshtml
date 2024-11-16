@@ -4,18 +4,18 @@
     <div class="row">
         <h2 class="text-success">Create Product</h2>
     </div>
-    <form method="post">
+    <form method="post" id="createProductForm">
         <div class="row gy-2">
             <div class="form-floating">
                 <input asp-for="Product.Name" type="text" id="name" 
-                       class="form-control" placeholder="Name">
+                       class="form-control validation_required" placeholder="Name">
                 <label for="name" class="form-label">Name</label>
                 <span asp-validation-for="Product.Name" class="text-danger field-validation-error"></span>
             </div>
             <div class="form-floating">
-                <input asp-for="Product.ImgUrl" type="text" id="pwd" 
+                <input asp-for="Product.ImgUrl" type="text" id="img" 
                        class="form-control" placeholder="Image url">
-                <label for="pwd" class="form-label">Image</label>
+                <label for="img" class="form-label">Image</label>
                 <span asp-validation-for="Product.ImgUrl" class="text-danger field-validation-error"></span>
             </div>
             <div id="category_container">
@@ -35,77 +35,12 @@
         </div>
         <div class="row mt-2">
             <div>
-                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="submit" class="btn btn-success submit-btn">Submit</button>
                 <a asp-controller="Farmer" asp-action="Create" class="btn btn-dark">Back to List</a>
             </div>
         </div>
     </form>
 </div>
 
-<script >
-    const categoriesContainer = document.querySelector("#category_container");
-    const categorySelector = document.querySelector("#category_select");
-    const selectors = [];
-    selectors.push(categorySelector);
-    categorySelector.addEventListener("change", handleCategorySelector);
-    
-    async function handleCategorySelector(e) {
-        const thisSelectorNum = Number(this.getAttribute("selector_num"));
-        let selectorsToRemove = selectors.length - thisSelectorNum; 
-        for (let i = 0; i < selectorsToRemove; i++) {
-            let selectorToRemove = selectors.pop();
-            categoriesContainer.removeChild(selectorToRemove);
-        }
-        
-        await addCategorySpecifier(e.target.value);
-    }
-    
-    async function addCategorySpecifier(value) {
-        const res = await fetch(`/Farmer/Category/${value}`);
-        const newCategories = await res.json();
-                
-        if (newCategories.length !== 0) {
-            const newSelector = createCategorySelectorElement(newCategories);
-            
-            newSelector.addEventListener("change", handleCategorySelector);
-            categoriesContainer.appendChild(newSelector);
-            selectors.push(newSelector);
-            console.log(selectors.length);
-        }
-    }
-    
-    function createCategorySelectorElement(newCategories) {
-        const selector = document.createElement("select");
-        selector.setAttribute("selector_num", `${selectors.length + 1}`);
-        
-        selector.appendChild(createDefaultOption());
-        
-        for (let category of newCategories) {
-            let newOption = createOption(category);
-            selector.appendChild(newOption);   
-        }
-        
-        function createOption(category) {
-            let newCategoryOption = document.createElement("option");
-            const optionText = document.createTextNode(category.name);
-            newCategoryOption.appendChild(optionText);
-            newCategoryOption.value = category.id;
-            
-            return newCategoryOption;
-        }
-        
-        function createDefaultOption() {
-            let defaultCategoryOption = document.createElement("option");
-            const optionText = document.createTextNode("--Choose Category--");
-            defaultCategoryOption.appendChild(optionText);
-            defaultCategoryOption.value = "";
-            
-            return defaultCategoryOption;
-        }
-        
-        return selector;
-    }
-        
-</script>
-
-<script src="/js/new_category.js"></script>
+<script src="/js/validation.js"></script>
+<script src="/js/create_product.js"></script>
