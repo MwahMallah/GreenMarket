@@ -120,6 +120,26 @@ public class FarmerController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    public IActionResult Delete(Guid id)
+    {
+        var product = _productRepository.GetById(id);
+        return View(product);
+    }
+
+    [HttpPost]
+    [ActionName("Delete")]
+    public ActionResult DeleteInDb(Guid id)
+    {
+        var productFromDb = _productRepository.GetById(id);
+        if (productFromDb == null)
+        {
+            return NotFound();
+        }
+        
+        _productRepository.Delete(productFromDb);
+        return RedirectToAction(nameof(Index));
+    }
+
     private UserEntity? GetCurrentUser()
     {
         var userId = this.GetCurrentUserId();
