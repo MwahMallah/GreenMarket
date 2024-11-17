@@ -15,7 +15,14 @@
             
             <div class="product-order">
                 <p>@Model.Orders.Count @pronoun already bought this product</p>
-                <a class="btn btn-primary" asp-action="Order" asp-route-id="@Model.Id">ORDER</a>
+                @if (Model.Stock == 0)
+                {
+                    <a class="btn btn-primary disabled" aria-disabled="true">ORDER</a>
+                }
+                else
+                {
+                    <a class="btn btn-primary" asp-action="Order" asp-route-id="@Model.Id">ORDER</a>
+                }
             </div>
         </div>
         <div class="product-details">
@@ -54,8 +61,18 @@
                     }
                 </div>
             </div>
-            <!-- I also need product name -->
-            <p><strong>In Stock</strong>: xxx pieces</p>
+            <p>
+                <strong>In Stock</strong>:
+                @if (Model.Stock == 0)
+                {
+                    <span class="text-danger">Currently out of stock 😔</span>
+                }
+                else
+                {
+                    <span>@Model.Stock</span>
+                }
+            </p>
+            
             @foreach (var attr in Model.Attributes) {
                 <p><strong>@attr.Attribute.Name</strong>: @attr.Value</p>
             }
