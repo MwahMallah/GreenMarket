@@ -1,5 +1,4 @@
-﻿@using System.Text.Json
-@model ProductEntity
+﻿@model ProductEntity
 
 <div class="container mt-4 d-flex flex-column align-items-center">
     <h3 class="mb-4 text-center">You want to buy @Model.Name</h3>
@@ -10,7 +9,9 @@
                     <label for="amount" class="mr-2 text-center">Amount:</label>
                 </div>
                 <div class="col">
-                    <input type="number" name="amount" id="amount" class="form-control" style="max-width: 150px;" min="1" max="100" step="1" value="1" required>
+                    <input type="number" name="amount" id="amount" 
+                           class="form-control" style="max-width: 150px;"
+                           min="1" max="100" step="1" value="1" required>
                 </div>
             </div>
         </div>
@@ -23,7 +24,7 @@
                     <button type="button" class="btn btn-danger">Cancel</button>
                 </div>
                 <div class="col">
-                    <button type="submit" class="btn btn-success">Buy!</button>
+                    <button type="submit" class="btn btn-success submit-btn">Buy!</button>
                 </div>
             </div>
         </div>
@@ -47,6 +48,29 @@
         const amount = parseInt(this.value) || 0;
         const price = @price;
         displayTotalPrice.textContent = `$${(amount * price).toFixed(2)}`;
+    });
+</script>
+
+<script >
+    const submitBtn = document.querySelector(".submit-btn");
+    const amountInput = document.querySelector("#amount");
+    const inStock = Number(@Model.Stock);
+    
+    amountInput.addEventListener("change", (e) => {
+        const input = e.target;
+        const amount = Number(input.value);
+        
+        if (amount > inStock) {
+            submitBtn.disabled = true;
+            input.classList.add('border');
+            input.classList.add('border-3');
+            input.classList.add('border-danger');
+        } else {
+            submitBtn.disabled = false;
+            input.classList.remove('border');
+            input.classList.remove('border-3');
+            input.classList.remove('border-danger');
+        }
     });
 </script>
 
