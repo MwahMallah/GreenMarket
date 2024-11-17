@@ -136,39 +136,27 @@ public class FarmerController : Controller
             return NotFound();
         }
         
-        var editProductViewModel = new EditProductViewModel
-        {
-            Product = product,
-            Attributes = product.Attributes
-                .Select(a => 
-                    new EditProductViewModel.AttributesViewModel()
-                    {
-                        Id = a.Id,
-                        Value = a.Value,
-                        Name = a.Attribute.Name
-                    })
-        };
-        return View(editProductViewModel);
+        return View(product);
     }
 
     [HttpPost]
-    public IActionResult Edit(EditProductViewModel productViewModel)
+    public IActionResult Edit(ProductEntity product)
     {
-        if (productViewModel.Product.Name.IsNullOrEmpty())
+        if (product.Name.IsNullOrEmpty())
         {
             ModelState.AddModelError("Name", "Name is required");
-            return View(productViewModel);
+            return View(product);
         }
 
         if ((ModelState.ContainsKey("Stock") && ModelState["Stock"]!.Errors.Any()) 
-            || productViewModel.Product.Stock < 0)
+            || product.Stock < 0)
         {
             ModelState.AddModelError("Stock", "Invalid input for stock");
-            return View(productViewModel);
+            return View(product);
         }   
         
-        _productRepository.Update(productViewModel.Product);
-        TempData["message"] = $"You edited {productViewModel.Product.Name}";
+        _productRepository.Update(product);
+        TempData["message"] = $"You edited {product.Name}";
         return RedirectToAction(nameof(Index));
     }
 
