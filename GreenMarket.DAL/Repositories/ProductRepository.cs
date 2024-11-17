@@ -43,4 +43,15 @@ public class ProductRepository : RepositoryBase<ProductEntity>, IProductReposito
         _dbContext.Products.Remove(entity);
         _dbContext.SaveChanges();
     }
+
+    public override void Update(ProductEntity updatedEntity)
+    {
+        foreach (var attr in updatedEntity.Attributes)
+        {
+            _dbContext.ProductAttribute.Update(attr);
+        }
+
+        _dbContext.Products.Update(updatedEntity);
+        _dbContext.SaveChanges();
+    }
 }
