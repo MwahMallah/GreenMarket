@@ -10,4 +10,12 @@ public record ProductCreateRequest
     public string? Description { get; set; }
     [Required]
     public Guid CategoryId { get; set; }
+
+    public IList<AttributeRequest> Attributes { get; set; } = [];
+
+    public record AttributeRequest
+    {
+        public Guid Id { get; set; }
+        public string? Value { get; set; }
+    }
 }

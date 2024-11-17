@@ -4,17 +4,26 @@ const selectors = [];
 const createForm = document.querySelector("#createProductForm");
 selectors.push(categorySelector);
 
+const attributesContainer = document.querySelector("#attribute_container");
+const attributeElements = [];
+
 categorySelector.addEventListener("change", handleCategorySelector);
 createForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-
-    console.log(selectors[0].value);
+    
     const formData = {
         Name: document.querySelector("#name").value.trim(),
         ImgUrl: document.querySelector("#img").value.trim(),
         Description: document.querySelector("#description").value.trim(),
-        CategoryId: selectors[selectors.length - 1]?.value || null
+        CategoryId: selectors[selectors.length - 1]?.value || null,
+        Attributes: attributeElements.map(a => {
+            const input = a.querySelector("input");
+            return {Id: input.name, Value: input.value}
+        })
     }
+    
+    console.log(attributeElements);
+    console.log(formData);
 
     await sendForm(formData);
 
@@ -61,25 +70,38 @@ async function handleCategorySelector(e) {
         let selectorToRemove = selectors.pop();
         categoriesContainer.removeChild(selectorToRemove);
     }
+    
+    for (let attr of attributeElements) {
+        attributesContainer.removeChild(attr);
+    }
+    attributeElements.length = 0;
 
     await addCategorySpecifier(e.target.value);
 }
 
 async function addCategorySpecifier(value) {
     const res = await fetch(`/Farmer/Category/${value}`);
-    const newCategories = await res.json();
+    const resBody = await res.json();
+    console.log(resBody);
 
-    if (newCategories.length !== 0) {
-        const newSelector = createCategorySelectorElement(newCategories);
+    if (resBody.type === "categories") {
+        const newSelector = createCategorySelectorElement(resBody.payload);
 
         newSelector.addEventListener("change", handleCategorySelector);
         categoriesContainer.appendChild(newSelector);
         selectors.push(newSelector);
-        console.log(selectors.length);
+    } else if (resBody.type === "attributes") {
+        const attributes = resBody.payload;
+        for (let attr of attributes) {
+            const attrElement = createAttributeDiv(attr);
+            attributesContainer.appendChild(attrElement);
+            attributeElements.push(attrElement);
+        }
     }
 }
 
 function createCategorySelectorElement(newCategories) {
+    console.log(newCategories);
     const selector = document.createElement("select");
     selector.setAttribute("selector_num", `${selectors.length + 1}`);
 
@@ -109,4 +131,37 @@ function createCategorySelectorElement(newCategories) {
     }
 
     return selector;
+}
+
+function createAttributeDiv(attr) {
+    const containerDiv = createContainerDiv();
+    const name = createAttributeName(attr)
+    const input = createAttributeInput(attr);
+    
+    containerDiv.appendChild(name);
+    containerDiv.appendChild(input);
+    return containerDiv;
+    
+    function createContainerDiv() {
+        const div = document.createElement("div");
+        div.classList.add("col-md-6", "mb-3");
+        return div;
+    }
+    
+    function createAttributeName(attr) {
+        const strong = document.createElement("strong");
+        const txt = document.createTextNode(attr.name);
+        strong.appendChild(txt);
+        return strong;
+    }
+    
+    function createAttributeInput(attr) {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.id = attr.name;
+        input.name = attr.id;
+        input.classList.add("form-control", "mt-1");
+        input.placeholder = attr.name;
+        return input;
+    }
 }

@@ -2,4 +2,4 @@
 
 namespace GreenMarket.DAL.Repositories.Interfaces;
 
-public interface IOrderRepository : IRepository<OrderEntity>;
+public interface IProductAttributeRepository : IRepository<ProductAttributeEntity>;

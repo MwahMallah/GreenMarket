@@ -18,7 +18,15 @@
                 <label for="img" class="form-label">Image</label>
                 <span asp-validation-for="Product.ImgUrl" class="text-danger field-validation-error"></span>
             </div>
+            <div class="form-group">
+                <textarea asp-for="Product.Description" id="description" 
+                          class="form-control" placeholder="Description" rows="5"></textarea>
+                <span asp-validation-for="Product.Description" class="text-danger field-validation-error"></span>
+            </div>
             <div id="category_container">
+                <div class="col-12">
+                    <h5 class="text-center">Category</h5>
+                </div>
                 <select id="category_select" selector_num="1">
                     <option value="">--Choose Category--</option>
                     @foreach (var category in Model.CategoryList)
@@ -27,10 +35,10 @@
                     }
                 </select>
             </div>
-            <div class="form-group">
-                <textarea asp-for="Product.Description" id="description" 
-                          class="form-control" placeholder="Description" rows="5"></textarea>
-                <span asp-validation-for="Product.Description" class="text-danger field-validation-error"></span>
+        </div>
+        <div class="row mt-3" id="attribute_container">
+            <div class="col-12">
+                <h5 class="text-center">Attributes</h5>
             </div>
         </div>
         <div class="row mt-2">
@@ -43,4 +51,4 @@
 </div>
 
 <script src="/js/validation.js"></script>
-<script src="/js/create_product.js"></script>
+<script src="/js/choose_category.js"></script>

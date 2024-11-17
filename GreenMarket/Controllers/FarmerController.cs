@@ -4,6 +4,7 @@ using GreenMarket.DAL.Repositories.Interfaces;
 using GreenMarket.Extensions;
 using GreenMarket.Models.Farmer;
 using GreenMarket.Requests;
+using GreenMarket.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -14,14 +15,17 @@ public class FarmerController : Controller
     private readonly IUserRepository _userRepository;
     private readonly ICategoryRepository _categoryRepository;
     private readonly IProductRepository _productRepository;
+    private readonly IProductAttributeRepository _productAttributeRepository;
 
     public FarmerController(IUserRepository userRepository, 
         ICategoryRepository categoryRepository,
-        IProductRepository productRepository)
+        IProductRepository productRepository,
+        IProductAttributeRepository productAttributeRepository)
     {
         _userRepository = userRepository;
         _categoryRepository = categoryRepository;
         _productRepository = productRepository;
+        _productAttributeRepository = productAttributeRepository;
     }
     public ActionResult Index()
     {
@@ -89,15 +93,39 @@ public class FarmerController : Controller
             return Unauthorized();
         }
         _productRepository.Create(newProduct);
+
+        CreateAttributeEntitiesFrom(request.Attributes, newProduct);
+        
         TempData["message"] = "You created new product";
         return RedirectToAction("Index");
     }
-
+    
     [HttpGet("Farmer/Category/{id:guid}")]
-    public ActionResult<IEnumerable<CategoryEntity>> Category(Guid id)
+    public ActionResult<IEnumerable<CategoryResponse<object>>> Category(Guid id)
     {
-        var children = _categoryRepository.GetByParentId(id);
-        return Ok(children);
+        var children = _categoryRepository.GetByParentId(id).ToList();
+        if (children.Count != 0)
+        {
+            var responseCategories = new CategoryResponse<CategoryEntity>
+            {
+                Type = "categories",
+                Payload = children
+            };
+            return Ok(responseCategories);
+        }
+
+        var category = _categoryRepository.GetById(id);
+        if (category == null)
+        {
+            return NotFound();
+        }
+
+        var responseAttributes = new CategoryResponse<AttributeEntity>()
+        {
+            Type = "attributes",
+            Payload = category.Attributes
+        };
+        return Ok(responseAttributes);
     }
 
     public IActionResult Edit(Guid id)
@@ -176,5 +204,22 @@ public class FarmerController : Controller
         };
 
         return newProduct;
+    }
+    
+    private void CreateAttributeEntitiesFrom(
+        IEnumerable<ProductCreateRequest.AttributeRequest> requestAttributes, 
+        ProductEntity product)
+    {
+        foreach (var attr in requestAttributes)
+        {
+            var attrEntity = new ProductAttributeEntity
+            {
+                Id = Guid.NewGuid(),
+                Value = attr.Value,
+                ProductId = product.Id,
+                AttributeId = attr.Id,
+            };
+            _productAttributeRepository.Create(attrEntity);
+        }
     }
 }
