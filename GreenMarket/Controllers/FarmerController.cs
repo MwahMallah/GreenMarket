@@ -131,27 +131,44 @@ public class FarmerController : Controller
     public IActionResult Edit(Guid id)
     {
         var product = _productRepository.GetById(id);
-        return View(product);
+        if (product == null)
+        {
+            return NotFound();
+        }
+        
+        var editProductViewModel = new EditProductViewModel
+        {
+            Product = product,
+            Attributes = product.Attributes
+                .Select(a => 
+                    new EditProductViewModel.AttributesViewModel()
+                    {
+                        Id = a.Id,
+                        Value = a.Value,
+                        Name = a.Attribute.Name
+                    })
+        };
+        return View(editProductViewModel);
     }
 
     [HttpPost]
-    public IActionResult Edit(ProductEntity product)
+    public IActionResult Edit(EditProductViewModel productViewModel)
     {
-        if (product.Name.IsNullOrEmpty())
+        if (productViewModel.Product.Name.IsNullOrEmpty())
         {
             ModelState.AddModelError("Name", "Name is required");
-            return View(product);
+            return View(productViewModel);
         }
 
         if ((ModelState.ContainsKey("Stock") && ModelState["Stock"]!.Errors.Any()) 
-            || product.Stock < 0)
+            || productViewModel.Product.Stock < 0)
         {
             ModelState.AddModelError("Stock", "Invalid input for stock");
-            return View(product);
+            return View(productViewModel);
         }   
         
-        _productRepository.Update(product);
-        TempData["message"] = $"You edited {product.Name}";
+        _productRepository.Update(productViewModel.Product);
+        TempData["message"] = $"You edited {productViewModel.Product.Name}";
         return RedirectToAction(nameof(Index));
     }
 
