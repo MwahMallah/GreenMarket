@@ -52,7 +52,10 @@
                         <div class="rating-text d-flex h-25">
                             <p style="color:gray">Your rating for this product</p>
                         </div>
-                        <div class="rating rating__set mt-3">
+                        
+                        <div class="rating 
+                                    @(order.Status == OrderStatus.Delivered ? "rating__set" : "") 
+                                    mt-3">
                             <div class="rating__body">
                                 <div class="rating__active"></div>
                                 <div class="rating__items">
@@ -67,10 +70,18 @@
                                 </div>
                             </div>
                             <div class="rating__value text-muted">
-                                @((order.Rating.HasValue)
-                                    ? order.Rating.Value
-                                        .ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)
-                                    : "Rate this product")
+                                @if (order.Status == OrderStatus.Active)
+                                {
+                                    @:Not delivered yet
+                                }
+                                else
+                                {
+                                    @((order.Rating.HasValue)
+                                        ? order.Rating.Value
+                                            .ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)
+                                        : "Rate this product")
+                                }
+
                             </div>
                         </div>
                     </div>
