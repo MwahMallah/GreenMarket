@@ -32,12 +32,17 @@ public class ProductRepository : RepositoryBase<ProductEntity>, IProductReposito
             .Include(p => p.Orders);
     }
 
-    //Deletes all orders and product itself in one db transaction
+    //Deletes all orders, attributes and product itself in one db transaction
     public override void Delete(ProductEntity entity)
     {
         foreach (var order in entity.Orders)
         {
             _dbContext.Orders.Remove(order);
+        }
+
+        foreach (var attribute in entity.Attributes)
+        {
+            _dbContext.ProductAttribute.Remove(attribute);
         }
 
         _dbContext.Products.Remove(entity);
