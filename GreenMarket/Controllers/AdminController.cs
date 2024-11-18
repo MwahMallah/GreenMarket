@@ -32,7 +32,7 @@ public class AdminController : Controller
     {
         if (ModelState.IsValid)
         {
-            _userRepository.Create(createUserViewModel.UserEntity);
+            _userRepository.Create(createUserViewModel.User);
             return RedirectToAction(nameof(Index));
         }
         return View(createUserViewModel);

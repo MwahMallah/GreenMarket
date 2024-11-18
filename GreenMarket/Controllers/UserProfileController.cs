@@ -11,12 +11,12 @@ namespace GreenMarket.Controllers;
 public class UserProfileController : Controller
 {
     private readonly IUserRepository _userRepository;
-    private readonly IUserOrderRepository _userOrderRepository;
+    private readonly IOrderRepository _orderRepository;
 
-    public UserProfileController(IUserRepository userRepository, IUserOrderRepository userOrderRepository)
+    public UserProfileController(IUserRepository userRepository, IOrderRepository orderRepository)
     {
         _userRepository = userRepository;
-        _userOrderRepository = userOrderRepository;
+        _orderRepository = orderRepository;
     }
     public ActionResult Index(Guid id)
     {
@@ -64,7 +64,7 @@ public class UserProfileController : Controller
     [HttpPost]
     public ActionResult RateProduct([FromBody] OrderRatingRequest request)
     {
-        var order = _userOrderRepository.GetById(request.OrderId);
+        var order = _orderRepository.GetById(request.OrderId);
         if (order == null)
         {
             return NotFound();
@@ -76,7 +76,7 @@ public class UserProfileController : Controller
         }
 
         order.Rating = request.Rating;
-        _userOrderRepository.Update(order);
+        _orderRepository.Update(order);
         
         return Ok($"Thank you for your review!");
     }

@@ -1,0 +1,54 @@
+﻿@model CreateProductViewModel
+
+<div class="container">
+    <div class="row">
+        <h2 class="text-success">Create Product</h2>
+    </div>
+    <form method="post" id="createProductForm">
+        <div class="row gy-2">
+            <div class="form-floating">
+                <input asp-for="Product.Name" type="text" id="name" 
+                       class="form-control validation_required" placeholder="Name">
+                <label for="name" class="form-label">Name</label>
+                <span asp-validation-for="Product.Name" class="text-danger field-validation-error"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Product.ImgUrl" type="text" id="img" 
+                       class="form-control" placeholder="Image url">
+                <label for="img" class="form-label">Image</label>
+                <span asp-validation-for="Product.ImgUrl" class="text-danger field-validation-error"></span>
+            </div>
+            <div class="form-group">
+                <textarea asp-for="Product.Description" id="description" 
+                          class="form-control" placeholder="Description" rows="5"></textarea>
+                <span asp-validation-for="Product.Description" class="text-danger field-validation-error"></span>
+            </div>
+            <div id="category_container">
+                <div class="col-12">
+                    <h5 class="text-center">Category</h5>
+                </div>
+                <select id="category_select" selector_num="1">
+                    <option value="">--Choose Category--</option>
+                    @foreach (var category in Model.CategoryList)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row mt-3" id="attribute_container">
+            <div class="col-12">
+                <h5 class="text-center">Attributes</h5>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div>
+                <button type="submit" class="btn btn-success submit-btn">Submit</button>
+                <a asp-action="Index" class="btn btn-dark">Back to List</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="/js/validation.js"></script>
+<script src="/js/choose_category.js"></script>

@@ -1,0 +1,94 @@
+﻿@model UserEntity
+
+<link rel="stylesheet" href="/css/rating.css">
+<link rel="stylesheet" href="/css/product_list.css">
+
+<style>
+    .card {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .card img {
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        max-height: 200px;
+        object-fit: cover;
+    }
+
+    .card-footer {
+        background-color: #f8f9fa;
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+        color: #333;
+    }
+</style>
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">Your Orders</h2>
+    <div class="row g-4">
+        @foreach (var order in Model.Orders)
+        {
+            <div class="col-12 col-md-6 col-lg-4">
+                <!-- Clickable card -->
+                <a class="card h-100 text-decoration-none shadow-sm"
+                   asp-controller="Products" asp-action="Product" asp-route-id="@order.Product.Id">
+                    <img src="@order.Product.ImgUrl" alt="@order.Product.Name" class="card-img-top">
+                    
+                    <div class="card-body">
+                        <h5 class="card-title">@order.Product.Name</h5>
+                        <p class="card-text">Amount: <strong>@order.Amount</strong></p>
+                    </div>
+                    <div class="card-footer pb-0">
+                        <div class="rating-text d-flex h-25">
+                            <p style="color:gray">Your rating for this product</p>
+                        </div>
+                        
+                        <div class="rating 
+                                    @(order.Status == OrderStatus.Delivered ? "rating__set" : "") 
+                                    mt-3">
+                            <div class="rating__body">
+                                <div class="rating__active"></div>
+                                <div class="rating__items">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <input  type="radio"
+                                                value="@i"
+                                                order_id="@order.Id"
+                                                name="rating_@order.Id"
+                                                class="rating__item">
+                                    }
+                                </div>
+                            </div>
+                            <div class="rating__value text-muted">
+                                @if (order.Status == OrderStatus.Active)
+                                {
+                                    @:Not delivered yet
+                                }
+                                else
+                                {
+                                    @((order.Rating.HasValue)
+                                        ? order.Rating.Value
+                                            .ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)
+                                        : "Rate this product")
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<script src="/js/rating.js"></script>

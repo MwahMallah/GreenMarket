@@ -18,7 +18,7 @@ public class ProductRepository : RepositoryBase<ProductEntity>, IProductReposito
         return _dbContext.Products
             .Include(p => p.Attributes)
                 .ThenInclude(pa => pa.Attribute)
-            .Include(p => p.Customers)
+            .Include(p => p.Orders)
                 .ThenInclude(c => c.User)
             .FirstOrDefault(p => p.Id == id);
     }
@@ -29,6 +29,34 @@ public class ProductRepository : RepositoryBase<ProductEntity>, IProductReposito
             .Where(p => p.CategoryId == categoryId)
             .Include(p => p.Attributes)
             .ThenInclude(pa => pa.Attribute)
-            .Include(p => p.Customers);
+            .Include(p => p.Orders);
+    }
+
+    //Deletes all orders, attributes and product itself in one db transaction
+    public override void Delete(ProductEntity entity)
+    {
+        foreach (var order in entity.Orders)
+        {
+            _dbContext.Orders.Remove(order);
+        }
+
+        foreach (var attribute in entity.Attributes)
+        {
+            _dbContext.ProductAttribute.Remove(attribute);
+        }
+
+        _dbContext.Products.Remove(entity);
+        _dbContext.SaveChanges();
+    }
+
+    public override void Update(ProductEntity updatedEntity)
+    {
+        foreach (var attr in updatedEntity.Attributes)
+        {
+            _dbContext.ProductAttribute.Update(attr);
+        }
+
+        _dbContext.Products.Update(updatedEntity);
+        _dbContext.SaveChanges();
     }
 }

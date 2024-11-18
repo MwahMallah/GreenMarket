@@ -1,23 +1,24 @@
-﻿@model ProductViewModel
+﻿@model UserEntity
 
 <link rel="stylesheet" href="/css/rating.css"/>
 <link rel="stylesheet" href="/css/product_list.css">
 
-<div class="d-flex align-items-center mb-3">
-    @foreach (var parent in Model.ParentList)
-    {
-        <a asp-action="Categories" asp-route-id="@parent.Id">
-            @parent.Name
+
+<div class="container-fluid">
+    
+<div class="row align-items-center">
+    <div class="col-6">
+        <h2 class="fs-1">Your Products</h2>
+    </div>
+    <div class="col-6 text-end">
+        <a class="btn btn-success" asp-controller="Farmer" asp-action="Create">
+            <i class="bi bi-plus-square"></i> Add New Product
         </a>
-        @if (parent != Model.ParentList.Last())
-        {
-            <i class="bi bi-arrow-right-short"></i>
-        }
-    }
+    </div>
 </div>
 
 <div class="container-fluid">
-    @foreach (var product in Model.Products)
+    @foreach (var product in Model.CreatedProducts)
     {
         <div class="row align-items-center border rounded my-1 p-2 product-list-item">
             <!-- Image Column -->
@@ -69,12 +70,29 @@
                 </div>
             </div>
 
-            <!-- Order Button Column -->
             <div class="col-12 col-md-2 text-center">
-                <a class="btn btn-primary" asp-action="Product" asp-route-id="@product.Id">See Details</a>
+                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@product.Id">Edit</a>
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@product.Id">Delete</a>
             </div>
         </div>
     }
 </div>
+</div>
+
+<script >
+    @if (TempData["message"] != null)
+    {
+        <text>
+            Toastify({
+                text: @TempData["message"],
+                duration: 3000,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "green",
+                stopOnFocus: true
+            }).showToast();
+        </text>
+    }
+</script>
 
 <script src="/js/rating.js"></script>

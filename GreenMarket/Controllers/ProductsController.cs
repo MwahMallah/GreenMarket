@@ -116,13 +116,20 @@ public class ProductsController : Controller
             return NotFound();
         }
 
-        var uo = new UserOrderEntity
+        if (amount > product.Stock)
+        {
+            return BadRequest();
+        }
+
+        product.Stock -= amount;
+        var uo = new OrderEntity
         {
             UserId = user.Id,
             ProductId = product.Id,
             Amount = amount
         };
         
+        _productRepository.Update(product);
         user.Orders.Add(uo);
         _userRepository.Update(user);
         TempData["message"] = $"You ordered {product.Name}!";

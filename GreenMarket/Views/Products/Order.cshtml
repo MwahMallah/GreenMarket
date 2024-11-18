@@ -9,7 +9,9 @@
                     <label for="amount" class="mr-2 text-center">Amount:</label>
                 </div>
                 <div class="col">
-                    <input type="number" name="amount" id="amount" class="form-control" style="max-width: 150px;" min="1" max="100" step="1" value="1" required>
+                    <input type="number" name="amount" id="amount" 
+                           class="form-control" style="max-width: 150px;"
+                           min="1" max="100" step="1" value="1" required>
                 </div>
             </div>
         </div>
@@ -22,7 +24,7 @@
                     <button type="button" class="btn btn-danger">Cancel</button>
                 </div>
                 <div class="col">
-                    <button type="submit" class="btn btn-success">Buy!</button>
+                    <button type="submit" class="btn btn-success submit-btn">Buy!</button>
                 </div>
             </div>
         </div>
@@ -30,14 +32,47 @@
 </div>
 
 <script>
-    // Script to calculate and update total price based on user input
+    @{
+        var attr = Model.Attributes.FirstOrDefault(a => a.Attribute.Name.StartsWith("Price"));
+        var price = 0;
+        if (attr != null) {
+            price = Convert.ToInt32(attr.Value);
+        }
+    }
+    // Set initial value
+    const displayTotalPrice = document.getElementById('totalPrice');
+    displayTotalPrice.textContent = `$${(@price).toFixed(2)}`;
+    
+    // Calculate and update total price based on user input
     document.getElementById('amount').addEventListener('input', function() {
-        const amount = parseInt(this.value) || 1;
-        const pricePerItem = @Model.Attributes.FirstOrDefault(a => a.Attribute.Name == "Price/piece");
-        document.getElementById('totalPrice').textContent = `$${(amount * pricePerItem).toFixed(2)}`;
+        const amount = parseInt(this.value) || 0;
+        const price = @price;
+        displayTotalPrice.textContent = `$${(amount * price).toFixed(2)}`;
     });
 </script>
 
+<script >
+    const submitBtn = document.querySelector(".submit-btn");
+    const amountInput = document.querySelector("#amount");
+    const inStock = Number(@Model.Stock);
+    
+    amountInput.addEventListener("change", (e) => {
+        const input = e.target;
+        const amount = Number(input.value);
+        
+        if (amount > inStock) {
+            submitBtn.disabled = true;
+            input.classList.add('border');
+            input.classList.add('border-3');
+            input.classList.add('border-danger');
+        } else {
+            submitBtn.disabled = false;
+            input.classList.remove('border');
+            input.classList.remove('border-3');
+            input.classList.remove('border-danger');
+        }
+    });
+</script>
 
 <script>
     // Display TempData message as a toast notification if it's available

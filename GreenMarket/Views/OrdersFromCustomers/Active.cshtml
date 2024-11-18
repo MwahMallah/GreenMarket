@@ -1,0 +1,76 @@
+﻿@model IEnumerable<OrderEntity>
+
+<link rel="stylesheet" href="/css/rating.css"/>
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-center mb-3">
+        <div class="btn-group" role="group">
+            <a  class="btn btn-outline-primary active">Active</a>
+            <a asp-action="Delivered" 
+               class="btn btn-outline-success">Delivered</a>
+        </div>
+    </div>
+    @foreach (var order in Model)
+    {
+        <div class="row align-items-center border rounded my-1 p-2 product-list-item">
+            <!-- Image Column -->
+            <div class="col-12 col-md-2 text-center rounded product-image-wrap">
+                <img src="@order.Product.ImgUrl" alt="Product image" class="img-fluid rounded product-image">
+            </div>
+
+            <div class="col-12 col-md-8">
+                <h5>
+                    <span class="text-primary">@order.User.Name</span>
+                    <span class="text-muted">requested:</span>
+                    <a asp-controller="Products" asp-action="Product"
+                       asp-route-id="@order.ProductId" class="text-success text-decoration-none">
+                        @order.Product.Name
+                    </a>
+                </h5>
+                <div class="row">
+                    <div class="rating">
+                        <div class="rating__body">
+                            <div class="rating__active"></div>
+                            <div class="rating__items">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <input type="radio"
+                                           value="@i"
+                                           name="rating"
+                                           class="rating__item">
+                                }
+                            </div>
+                        </div>
+                        <div class="rating__value">
+                            Product is not delivered yet
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Button Column -->
+            <div class="col-12 col-md-2 text-center">
+                <a class="btn btn-primary" 
+                   asp-action="Deliver" asp-route-id="@order.Id">Delivered</a>
+            </div>
+        </div>
+    }
+</div>
+
+<script >
+    @if (TempData["message"] != null)
+    {
+        <text>
+            Toastify({
+                text: '@TempData["message"]',
+                duration: 3000,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "blue",
+                stopOnFocus: true
+            }).showToast();
+        </text>
+    }
+</script>
+
+<script src="/js/rating.js"></script>

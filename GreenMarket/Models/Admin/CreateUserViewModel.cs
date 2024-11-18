@@ -6,7 +6,7 @@ namespace GreenMarket.Models.Admin;
 
 public record CreateUserViewModel
 {
-    public UserEntity UserEntity { get; set; } = null!;
+    public UserEntity User { get; set; } = null!;
 
     public IEnumerable<SelectListItem> RolesList => Enum.GetValues(typeof(UserRole))
         .Cast<UserRole>()

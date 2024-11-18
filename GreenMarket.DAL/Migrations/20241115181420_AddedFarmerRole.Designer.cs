@@ -4,6 +4,7 @@ using GreenMarket.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GreenMarket.DAL.Migrations
 {
     [DbContext(typeof(GreenMarketDbContext))]
-    partial class GreenMarketDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241115181420_AddedFarmerRole")]
+    partial class AddedFarmerRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,20 +48,20 @@ namespace GreenMarket.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6c7995ed-96d9-4c77-bb00-e4091e431903"),
-                            CategoryId = new Guid("70c6d3aa-38b8-43fa-89e3-6309a1facab5"),
+                            Id = new Guid("15934a20-50de-4687-8e5e-795d3bdca53f"),
+                            CategoryId = new Guid("1bf91e74-593b-493a-8510-e2fd83076338"),
                             Name = "Price/kg"
                         },
                         new
                         {
-                            Id = new Guid("ec8b8385-071e-4b5d-a63f-d2e69dbf787a"),
-                            CategoryId = new Guid("96ca1175-1efe-4574-8d3c-71725871abe5"),
+                            Id = new Guid("e1514f97-d1cc-4448-a056-d8f91a4a2dfd"),
+                            CategoryId = new Guid("ba17940e-faf2-4478-90ef-93069199c134"),
                             Name = "Price/piece"
                         },
                         new
                         {
-                            Id = new Guid("c5ad7cd8-55ff-4a83-a4e1-aa2c3dc9a797"),
-                            CategoryId = new Guid("96ca1175-1efe-4574-8d3c-71725871abe5"),
+                            Id = new Guid("4f5ef285-2ea0-42ba-bfce-8665a68129f1"),
+                            CategoryId = new Guid("ba17940e-faf2-4478-90ef-93069199c134"),
                             Name = "Place of origin"
                         });
                 });
@@ -90,95 +93,65 @@ namespace GreenMarket.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4e680d2d-dac6-42af-bb89-e693ba143b85"),
+                            Id = new Guid("c97f2c98-fdea-43ea-a7fc-e1cd9a07b3d0"),
                             Name = "Crops"
                         },
                         new
                         {
-                            Id = new Guid("56907d5f-2054-404b-999a-83f1c5ec8b54"),
+                            Id = new Guid("b0bfa7f4-bf7f-4e1b-9965-f39ff5cc74b2"),
                             ImgUrl = "https://www.healthyeating.org/images/default-source/home-0.0/nutrition-topics-2.0/general-nutrition-wellness/2-2-2-3foodgroups_fruits_detailfeature_thumb.jpg?sfvrsn=7abe71fe_4",
                             Name = "Fruits",
-                            ParentId = new Guid("4e680d2d-dac6-42af-bb89-e693ba143b85")
+                            ParentId = new Guid("c97f2c98-fdea-43ea-a7fc-e1cd9a07b3d0")
                         },
                         new
                         {
-                            Id = new Guid("088f01a4-7061-4158-bd3e-a56a461dd96b"),
+                            Id = new Guid("0dc0482d-3698-4ef9-8ea1-9a0d47980cd6"),
                             ImgUrl = "https://cdn.britannica.com/17/196817-159-9E487F15/vegetables.jpg",
                             Name = "Vegetables",
-                            ParentId = new Guid("4e680d2d-dac6-42af-bb89-e693ba143b85")
+                            ParentId = new Guid("c97f2c98-fdea-43ea-a7fc-e1cd9a07b3d0")
                         },
                         new
                         {
-                            Id = new Guid("c13f3cc0-24ce-4453-98f8-cc814b7d6806"),
+                            Id = new Guid("63c32b8a-e3bb-417a-908c-7bfd68ef79ca"),
                             ImgUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNIY9W5DxVGXTtV4gR1ZU5qipQsRkpK2pZ3Q&s",
                             Name = "Tomato",
-                            ParentId = new Guid("088f01a4-7061-4158-bd3e-a56a461dd96b")
+                            ParentId = new Guid("0dc0482d-3698-4ef9-8ea1-9a0d47980cd6")
                         },
                         new
                         {
-                            Id = new Guid("bfe85c2d-92bf-4191-8000-1eee2ec4f700"),
+                            Id = new Guid("1c0bb4fe-55ac-4ad5-a743-af5a49645400"),
                             ImgUrl = "https://volyne.e-coop.cz/pub/media/catalog/product/cache/5e943ec86580054ec2fda73128d751b9/e/p/ep_2004800329.jpeg",
                             Name = "Tomino",
-                            ParentId = new Guid("c13f3cc0-24ce-4453-98f8-cc814b7d6806")
+                            ParentId = new Guid("63c32b8a-e3bb-417a-908c-7bfd68ef79ca")
                         },
                         new
                         {
-                            Id = new Guid("abb2c05e-ddf5-433a-b92c-7f19d5bf0b1b"),
+                            Id = new Guid("5a93dfb9-ce8c-4762-85f3-f80311bd623a"),
                             ImgUrl = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSaogrbCqgly8ABLDeqzUKy3Q73FtM_p1XeKseySN5uIjauTVtz",
                             Name = "Roma",
-                            ParentId = new Guid("c13f3cc0-24ce-4453-98f8-cc814b7d6806")
+                            ParentId = new Guid("63c32b8a-e3bb-417a-908c-7bfd68ef79ca")
                         },
                         new
                         {
-                            Id = new Guid("70c6d3aa-38b8-43fa-89e3-6309a1facab5"),
+                            Id = new Guid("1bf91e74-593b-493a-8510-e2fd83076338"),
                             ImgUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Patates.jpg/1200px-Patates.jpg",
                             Name = "Potato",
-                            ParentId = new Guid("088f01a4-7061-4158-bd3e-a56a461dd96b")
+                            ParentId = new Guid("0dc0482d-3698-4ef9-8ea1-9a0d47980cd6")
                         },
                         new
                         {
-                            Id = new Guid("c580b352-f047-4331-a404-4cdc7c6b5135"),
+                            Id = new Guid("05b93b19-15e2-4c7d-99a0-a07aa978c043"),
                             ImgUrl = "https://btiscience.org/wp-content/uploads/US-Watermelon-Varieties_600dpi.jpg",
                             Name = "Watermelon",
-                            ParentId = new Guid("56907d5f-2054-404b-999a-83f1c5ec8b54")
+                            ParentId = new Guid("b0bfa7f4-bf7f-4e1b-9965-f39ff5cc74b2")
                         },
                         new
                         {
-                            Id = new Guid("96ca1175-1efe-4574-8d3c-71725871abe5"),
+                            Id = new Guid("ba17940e-faf2-4478-90ef-93069199c134"),
                             ImgUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSp05ca_Cf1CqlqghC5DgeX3PNdU-Kup6h1GQ&s",
                             Name = "Avocado",
-                            ParentId = new Guid("56907d5f-2054-404b-999a-83f1c5ec8b54")
+                            ParentId = new Guid("b0bfa7f4-bf7f-4e1b-9965-f39ff5cc74b2")
                         });
-                });
-
-            modelBuilder.Entity("GreenMarket.DAL.Entities.OrderEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<float?>("Rating")
-                        .HasColumnType("real");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("GreenMarket.DAL.Entities.ProductAttributeEntity", b =>
@@ -208,44 +181,44 @@ namespace GreenMarket.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d8ec25ea-2ffe-408d-9eb3-fba0bce97bc3"),
-                            AttributeId = new Guid("ec8b8385-071e-4b5d-a63f-d2e69dbf787a"),
-                            ProductId = new Guid("5041b425-ae79-4eae-b645-b6a24da1cf05"),
+                            Id = new Guid("485435d2-395d-4de4-b6c3-0659998c64e7"),
+                            AttributeId = new Guid("e1514f97-d1cc-4448-a056-d8f91a4a2dfd"),
+                            ProductId = new Guid("b02d4baa-d725-47aa-8085-4ed196b7b890"),
                             Value = "25"
                         },
                         new
                         {
-                            Id = new Guid("9cc27315-9b42-424f-a6cd-3a94ec12d6b2"),
-                            AttributeId = new Guid("ec8b8385-071e-4b5d-a63f-d2e69dbf787a"),
-                            ProductId = new Guid("beac6e66-715a-431f-8fd9-2e0fee87009d"),
+                            Id = new Guid("2a181756-7faf-437b-9178-23b5617b8ac7"),
+                            AttributeId = new Guid("e1514f97-d1cc-4448-a056-d8f91a4a2dfd"),
+                            ProductId = new Guid("c8b673b5-d193-45c0-9ef0-15273c96e198"),
                             Value = "35"
                         },
                         new
                         {
-                            Id = new Guid("f8b4a051-c06c-4ab7-9f0c-296f4b8af533"),
-                            AttributeId = new Guid("6c7995ed-96d9-4c77-bb00-e4091e431903"),
-                            ProductId = new Guid("aa6fe39f-9ed5-4c9b-bc27-2e537f02ad39"),
+                            Id = new Guid("5be18a08-29ad-4610-b1fc-7a76ae6e9836"),
+                            AttributeId = new Guid("15934a20-50de-4687-8e5e-795d3bdca53f"),
+                            ProductId = new Guid("cd20730f-fb32-401f-90f7-5630c240b42a"),
                             Value = "100"
                         },
                         new
                         {
-                            Id = new Guid("dff56e69-de33-438a-99da-41b7340bcc9b"),
-                            AttributeId = new Guid("6c7995ed-96d9-4c77-bb00-e4091e431903"),
-                            ProductId = new Guid("e92a4076-c1bd-42dd-9772-da3e2a79e113"),
+                            Id = new Guid("dd518cb7-747b-4cfb-a702-905519afe4bf"),
+                            AttributeId = new Guid("15934a20-50de-4687-8e5e-795d3bdca53f"),
+                            ProductId = new Guid("6c652ade-e64b-49b7-99f3-6caee45738b4"),
                             Value = "80"
                         },
                         new
                         {
-                            Id = new Guid("e20b0bef-aa87-44bd-b452-42ef6db720b6"),
-                            AttributeId = new Guid("c5ad7cd8-55ff-4a83-a4e1-aa2c3dc9a797"),
-                            ProductId = new Guid("5041b425-ae79-4eae-b645-b6a24da1cf05"),
+                            Id = new Guid("462d8043-e9a0-468e-8ded-0daaf065d388"),
+                            AttributeId = new Guid("4f5ef285-2ea0-42ba-bfce-8665a68129f1"),
+                            ProductId = new Guid("b02d4baa-d725-47aa-8085-4ed196b7b890"),
                             Value = "Czechia"
                         },
                         new
                         {
-                            Id = new Guid("7254bab6-a69e-4642-bc0e-c194ca919c45"),
-                            AttributeId = new Guid("c5ad7cd8-55ff-4a83-a4e1-aa2c3dc9a797"),
-                            ProductId = new Guid("beac6e66-715a-431f-8fd9-2e0fee87009d"),
+                            Id = new Guid("a34587fe-b7b1-4af1-95f0-b9ee6f28ca8d"),
+                            AttributeId = new Guid("4f5ef285-2ea0-42ba-bfce-8665a68129f1"),
+                            ProductId = new Guid("c8b673b5-d193-45c0-9ef0-15273c96e198"),
                             Value = "Puerto Rico"
                         });
                 });
@@ -257,9 +230,6 @@ namespace GreenMarket.DAL.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CreatorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
@@ -274,97 +244,74 @@ namespace GreenMarket.DAL.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Stock")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("CreatorId");
 
                     b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e92a4076-c1bd-42dd-9772-da3e2a79e113"),
-                            CategoryId = new Guid("70c6d3aa-38b8-43fa-89e3-6309a1facab5"),
-                            CreatorId = new Guid("31fd6327-048f-44bd-be12-99911bb27240"),
+                            Id = new Guid("6c652ade-e64b-49b7-99f3-6caee45738b4"),
+                            CategoryId = new Guid("1bf91e74-593b-493a-8510-e2fd83076338"),
                             ImgUrl = "https://seedlefarms.com/wp-content/uploads/2022/01/Orange-Sweet-Potatoe.jpg",
-                            Name = "Orange sweet",
-                            Stock = 3
+                            Name = "Orange sweet"
                         },
                         new
                         {
-                            Id = new Guid("aa6fe39f-9ed5-4c9b-bc27-2e537f02ad39"),
-                            CategoryId = new Guid("70c6d3aa-38b8-43fa-89e3-6309a1facab5"),
-                            CreatorId = new Guid("31fd6327-048f-44bd-be12-99911bb27240"),
+                            Id = new Guid("cd20730f-fb32-401f-90f7-5630c240b42a"),
+                            CategoryId = new Guid("1bf91e74-593b-493a-8510-e2fd83076338"),
                             ImgUrl = "https://www.kroger.com/product/images/large/front/0000000004072?banner=harristeeter",
-                            Name = "Russet",
-                            Stock = 4
+                            Name = "Russet"
                         },
                         new
                         {
-                            Id = new Guid("edfa3025-e45f-41de-90a1-32233f0a59a4"),
-                            CategoryId = new Guid("bfe85c2d-92bf-4191-8000-1eee2ec4f700"),
-                            CreatorId = new Guid("bab0fb5f-b90e-4790-9cdf-fed3df5cae3f"),
+                            Id = new Guid("a846a308-6197-4b58-9601-1f235a8c2d46"),
+                            CategoryId = new Guid("1c0bb4fe-55ac-4ad5-a743-af5a49645400"),
                             Description = "A sweet and smooth tomino, offering a unique balance of sweetness and creaminess.",
-                            Name = "Anton's tasty tomino",
-                            Stock = 5
+                            Name = "Anton's tasty tomino"
                         },
                         new
                         {
-                            Id = new Guid("32234a9a-228c-4b30-9587-723adf26effd"),
-                            CategoryId = new Guid("bfe85c2d-92bf-4191-8000-1eee2ec4f700"),
-                            CreatorId = new Guid("65f33e11-6465-4cd0-bb4b-fa945995704c"),
+                            Id = new Guid("fbdf79bb-97cf-4634-aff0-85abe7e9cd83"),
+                            CategoryId = new Guid("1c0bb4fe-55ac-4ad5-a743-af5a49645400"),
                             Description = "A delicious, creamy tomino with a rich, savory flavor. Perfect for any tomato lover!",
-                            Name = "Ilya's sweet tomino",
-                            Stock = 1
+                            Name = "Ilya's sweet tomino"
                         },
                         new
                         {
-                            Id = new Guid("50324501-3993-42eb-a6d1-6c00792f3742"),
-                            CategoryId = new Guid("c580b352-f047-4331-a404-4cdc7c6b5135"),
-                            CreatorId = new Guid("bab0fb5f-b90e-4790-9cdf-fed3df5cae3f"),
-                            Name = "Augusta",
-                            Stock = 2
+                            Id = new Guid("d968e190-7fef-43cc-a8cd-6cd4b2c527d8"),
+                            CategoryId = new Guid("05b93b19-15e2-4c7d-99a0-a07aa978c043"),
+                            Name = "Augusta"
                         },
                         new
                         {
-                            Id = new Guid("457d8f40-00f7-42a6-b451-af0c11e36a1b"),
-                            CategoryId = new Guid("c580b352-f047-4331-a404-4cdc7c6b5135"),
-                            CreatorId = new Guid("bab0fb5f-b90e-4790-9cdf-fed3df5cae3f"),
-                            Name = "Dragon King",
-                            Stock = 3
+                            Id = new Guid("1abc58dc-0062-4830-942d-692cb66e01b8"),
+                            CategoryId = new Guid("05b93b19-15e2-4c7d-99a0-a07aa978c043"),
+                            Name = "Dragon King"
                         },
                         new
                         {
-                            Id = new Guid("dd833414-298c-41a7-b225-9a5b8d199926"),
-                            CategoryId = new Guid("c580b352-f047-4331-a404-4cdc7c6b5135"),
-                            CreatorId = new Guid("bab0fb5f-b90e-4790-9cdf-fed3df5cae3f"),
-                            Name = "Happy family",
-                            Stock = 10
+                            Id = new Guid("96107e57-6644-4efb-ad98-c245298c52cf"),
+                            CategoryId = new Guid("05b93b19-15e2-4c7d-99a0-a07aa978c043"),
+                            Name = "Happy family"
                         },
                         new
                         {
-                            Id = new Guid("5041b425-ae79-4eae-b645-b6a24da1cf05"),
-                            CategoryId = new Guid("96ca1175-1efe-4574-8d3c-71725871abe5"),
-                            CreatorId = new Guid("31fd6327-048f-44bd-be12-99911bb27240"),
+                            Id = new Guid("b02d4baa-d725-47aa-8085-4ed196b7b890"),
+                            CategoryId = new Guid("ba17940e-faf2-4478-90ef-93069199c134"),
                             Description = "Fuerte avocados are medium to large with smooth, thick skin and a mild, creamy flavor. Perfect for slicing and enjoying in salads, or on toast.",
                             ImgUrl = "https://www.tomorrowsharvest.com/store/pub/media/catalog/product/cache/49e19764d17a195b05fde2ec48914513/2/2/2210_fuerte_avocado_fruit-full.jpg",
-                            Name = "Fuerte",
-                            Stock = 11
+                            Name = "Fuerte"
                         },
                         new
                         {
-                            Id = new Guid("beac6e66-715a-431f-8fd9-2e0fee87009d"),
-                            CategoryId = new Guid("96ca1175-1efe-4574-8d3c-71725871abe5"),
-                            CreatorId = new Guid("28398fc8-c192-4461-bf6e-204c592e8c80"),
+                            Id = new Guid("c8b673b5-d193-45c0-9ef0-15273c96e198"),
+                            CategoryId = new Guid("ba17940e-faf2-4478-90ef-93069199c134"),
                             Description = "Gwen avocados are a variety known for their creamy texture and rich, nutty flavor. They are slightly smaller than Has avocados and have a smoother texture.",
                             ImgUrl = "https://www.producemarketguide.com/media/user_v1oz1Yz27j/584/gwen-avocado_variety-page.png",
-                            Name = "Gwen",
-                            Stock = 5
+                            Name = "Gwen"
                         });
                 });
 
@@ -410,7 +357,7 @@ namespace GreenMarket.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2fd8596e-6d7f-4928-9614-5c32563d93b1"),
+                            Id = new Guid("91c99720-f88f-4159-b6b3-4e1033c535e9"),
                             Email = "admin@admin.com",
                             ImgUrl = "",
                             Name = "admin",
@@ -420,7 +367,7 @@ namespace GreenMarket.DAL.Migrations
                         },
                         new
                         {
-                            Id = new Guid("31fd6327-048f-44bd-be12-99911bb27240"),
+                            Id = new Guid("68ef8e8b-36f8-44dc-816a-296234b27dc3"),
                             Email = "maksim@mail.com",
                             ImgUrl = "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_3x4.jpg",
                             Name = "Maksim",
@@ -430,7 +377,7 @@ namespace GreenMarket.DAL.Migrations
                         },
                         new
                         {
-                            Id = new Guid("bab0fb5f-b90e-4790-9cdf-fed3df5cae3f"),
+                            Id = new Guid("a7cfff66-39c4-4afe-ae93-75be380c23ae"),
                             Email = "anton@mail.com",
                             ImgUrl = "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg",
                             Name = "Anton",
@@ -440,24 +387,41 @@ namespace GreenMarket.DAL.Migrations
                         },
                         new
                         {
-                            Id = new Guid("28398fc8-c192-4461-bf6e-204c592e8c80"),
+                            Id = new Guid("ea6216a2-1b7e-4413-9c25-121c75318477"),
                             Email = "nastya@mail.com",
                             ImgUrl = "https://cdn.pixabay.com/photo/2021/09/20/09/17/dog-6640280_1280.jpg",
                             Name = "Nastya",
                             Password = "1234",
                             Role = 1,
                             Username = "NastyaMiro"
-                        },
-                        new
-                        {
-                            Id = new Guid("65f33e11-6465-4cd0-bb4b-fa945995704c"),
-                            Email = "ilya@mail.com",
-                            ImgUrl = "https://cdn.pixabay.com/photo/2021/09/20/09/17/dog-6640280_1280.jpg",
-                            Name = "Ilya",
-                            Password = "123456",
-                            Role = 1,
-                            Username = "IlyaVeryBad"
                         });
+                });
+
+            modelBuilder.Entity("GreenMarket.DAL.Entities.UserOrderEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserOrderEntity");
                 });
 
             modelBuilder.Entity("GreenMarket.DAL.Entities.AttributeEntity", b =>
@@ -478,25 +442,6 @@ namespace GreenMarket.DAL.Migrations
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
-                });
-
-            modelBuilder.Entity("GreenMarket.DAL.Entities.OrderEntity", b =>
-                {
-                    b.HasOne("GreenMarket.DAL.Entities.ProductEntity", "Product")
-                        .WithMany("Orders")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("GreenMarket.DAL.Entities.UserEntity", "User")
-                        .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("GreenMarket.DAL.Entities.ProductAttributeEntity", b =>
@@ -526,15 +471,26 @@ namespace GreenMarket.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GreenMarket.DAL.Entities.UserEntity", "Creator")
-                        .WithMany("CreatedProducts")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("GreenMarket.DAL.Entities.UserOrderEntity", b =>
+                {
+                    b.HasOne("GreenMarket.DAL.Entities.ProductEntity", "Product")
+                        .WithMany("Customers")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Category");
+                    b.HasOne("GreenMarket.DAL.Entities.UserEntity", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
-                    b.Navigation("Creator");
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("GreenMarket.DAL.Entities.AttributeEntity", b =>
@@ -555,13 +511,11 @@ namespace GreenMarket.DAL.Migrations
                 {
                     b.Navigation("Attributes");
 
-                    b.Navigation("Orders");
+                    b.Navigation("Customers");
                 });
 
             modelBuilder.Entity("GreenMarket.DAL.Entities.UserEntity", b =>
                 {
-                    b.Navigation("CreatedProducts");
-
                     b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618

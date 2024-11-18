@@ -17,7 +17,18 @@ public class UserRepository : RepositoryBase<UserEntity>, IUserRepository
     {
         return _dbContext.Users
             .Include(u => u.Orders)
-            .ThenInclude(o => o.Product)
+                .ThenInclude(o => o.Product)
+            .FirstOrDefault(u => u.Id == id);
+    }
+    
+    public UserEntity? GetByIdWithCreatedProducts(Guid? id)
+    {
+        return _dbContext.Users
+            .Include(u => u.CreatedProducts)
+                .ThenInclude(p => p.Attributes)
+                .ThenInclude(pa => pa.Attribute)
+            .Include(u => u.CreatedProducts)
+                .ThenInclude(p => p.Orders)
             .FirstOrDefault(u => u.Id == id);
     }
 

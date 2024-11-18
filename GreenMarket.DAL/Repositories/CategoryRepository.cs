@@ -13,6 +13,13 @@ public class CategoryRepository : RepositoryBase<CategoryEntity>, ICategoryRepos
         _dbContext = dbContext;
     }
 
+    public override CategoryEntity? GetById(Guid? id)
+    {
+        return _dbContext.Categories
+            .Include(c => c.Attributes)
+            .FirstOrDefault(c => c.Id == id);
+    }
+
     public IEnumerable<CategoryEntity> GetMain()
     {
         var root = _dbContext.Categories.FirstOrDefault(c => c.ParentId == null);
