@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using GreenMarket.Common.Enums;
 using GreenMarket.DAL.Entities.Interfaces;
 
 namespace GreenMarket.DAL.Entities;
@@ -15,7 +16,8 @@ public record OrderEntity : IEntity
     public required Guid UserId { get; set; }
     [ForeignKey(nameof(UserId))]
     public UserEntity User { get; set; } = null!;
-
+    public OrderStatus Status { get; set; } = OrderStatus.Active;
+    
     [Required]
     public required Guid ProductId { get; set; }
     [ForeignKey(nameof(ProductId))]
