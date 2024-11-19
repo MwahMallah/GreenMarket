@@ -13,6 +13,18 @@ public class CategoryRepository : RepositoryBase<CategoryEntity>, ICategoryRepos
         _dbContext = dbContext;
     }
 
+    public override CategoryEntity Create(CategoryEntity entity)
+    {
+        foreach (var attr in entity.Attributes)
+        {
+            _dbContext.Attributes.Add(attr);
+        }
+        
+        var addedEntity = _dbContext.Categories.Add(entity).Entity;
+        _dbContext.SaveChanges();
+        return addedEntity;
+    }
+
     public override CategoryEntity? GetById(Guid? id)
     {
         return _dbContext.Categories
