@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using GreenMarket.Common.Enums;
 using GreenMarket.DAL.Entities;
 using GreenMarket.DAL.Repositories.Interfaces;
 using GreenMarket.Extensions;
@@ -62,6 +63,7 @@ public class CategoryController : Controller
         
         var createdAttributes = CreateAttributeFrom(attributesList);
         
+        //create category, that waits for moderator's review
         _categoryRepository.Create(new CategoryEntity
         {
             Id = Guid.NewGuid(),
@@ -69,6 +71,7 @@ public class CategoryController : Controller
             ImgUrl = createdCategory.ImgUrl,
             ParentId = createdCategory.SelectedCategoryId,
             Attributes = createdAttributes,
+            Status = CategoryStatus.Pending
         });
         
         return RedirectToAction("Index", "Products");
