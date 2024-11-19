@@ -1,0 +1,89 @@
+﻿@model IEnumerable<CategoryEntity>
+
+<link rel="stylesheet" href="/css/product_list.css">
+
+<div class="container">
+    <div class="d-flex justify-content-center mb-3">
+        <div class="btn-group" role="group">
+            <a asp-action="Index"
+               class="btn btn-outline-primary">Proposed</a>
+            <a class="btn btn-outline-success active">Added</a>
+        </div>
+    </div>
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2>
+                Category list
+            </h2>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th class="col">Image</th>
+            <th class="col">Name</th>
+            <th class="col">Parent name</th>
+            <th class="col">Attributes</th>
+            <th class="col-2"></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@category.ImgUrl" 
+                         alt="No image" 
+                         class="img-fluid d-block mx-auto rounded" 
+                         style="width: 100px; height: 100px; object-fit: cover;">
+                </td>
+                <td>@category.Name</td>
+                <td>@category.Parent?.Name</td>
+                <td>
+                    @if (category.Attributes.Any())
+                    {
+                        <ul class="list-unstyled mb-0">
+                            @foreach (var attr in category.Attributes)
+                            {
+                                <li>
+                                    <span class="fw-bold">@attr.Name</span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span class="text-muted">No attributes</span>
+                    }
+                </td>
+                <td>
+                    <a asp-route-id="@category.Id" class="btn btn-primary mx-2"
+                       asp-action="Edit">
+                        <i class="bi bi-plus-square"></i> Edit
+                    </a>
+                    <a asp-route-id="@category.Id" class="btn btn-danger"
+                       asp-action="Delete">
+                        <i class="bi bi-trash3"></i> Delete
+                    </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<script>
+     @if (TempData["message"] != null)
+     {
+         <text>
+             Toastify({
+                text: '@TempData["message"]',
+                duration: 3000,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "green",
+                stopOnFocus: true
+             }).showToast();
+        </text>
+     }
+</script>
