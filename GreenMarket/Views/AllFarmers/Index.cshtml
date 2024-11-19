@@ -1,0 +1,64 @@
+﻿@model IEnumerable<UserEntity>
+
+<link rel="stylesheet" href="/css/rating.css">
+
+<style>
+    .product-image-wrap img {
+        width: 100px; 
+        height: 100px; 
+        object-fit: cover; 
+        border-radius: 50%; 
+    }
+</style>
+
+<div class="container-fluid">
+    @foreach (var user in Model)
+    {
+        <div class="row align-items-center border rounded my-1 p-2 product-list-item">
+            <!-- Image Column -->
+            <div class="col-12 col-md-2 text-center rounded product-image-wrap">
+                <img src="@user.ImgUrl" alt="Product image" class="img-fluid rounded product-image">
+            </div>
+
+            <!-- Attributes Column -->
+            <div class="col-12 col-md-8">
+                <h5>@user.Name</h5>
+                <div class="row">
+                    <div class="rating">
+                        <div class="rating__body">
+                            <div class="rating__active"></div>
+                            <div class="rating__items">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <input type="radio" 
+                                           value="@i" 
+                                           name="rating" 
+                                           class="rating__item">
+                                }
+                            </div>
+                        </div>
+                        <div class="rating__value">
+                             @(
+                                user.CreatedProducts.Sum(p => p.Orders.Sum(o => o.Rating)) > 0 
+                                    ? string.Format(System.Globalization.CultureInfo.InvariantCulture, 
+                                        "{0:0.0}",
+                                        user.CreatedProducts
+                                            .Sum(p => 
+                                                p.Orders.Sum(o => o.Rating)) / user
+                                            .CreatedProducts.Sum(p => p.Orders.Count()))
+                                    : "No reviews"
+                                )
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Button Column -->
+            <div class="col-12 col-md-2 text-center">
+                <a class="btn btn-primary" asp-action="Farmer" asp-route-id="@user.Id">See Details</a>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="/js/rating.js"></script>
