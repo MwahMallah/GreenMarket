@@ -12,6 +12,7 @@ public class GreenMarketDbContext : DbContext
     public DbSet<AttributeEntity> Attributes { get; set; } = null!;
     public DbSet<ProductAttributeEntity> ProductAttribute { get; set; } = null!;
     public DbSet<OrderEntity> Orders { get; set; } = null!;
+    public DbSet<HarvestEntity> Harvests { get; set; } = null!;
 
     private readonly Guid _adminId = Guid.NewGuid(); 
     private readonly Guid _maksimId = Guid.NewGuid(); 
@@ -65,6 +66,24 @@ public class GreenMarketDbContext : DbContext
             .HasOne(uo => uo.User)
             .WithMany(u => u.Orders)
             .OnDelete(DeleteBehavior.NoAction);
+        
+        modelBuilder.Entity<HarvestEntity>()
+            .HasMany(h => h.Participants)
+            .WithMany(u => u.Harvests)
+            .UsingEntity(
+                "UserHarvest", // Name of junction table
+                j => j
+                    .HasOne(typeof(UserEntity),"User")
+                    .WithMany()
+                    .HasForeignKey("UserId") // Foreign Key for users
+                    .OnDelete(DeleteBehavior.Restrict), // Delete behaviour
+                j => j
+                    .HasOne(typeof(HarvestEntity), "Harvest")
+                    .WithMany()
+                    .HasForeignKey("HarvestId") // Foreign Key for harvests
+                    .OnDelete(DeleteBehavior.Restrict)  // Delete behaviour
+            );
+
         
         SeedUsers(modelBuilder);
         SeedProductsAndCategories(modelBuilder);
