@@ -2,10 +2,10 @@ using System.Diagnostics;
 using System.Security.Claims;
 using GreenMarket.DAL.Entities;
 using GreenMarket.DAL.Repositories.Interfaces;
+using GreenMarket.Filters;
 using Microsoft.AspNetCore.Mvc;
 using GreenMarket.Models;
 using GreenMarket.Models.Products;
-using Microsoft.Identity.Client;
 
 namespace GreenMarket.Controllers;
 
@@ -59,9 +59,10 @@ public class ProductsController : Controller
         return View(nameof(Categories), categoryViewModel);
     }
 
-    public IActionResult Products(Guid categoryId)
+    public IActionResult Products(Guid categoryId, ProductsFilter? filter)
     {
         var products = _productRepository.GetByCategoryId(categoryId);
+        products = FilterProducts(products, filter);
         
         var productViewModel = new ProductViewModel()
         {
@@ -71,7 +72,7 @@ public class ProductsController : Controller
         
         return View(productViewModel);
     }
-
+    
     public IActionResult Product(Guid id)
     {
         var product = _productRepository.GetById(id);
@@ -154,5 +155,22 @@ public class ProductsController : Controller
 
         parents.Reverse();
         return parents;
+    }
+
+    private IEnumerable<ProductEntity> FilterProducts(IEnumerable<ProductEntity> products,
+        ProductsFilter? filter)
+    {
+        return filter switch
+        {
+            ProductsFilter.Default => products,
+            ProductsFilter.RatingDesc => products
+                .OrderByDescending(p => p.Orders.Select(o => o.Rating).Average()),
+            ProductsFilter.RatingAsc => products
+                .OrderBy(p => p.Orders.Select(o => o.Rating).Average()),
+            ProductsFilter.PriceDesc => products,
+            ProductsFilter.PriceAsc => products,
+            null => products,
+            _ => products
+        };
     }
 }
