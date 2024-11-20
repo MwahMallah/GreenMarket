@@ -20,6 +20,8 @@ public class ProductRepository : RepositoryBase<ProductEntity>, IProductReposito
                 .ThenInclude(pa => pa.Attribute)
             .Include(p => p.Orders)
                 .ThenInclude(c => c.User)
+            .Include(p => p.Harvests)
+                .ThenInclude(h => h.Participants)
             .FirstOrDefault(p => p.Id == id);
     }
 
