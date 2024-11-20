@@ -1,0 +1,133 @@
+﻿@model UserEntity
+
+<link rel="stylesheet" href="/css/rating.css">
+<link rel="stylesheet" href="/css/product_list.css">
+
+<div class="product-page-container">
+    <!-- User Information -->
+    <div class="text-center my-3">
+        <img src="@Model.ImgUrl" alt="User Image" class="img-fluid rounded" style="width: 150px; height: 150px; object-fit: cover;">
+        <h1 class="mt-2">@Model.Name</h1>
+    </div>
+
+    <!-- User Rating -->
+    <div class="text-center mb-4">
+        <div class="rating">
+            <div class="rating__body">
+                <div class="rating__active"></div>
+                <div class="rating__items">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <input type="radio"
+                               value="@i"
+                               name="rating"
+                               class="rating__item">
+                    }
+                </div>
+            </div>
+            <!-- Average Rating -->
+            <div class="d-flex align-items-center">
+                <strong class="mx-2">Average Rating:</strong>
+                <span class="rating__value">
+                    @(
+                    Model.CreatedProducts.SelectMany(p => p.Orders).Any()
+                        ? string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                            "{0:0.0}", Model.CreatedProducts
+                                .SelectMany(p => p.Orders)
+                                .Average(o => o.Rating))
+                        : "No reviews"
+                    )
+                </span>
+                @if (Model.CreatedProducts.SelectMany(p => p.Orders).Any())
+                {
+                    <span class="fs-6 mx-2 text-muted">
+                        (@Model.CreatedProducts.SelectMany(p => p.Orders).Count() reviews)
+                    </span>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Created by the User -->
+    @foreach (var product in Model.CreatedProducts)
+    {
+        <div class="product-container rounded border p-3 mb-3">
+        <!-- Product Header with Image and Details in one row -->
+        <div class="d-flex align-items-center">
+            <!-- Product Image -->
+            <div class="product-image-wrap text-center mr-3">
+                <img src="@product.ImgUrl" alt="@product.Name" class="img-fluid rounded product-image">
+            </div>
+
+            <!-- Product Details (Name, Rating, etc.) -->
+            <div class="flex-grow-1">
+                <div class="d-flex justify-content-between">
+                    <h5>@product.Name</h5>
+                    <span class="text-muted">
+                        <strong>Stock:</strong> 
+                        @if (product.Stock == 0)
+                        {
+                            <span class="text-danger">Out of stock 😔</span>
+                            <button class="btn btn-primary mx-2" disabled>Details</button>
+                        }
+                        else
+                        {
+                            <span>@product.Stock</span>
+                            <a asp-controller="Products" 
+                               asp-action="Product" asp-route-id="@product.Id"
+                                class="btn btn-primary mx-2">Details</a>
+                        }
+                    </span>
+                </div>
+
+                <!-- Product Rating -->
+                <div class="rating mt-2">
+                    <div class="rating__body">
+                        <div class="rating__active"></div>
+                        <div class="rating__items">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <input type="radio" 
+                                       value="@i" 
+                                       name="rating_@product.Id" 
+                                       class="rating__item">
+                            }
+                        </div>
+                    </div>
+                    <div class="rating__value">
+                        @(
+                        product.Orders.Any()
+                            ? string.Format(System.Globalization.CultureInfo.InvariantCulture, 
+                                "{0:0.0}", 
+                                product.Orders.Select(o => o.Rating).DefaultIfEmpty(0).Average())
+                            : "No reviews"
+                        )
+                    </div>
+                    @if (product.Orders.Any())
+                    {
+                        <div class="fs-6 m-lg-1">
+                            (@product.Orders.Count)
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Attributes -->
+        @if (product.Attributes.Any())
+        {
+            <ul class="list-unstyled mt-2">
+                @foreach (var attr in product.Attributes)
+                {
+                    <li>
+                        <strong>@attr.Attribute.Name:</strong> @attr.Value
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+
+    }
+</div>
+
+<script src="/js/rating.js"></script>

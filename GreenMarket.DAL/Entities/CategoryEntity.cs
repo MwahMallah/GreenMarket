@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using GreenMarket.Common.Enums;
 using GreenMarket.DAL.Entities.Interfaces;
 
 namespace GreenMarket.DAL.Entities;
@@ -19,6 +20,8 @@ public class CategoryEntity : IEntity
     [ForeignKey(nameof(ParentId))]
     public CategoryEntity? Parent { get; set; }
 
+    public CategoryStatus Status { get; set; } = CategoryStatus.Accepted;
+    
     [JsonIgnore]
     public ICollection<CategoryEntity> SubCategories { get; set; } = new List<CategoryEntity>();
     public ICollection<AttributeEntity> Attributes { get; set; } = new List<AttributeEntity>();

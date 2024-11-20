@@ -1,4 +1,5 @@
-﻿using GreenMarket.DAL.Entities;
+﻿using GreenMarket.Common.Enums;
+using GreenMarket.DAL.Entities;
 using GreenMarket.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,12 +13,14 @@ public class UserRepository : RepositoryBase<UserEntity>, IUserRepository
     {
         _dbContext = dbContext;
     }
-
+    
     public override UserEntity? GetById(Guid? id)
     {
         return _dbContext.Users
             .Include(u => u.Orders)
                 .ThenInclude(o => o.Product)
+            .Include(u => u.CreatedProducts)
+                .ThenInclude(p => p.Orders)
             .FirstOrDefault(u => u.Id == id);
     }
     
@@ -30,6 +33,14 @@ public class UserRepository : RepositoryBase<UserEntity>, IUserRepository
             .Include(u => u.CreatedProducts)
                 .ThenInclude(p => p.Orders)
             .FirstOrDefault(u => u.Id == id);
+    }
+
+    public IEnumerable<UserEntity> GetAllFarmers()
+    {
+        return _dbContext.Users
+            .Include(u => u.CreatedProducts)
+                .ThenInclude(p => p.Orders)
+            .Where(u => u.Role == UserRole.Farmer);
     }
 
     public UserEntity? GetByUsername(string username)

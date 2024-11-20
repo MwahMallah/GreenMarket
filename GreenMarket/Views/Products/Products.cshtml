@@ -27,7 +27,16 @@
 
             <!-- Attributes Column -->
             <div class="col-12 col-md-8">
-                <h5>@product.Name</h5>
+                <h5>
+                    <!-- Product Name and "By" -->
+                    <span class="text-primary">@product.Name</span>
+                    <span class="text-muted">placed by</span>
+                    <a asp-controller="AllFarmers" asp-action="Farmer"
+                       asp-route-id="@product.CreatorId" 
+                       class="text-success text-decoration-none">
+                        @product.Creator.Name
+                    </a>
+                </h5>
                 <div class="row">
                     @foreach (var attr in product.Attributes)
                     {

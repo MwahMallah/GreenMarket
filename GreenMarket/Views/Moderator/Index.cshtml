@@ -1,0 +1,81 @@
+﻿@model IEnumerable<CategoryEntity>
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-center mb-3">
+        <div class="btn-group" role="group">
+            <a class="btn btn-outline-primary active">Proposed</a>
+            <a asp-action="Added" 
+               class="btn btn-outline-success">Added</a>
+        </div>
+    </div>
+    <h5 class="text-center">Proposed categories</h5>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center my-4">
+            <p class="text-muted fw-bold">
+                <i class="bi bi-info-circle"></i> No pending categories at the moment.
+            </p>
+        </div>
+    }
+    else
+    {
+        @foreach (var category in Model)
+        {
+            <div class="row align-items-center border rounded my-1 p-2 product-list-item">
+                <!-- Image Column -->
+                <div class="col-12 col-md-2 text-center rounded product-image-wrap">
+                    <img src="@category.ImgUrl" alt="Category image" class="img-fluid rounded category-image">
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <h5>
+                        <span class="text-muted">proposed category:</span>
+                        <span class="text-success">
+                            @category.Name
+                        </span>
+                    </h5>
+                    <!-- Display Attributes -->
+                    @if (category.Attributes.Any())
+                    {
+                        <ul class="list-unstyled mt-2">
+                            @foreach (var attr in category.Attributes)
+                            {
+                                <li>
+                                    <span class="fw-bold">@attr.Name</span>:
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No attributes proposed for this category.</p>
+                    }
+                </div>
+
+                <!-- Order Button Column -->
+                <div class="col-12 col-md-2 text-center">
+                    <a class="btn btn-primary"
+                       asp-action="Accept" asp-route-id="@category.Id">Accept</a>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+
+<script>
+     @if (TempData["message"] != null)
+     {
+         <text>
+             Toastify({
+                text: '@TempData["message"]',
+                duration: 3000,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "green",
+                stopOnFocus: true
+             }).showToast();
+        </text>
+    }
+</script>

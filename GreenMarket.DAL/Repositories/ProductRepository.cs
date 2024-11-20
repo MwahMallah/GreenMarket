@@ -28,8 +28,9 @@ public class ProductRepository : RepositoryBase<ProductEntity>, IProductReposito
         return _dbContext.Products
             .Where(p => p.CategoryId == categoryId)
             .Include(p => p.Attributes)
-            .ThenInclude(pa => pa.Attribute)
-            .Include(p => p.Orders);
+                .ThenInclude(pa => pa.Attribute)
+            .Include(p => p.Orders)
+            .Include(p => p.Creator);
     }
 
     //Deletes all orders, attributes and product itself in one db transaction

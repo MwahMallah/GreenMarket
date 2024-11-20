@@ -26,7 +26,7 @@ public abstract class RepositoryBase<TEntity> : IRepository<TEntity>
         return _entities;
     }
 
-    public TEntity Create(TEntity entity)
+    public virtual TEntity Create(TEntity entity)
     {
         var addedEntity = _entities.Add(entity).Entity;
         _dbContext.SaveChanges();
