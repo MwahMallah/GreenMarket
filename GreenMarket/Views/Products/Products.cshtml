@@ -1,21 +1,33 @@
-﻿@model ProductViewModel
+﻿@using GreenMarket.Filters
+@model ProductViewModel
 
 <link rel="stylesheet" href="/css/rating.css"/>
 <link rel="stylesheet" href="/css/product_list.css">
 
 <div class="d-flex align-items-center mb-3">
+    <!-- Navigational links -->
     @foreach (var parent in Model.ParentList)
     {
-        <a asp-action="Categories" asp-route-id="@parent.Id">
+        <a asp-action="Categories" asp-route-id="@parent.Id" class="me-2">
             @parent.Name
         </a>
         @if (parent != Model.ParentList.Last())
         {
-            <i class="bi bi-arrow-right-short"></i>
+            <i class="bi bi-arrow-right-short me-2"></i>
         }
     }
-</div>
 
+    <!-- Filter -->
+    <div class="ms-auto">
+        <select class="form-select form-select-sm" onchange="applyFilter(this.value)">
+            <option value=@ProductsFilter.Default>Filter by</option>
+            <option value=@ProductsFilter.PriceAsc>Price: Low to High</option>
+            <option value=@ProductsFilter.PriceDesc>Price: High to Low</option>
+            <option value=@ProductsFilter.RatingAsc>Rating: Low to High</option>
+            <option value=@ProductsFilter.RatingDesc>Rating: High to Low</option>
+        </select>
+    </div>
+</div>
 <div class="container-fluid">
     @foreach (var product in Model.Products)
     {
@@ -87,3 +99,4 @@
 </div>
 
 <script src="/js/rating.js"></script>
+<script src="/js/filter.js"></script>
