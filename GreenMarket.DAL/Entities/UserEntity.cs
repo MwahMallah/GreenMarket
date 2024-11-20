@@ -27,4 +27,5 @@ public class UserEntity : IEntity
     public required UserRole Role { get; set; }
     public ICollection<OrderEntity> Orders { get; set; } = new List<OrderEntity>();
     public ICollection<ProductEntity> CreatedProducts { get; set; } = [];
+    public ICollection<HarvestEntity> Harvests { get; set; } = [];
 }
