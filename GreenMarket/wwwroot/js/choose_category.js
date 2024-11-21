@@ -1,5 +1,6 @@
 ﻿const categoriesContainer = document.querySelector("#category_container");
 const categorySelector = document.querySelector("#category_select");
+const typeSelector = document.querySelector("#type_select")
 const selectors = [];
 const createForm = document.querySelector("#createProductForm");
 selectors.push(categorySelector);
@@ -7,14 +8,22 @@ selectors.push(categorySelector);
 const attributesContainer = document.querySelector("#attribute_container");
 const attributeElements = [];
 
+const productSalesTypeMap = {
+    "PerUnit": 0, // Value ProductSalesType.PerUnit
+    "Harvest": 1  // Value ProductSalesType.Harvest
+};
+
 categorySelector.addEventListener("change", handleCategorySelector);
 createForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+    console.log(typeSelector.value);
+    console.log(productSalesTypeMap[typeSelector.value])
     
     const formData = {
         Name: document.querySelector("#name").value.trim(),
         ImgUrl: document.querySelector("#img").value.trim(),
         Description: document.querySelector("#description").value.trim(),
+        Type: productSalesTypeMap[typeSelector.value],
         CategoryId: selectors[selectors.length - 1]?.value || null,
         Attributes: attributeElements.map(a => {
             const input = a.querySelector("input");

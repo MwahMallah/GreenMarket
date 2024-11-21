@@ -34,6 +34,13 @@
 </style>
 
 <div class="container my-5">
+    <div class="d-flex justify-content-center mb-3">
+        <div class="btn-group" role="group">
+            <a  class="btn btn-outline-primary active">Orders</a>
+            <a asp-action="Harvests" 
+               class="btn btn-outline-success">Harvests</a>
+        </div>
+    </div>
     <h2 class="text-center mb-4">Your Orders</h2>
     <div class="row g-4">
         @foreach (var order in Model.Orders)

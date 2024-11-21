@@ -21,6 +21,8 @@ public class UserRepository : RepositoryBase<UserEntity>, IUserRepository
                 .ThenInclude(o => o.Product)
             .Include(u => u.CreatedProducts)
                 .ThenInclude(p => p.Orders)
+            .Include(u => u.Harvests)
+                .ThenInclude(h => h.Product)
             .FirstOrDefault(u => u.Id == id);
     }
     

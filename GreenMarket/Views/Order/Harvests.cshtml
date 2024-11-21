@@ -1,0 +1,57 @@
+﻿@model UserEntity
+
+
+<div class="d-flex justify-content-center mb-3">
+    <div class="btn-group" role="group">
+        <a  class="btn btn-outline-primary">Orders</a>
+        <a asp-action="Harvests" 
+           class="btn btn-outline-success active">Harvests</a>
+    </div>
+</div>
+<div class="d-flex align-items-center mb-3">
+    <h3 class="text-black">Your Harvests</h3>
+</div>
+
+<div class="container-fluid">
+    @if (Model.Harvests.Any())
+    {
+        @foreach (var harvest in Model.Harvests)
+        {
+            <div class="row align-items-center border rounded my-2 p-3 product-list-item">
+                <!-- Harvest Details Column -->
+                <div class="col-12 col-md-8">
+                    <h5 class="mb-1">
+                        <strong>Product:</strong> 
+                        <a asp-controller="Products"
+                           asp-action="Product"
+                           asp-route-id="@harvest.ProductId"
+                            class="text-primary text-decoration-none">
+                            @harvest.Product.Name
+                        </a>
+                    </h5>
+                    <p class="mb-1">
+                        <strong>Scheduled:</strong> 
+                        @harvest.StartTime.ToString("yyyy-MM-dd HH:mm") - 
+                        @harvest.EndTime.ToString("yyyy-MM-dd HH:mm")
+                    </p>
+                    @if (harvest.EndTime < DateTime.Now)
+                    {
+                        <span class="badge bg-danger">Finished</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">Upcoming</span>
+                    }
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-12 text-center text-muted">
+                <p>No harvests found.</p>
+            </div>
+        </div>
+    }
+</div>

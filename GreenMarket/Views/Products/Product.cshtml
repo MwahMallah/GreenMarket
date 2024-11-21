@@ -100,7 +100,7 @@
             <ul class="list-group">
                 @if (Model.Harvests.Any())
                 {
-                    @foreach (var harvest in Model.Harvests)
+                    @foreach (var harvest in Model.Harvests.OrderBy(h => h.StartTime))
                     {
                         var isPastEvent = harvest.EndTime < DateTime.Now;  
                         <li class="list-group-item 
