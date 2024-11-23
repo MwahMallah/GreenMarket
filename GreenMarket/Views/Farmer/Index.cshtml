@@ -3,7 +3,6 @@
 <link rel="stylesheet" href="/css/rating.css"/>
 <link rel="stylesheet" href="/css/product_list.css">
 
-
 <div class="container-fluid">
     
 <div class="row align-items-center">
@@ -14,8 +13,12 @@
         <a class="btn btn-success" asp-controller="Farmer" asp-action="Create">
             <i class="bi bi-plus-square"></i> Add New Product
         </a>
+        <a class="btn btn-primary ms-2" asp-controller="Farmer" asp-action="CreateHarvest">
+            <i class="bi bi-plus-circle"></i> Add New Harvests
+        </a>
     </div>
 </div>
+
 
 <div class="container-fluid">
     @foreach (var product in Model.CreatedProducts)
@@ -28,7 +31,12 @@
 
             <!-- Attributes Column -->
             <div class="col-12 col-md-8">
-                <h5>@product.Name</h5>
+                <a class="text-decoration-none"
+                   asp-controller="Products"
+                   asp-action="Product"
+                   asp-route-id="@product.Id">
+                    @product.Name
+                </a>
                 <div class="row">
                     @foreach (var attr in product.Attributes)
                     {

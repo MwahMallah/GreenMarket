@@ -1,0 +1,64 @@
+﻿@model CreateHarvestViewModel
+
+<div class="container">
+    <div class="row">
+        <h2 class="text-success">Create Harvest</h2>
+    </div>
+    <form method="post" id="createProductForm">
+        <div class="row gy-2">
+            <!-- Start Time Input -->
+            <div class="form-floating">
+                <input asp-for="Harvest.StartTime" type="datetime-local" id="startTime" 
+                       class="form-control validation_required" placeholder="Start Time">
+                <label for="startTime" class="form-label">Start Time</label>
+                <span asp-validation-for="Harvest.StartTime" class="text-danger field-validation-error"></span>
+            </div>
+        <div class="form-floating">
+            <input asp-for="Harvest.EndTime" type="datetime-local" id="endTime" 
+                   class="form-control validation_required" placeholder="End Time">
+            <label for="startTime" class="form-label">End Time</label>
+            <span asp-validation-for="Harvest.EndTime" class="text-danger field-validation-error"></span>
+        </div>
+        
+            <!-- Product Selection -->
+            <div class="form-group">
+                <label for="productSelect" class="form-label">Select Product for Harvest</label>
+                <select asp-for="Harvest.ProductId" class="form-select" id="productSelect">
+                    <option value="" disabled selected>Select a product</option>
+                    @foreach (var product in Model.Products)
+                    {
+                        <option value="@product.Id">@product.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="Harvest.ProductId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- Submit and Back Buttons -->
+        <div class="row mt-3">
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success submit-btn">Submit</button>
+                <a asp-action="Index" class="btn btn-dark">Back to List</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="/js/choose_category.js"></script>
+
+
+<script >
+    @if (TempData["message"] != null)
+    {
+        <text>
+            Toastify({
+                text: '@TempData["message"]',
+                duration: 3000,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "red",
+                stopOnFocus: true
+            }).showToast();
+        </text>
+    }
+</script>

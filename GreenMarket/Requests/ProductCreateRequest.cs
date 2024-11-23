@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using GreenMarket.Common.Enums;
 
 namespace GreenMarket.Requests;
 
@@ -8,6 +9,7 @@ public record ProductCreateRequest
     public required string Name { get; set; }
     public string? ImgUrl { get; set; }
     public string? Description { get; set; }
+    public ProductSalesType Type { get; set; }
     [Required]
     public Guid CategoryId { get; set; }
 

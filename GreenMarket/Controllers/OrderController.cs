@@ -26,4 +26,18 @@ public class OrderController : Controller
         
         return user.Orders.Count == 0 ? View("NoOrders") : View(user);
     }
+
+    public IActionResult Harvests()
+    {
+        var userId = this.GetCurrentUserId();
+        var user = _userRepository.GetById(userId);
+
+        if (user == null)
+        {
+            TempData["message"] = "You have to log in to see your harvests";
+            return RedirectToAction("Login", "Account");
+        }
+        
+        return View(user);
+    }
 }

@@ -16,16 +16,19 @@ public class FarmerController : Controller
     private readonly ICategoryRepository _categoryRepository;
     private readonly IProductRepository _productRepository;
     private readonly IProductAttributeRepository _productAttributeRepository;
+    private readonly IHarvestRepository _harvestRepository;
 
     public FarmerController(IUserRepository userRepository, 
         ICategoryRepository categoryRepository,
         IProductRepository productRepository,
-        IProductAttributeRepository productAttributeRepository)
+        IProductAttributeRepository productAttributeRepository,
+        IHarvestRepository harvestRepository)
     {
         _userRepository = userRepository;
         _categoryRepository = categoryRepository;
         _productRepository = productRepository;
         _productAttributeRepository = productAttributeRepository;
+        _harvestRepository = harvestRepository;
     }
     public ActionResult Index()
     {
@@ -97,6 +100,55 @@ public class FarmerController : Controller
         CreateAttributeEntitiesFrom(request.Attributes, newProduct);
         
         TempData["message"] = "You created new product";
+        return RedirectToAction("Index");
+    }
+
+    public IActionResult CreateHarvest()
+    {
+        var user = GetCurrentUser();
+        if (user == null || !RoleIsAppropriate(user.Role))
+        {
+            return View("BecomeFarmer");
+        }
+
+        var createHarvestViewModel = new CreateHarvestViewModel()
+        {
+            Products = user.CreatedProducts
+                .Where(p => p.Type == ProductSalesType.Harvest)
+        };
+        
+        return View(createHarvestViewModel);
+    }
+    
+    [HttpPost]
+    public IActionResult CreateHarvest(CreateHarvestViewModel viewModel)
+    {
+        var user = GetCurrentUser();
+        if (user == null || !RoleIsAppropriate(user.Role))
+        {
+            return View("BecomeFarmer");
+        }
+
+        if (viewModel.Harvest.ProductId == Guid.Empty)
+        {
+            TempData["message"] = "Please select a product for the harvest.";
+            viewModel.Products = user.CreatedProducts
+                .Where(p => p.Type == ProductSalesType.Harvest);
+            return View(viewModel);
+        }
+
+        if (viewModel.Harvest.StartTime > viewModel.Harvest.EndTime)
+        {
+            TempData["message"] = "The end time must be later than the start time.";
+            viewModel.Products = user.CreatedProducts
+                .Where(p => p.Type == ProductSalesType.Harvest);
+            return View(viewModel);
+        }
+        
+        var newHarvest = viewModel.Harvest;
+        _harvestRepository.Create(newHarvest);
+        
+        TempData["message"] = "You created harvest.";
         return RedirectToAction("Index");
     }
     
@@ -205,6 +257,7 @@ public class FarmerController : Controller
             CategoryId = request.CategoryId,
             CreatorId = creatorId.Value,
             Description = request.Description,
+            Type = request.Type,
             ImgUrl = request.ImgUrl
         };
 

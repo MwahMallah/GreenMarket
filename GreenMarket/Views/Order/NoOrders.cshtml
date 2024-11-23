@@ -1,4 +1,11 @@
 ﻿<div class="d-flex flex-column justify-content-center align-items-center text-center mt-5">
+    <div class="d-flex justify-content-center mb-3">
+        <div class="btn-group" role="group">
+            <a  class="btn btn-outline-primary active">Orders</a>
+            <a asp-action="Harvests" 
+               class="btn btn-outline-success">Harvests</a>
+        </div>
+    </div>
     <h2 class="text-muted">No Orders Yet</h2>
     <p class="text-secondary">It looks like you haven't ordered anything yet. Explore our products and place your first order!</p>
     <a asp-controller="Products" asp-action="Index" class="btn btn-primary mt-3">Browse Products</a>

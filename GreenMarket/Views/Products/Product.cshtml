@@ -1,7 +1,16 @@
-﻿@model ProductEntity
+﻿@using System.Security.Claims
+@model ProductEntity
 
 @{
     var pronoun = Model.Orders.Count != 1 ? "Customer" : "Customers";
+    var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    Guid userId;
+
+    if (!Guid.TryParse(userIdString, out userId))
+    {
+        // If user is not registered
+        userId = Guid.Empty; // set empty guid to them
+    }
 }
 
 <link rel="stylesheet" href="/css/product_detail.css">
@@ -10,23 +19,24 @@
 <div class="product-page-container">
     <div class="product-container rounded">
         <div class="product-image">
-            <!-- ADD SRC FROM MODEL src=""-->
             <img src="@Model.ImgUrl" alt="Product Image">
-            
+
             <div class="product-order">
                 <p>@Model.Orders.Count @pronoun already bought this product</p>
-                @if (Model.Stock == 0)
+                @if (Model.Type != ProductSalesType.Harvest)
                 {
-                    <a class="btn btn-primary disabled" aria-disabled="true">ORDER</a>
-                }
-                else
-                {
-                    <a class="btn btn-primary" asp-action="Order" asp-route-id="@Model.Id">ORDER</a>
+                    @if (Model.Stock == 0)
+                    {
+                        <a class="btn btn-primary disabled" aria-disabled="true">ORDER</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" asp-action="Order" asp-route-id="@Model.Id">ORDER</a>
+                    }
                 }
             </div>
         </div>
         <div class="product-details">
-            <!-- This is a variety name -->
             <div class="d-flex justify-content-between align-items-center">
                 <h1>@Model.Name</h1>
                 <div class="rating">
@@ -51,7 +61,6 @@
                                 / Model.Orders.Count)
                             : "No reviews"
                         )
-                        
                     </div>
                     @if (Model.Orders.Count > 0)
                     {
@@ -61,17 +70,21 @@
                     }
                 </div>
             </div>
-            <p>
-                <strong>In Stock</strong>:
-                @if (Model.Stock == 0)
-                {
-                    <span class="text-danger">Currently out of stock 😔</span>
-                }
-                else
-                {
-                    <span>@Model.Stock</span>
-                }
-            </p>
+            
+            @if (Model.Type != ProductSalesType.Harvest)
+            {
+                <p>
+                    <strong>In Stock</strong>:
+                    @if (Model.Stock == 0)
+                    {
+                        <span class="text-danger">Currently out of stock 😔</span>
+                    }
+                    else
+                    {
+                        <span>@Model.Stock</span>
+                    }
+                </p>
+            }
             
             @foreach (var attr in Model.Attributes) {
                 <p><strong>@attr.Attribute.Name</strong>: @attr.Value</p>
@@ -79,6 +92,59 @@
             <p><strong>Description</strong>: @Model.Description</p>
         </div>
     </div>
+
+    @if (Model.Type == ProductSalesType.Harvest)
+    {
+        <div class="harvests-container mt-5">
+            <h3 class="mb-4">Upcoming Harvest Events</h3>
+            <ul class="list-group">
+                @if (Model.Harvests.Any())
+                {
+                    @foreach (var harvest in Model.Harvests.OrderBy(h => h.StartTime))
+                    {
+                        var isPastEvent = harvest.EndTime < DateTime.Now;  
+                        <li class="list-group-item 
+                            d-flex justify-content-between 
+                            align-items-center p-3 @((isPastEvent) ? "past-event" : "")">
+                            <div>
+                                <strong>Harvest:</strong> 
+                                @harvest.StartTime.ToString("yyyy-MM-dd HH:mm") - 
+                                @harvest.EndTime.ToString("yyyy-MM-dd HH:mm")
+                            </div>
+                            <div class="d-flex align-items-center">
+                                @if (harvest.Participants.Any(p => p.Id == userId))
+                                {
+                                    <span class="badge bg-secondary d-flex align-items-center">
+                                        <i class="bi bi-check-circle me-2"></i> You’ve already signed up for this harvest
+                                    </span>
+                                }
+                                else
+                                {
+                                    @if (!isPastEvent) {
+                                        <a asp-controller="Harvest"
+                                           asp-action="Register"
+                                           asp-route-id="@harvest.Id"
+                                           class="btn btn-primary w-100">
+                                            Register for Harvest
+                                        </a>
+                                    }
+                                    else {
+                                        <span class="badge bg-dark text-light w-100 text-center">Harvest Ended</span>
+                                    }
+                                }
+                            </div>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li class="list-group-item text-danger text-center">
+                        No harvest events available.
+                    </li>
+                }
+            </ul>
+        </div>
+    }
 </div>
 
 <script src="/js/rating.js"></script>

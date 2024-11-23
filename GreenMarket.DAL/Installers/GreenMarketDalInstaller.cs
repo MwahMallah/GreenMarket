@@ -13,5 +13,6 @@ public static class GreenMarketDalInstaller
         service.AddScoped<IProductRepository, ProductRepository>();
         service.AddScoped<IOrderRepository, OrderRepository>();
         service.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
+        service.AddScoped<IHarvestRepository, HarvestRepository>();
     }
 }
