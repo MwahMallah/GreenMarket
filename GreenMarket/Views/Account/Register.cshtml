@@ -47,7 +47,7 @@
             <span asp-validation-for="Password" class="text-danger visually-hidden"></span>
         </div>
         <div>
-            <label asp-for="PasswordConfirm"></label>
+            <label asp-for="PasswordConfirm">Confirm Password</label>
             <input type="password" class="confirm-password validation_required validation_equal" asp-for="PasswordConfirm">
             <span asp-validation-for="PasswordConfirm" class="text-danger visually-hidden"></span>
         </div>
@@ -90,19 +90,6 @@
                     backgroundColor: "red",
                     stopOnFocus: true
                 }).showToast();
-
-                /*
-                let splitError = error.textContent.split(" ");
-                console.log(splitError);
-                for (let i = 1; i < splitError.length; i += 4) {
-                    console.log(splitError[i]);
-                    let inputField = document.querySelector('.' + splitError[i].toLowerCase());
-                    if (inputField != null) {
-                        inputField.classList.add('border');
-                        inputField.classList.add('border-danger');
-                    }
-                }
-                */
             }
         });
     });
