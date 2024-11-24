@@ -28,9 +28,17 @@
                             <input name="Attributes[@index].Name" value="@attr.Name" 
                                    class="form-control" placeholder="Attribute Name" required>
                             <label>Attribute Name</label>
-                            <input type="hidden" name="Attributes[@index].Id" value="@attr.Id" />
-                            <input type="hidden" name="Attributes[@index].CategoryId" value="@attr.CategoryId" />
                         </div>
+                        <div class="col-md-6 form-check mt-2">
+                            <input type="checkbox" 
+                                   name="Attributes[@index].IsRequired" 
+                                   class="form-check-input" 
+                                   id="isRequired@(index)" @(attr.IsRequired ? "checked" : "")>
+                            <label class="form-check-label" 
+                                   for="isRequired@(index)">Is Required</label>
+                        </div>
+                        <input type="hidden" name="Attributes[@index].Id" value="@attr.Id" />
+                        <input type="hidden" name="Attributes[@index].CategoryId" value="@attr.CategoryId" />
                     </div>
                 }
             </div>
@@ -62,11 +70,19 @@
 
         attributeDiv.innerHTML = `
             <div class="col-md-6 form-floating">
-                <input name="Attributes[${attributeCount}].Name" 
-                       class="form-control" placeholder="Attribute Name" required>
-                <label>Attribute Name</label>
-                <input type="hidden" name="Attributes[${attributeCount}].CategoryId" value="@Model.Category.Id">
+                    <input name="Attributes[${attributeCount}].Name" 
+                           class="form-control" placeholder="Attribute Name" required>
+                    <label>Attribute Name</label>
             </div>
+            <div class="col-md-6 form-check mt-2">
+                <input type="checkbox" 
+                       name="Attributes[${attributeCount}].IsRequired" 
+                       class="form-check-input" 
+                       id="isRequired${attributeCount}">
+                <label class="form-check-label" 
+                       for="isRequired${attributeCount}">Is Required</label>
+            </div>
+            <input type="hidden" name="Attributes[${attributeCount}].CategoryId" value="@Model.Category.Id">
         `;
 
         attributesList.appendChild(attributeDiv);
@@ -80,10 +96,11 @@
 
         document.querySelectorAll("#attributes .row").forEach((row, index) => {
             const name = row.querySelector("input[name^='Attributes']").value;
+            const isRequired = row.querySelector("input[type='checkbox']").checked;
             const idInput = row.querySelector("input[type='hidden'][name*='.Id']");
             const id = idInput == null? null : idInput.value;
             const categoryId = row.querySelector("input[type='hidden'][name*='.CategoryId']").value;
-            attributes.push({ Name: name, Id: id, CategoryId: categoryId });
+            attributes.push({ Name: name, Id: id, CategoryId: categoryId, IsRequired: isRequired });
         });
 
         formData.append("Attributes", JSON.stringify(attributes));

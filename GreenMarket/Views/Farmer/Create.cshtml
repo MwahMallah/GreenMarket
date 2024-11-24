@@ -63,3 +63,19 @@
 
 <script src="/js/validation.js"></script>
 <script src="/js/choose_category.js"></script>
+
+<script >
+    @if (TempData["message"] != null)
+    {
+        <text>
+            Toastify({
+                text: '@TempData["message"]',
+                duration: 3000,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "red",
+                stopOnFocus: true
+            }).showToast();
+        </text>
+    }
+</script>

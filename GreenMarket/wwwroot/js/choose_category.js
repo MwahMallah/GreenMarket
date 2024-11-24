@@ -58,6 +58,17 @@ createForm.addEventListener("submit", async (e) => {
                     stopOnFocus: true
                 }).showToast();
             }
+            
+            if (errorData.errors && errorData.errors["Attributes"]) {
+                Toastify({
+                    text: errorData.errors["Attributes"],
+                    duration: 3000,
+                    gravity: "top",
+                    position: "center",
+                    backgroundColor: "red",
+                    stopOnFocus: true
+                }).showToast();
+            }
             //set location from response
         } else {
             const location = res.headers.get("Location");
@@ -159,7 +170,7 @@ function createAttributeDiv(attr) {
     
     function createAttributeName(attr) {
         const strong = document.createElement("strong");
-        const txt = document.createTextNode(attr.name);
+        const txt = document.createTextNode(attr.name + (attr.isRequired ? "*" : ""));
         strong.appendChild(txt);
         return strong;
     }

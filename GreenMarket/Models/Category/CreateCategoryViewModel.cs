@@ -15,6 +15,7 @@ public record CreateCategoryViewModel
     public class AttributeViewModel
     {
         public string Name { get; set; } = null!;
+        public bool IsRequired { get; set; }
         public Guid CategoryId { get; set; }
     }
 }

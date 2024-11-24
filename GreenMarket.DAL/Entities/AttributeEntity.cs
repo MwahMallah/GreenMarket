@@ -10,7 +10,7 @@ public record AttributeEntity : IEntity
     [Required]
     [MaxLength(100)]
     public required string Name { get; set; }
-    
+    public bool IsRequired { get; set; } = false;
     [Required]
     public required Guid CategoryId { get; set; }
     [JsonIgnore]

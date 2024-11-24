@@ -67,7 +67,8 @@ public class ModeratorController : Controller
                 {
                     Id = a.Id,
                     CategoryId = a.CategoryId,
-                    Name = a.Name
+                    Name = a.Name,
+                    IsRequired = a.IsRequired
                 })
         };
         return View(categoryViewModel);
@@ -117,6 +118,7 @@ public class ModeratorController : Controller
                     Id = Guid.NewGuid(),
                     CategoryId = attribute.CategoryId,
                     Name = attribute.Name,
+                    IsRequired = attribute.IsRequired
                 });
             }
             else
@@ -125,7 +127,8 @@ public class ModeratorController : Controller
                 {
                     Id = attribute.Id.Value,
                     Name = attribute.Name,
-                    CategoryId = attribute.CategoryId
+                    CategoryId = attribute.CategoryId,
+                    IsRequired = attribute.IsRequired
                 });
             }
         }
