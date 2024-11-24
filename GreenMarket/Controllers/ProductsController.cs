@@ -62,7 +62,7 @@ public class ProductsController : Controller
     public IActionResult Products(Guid categoryId, ProductsFilter? filter)
     {
         var products = _productRepository.GetByCategoryId(categoryId);
-        products = FilterProducts(products, filter);
+        products = OrderProducts(products, filter);
         
         var productViewModel = new ProductViewModel()
         {
@@ -157,7 +157,7 @@ public class ProductsController : Controller
         return parents;
     }
 
-    private IEnumerable<ProductEntity> FilterProducts(IEnumerable<ProductEntity> products,
+    private IEnumerable<ProductEntity> OrderProducts(IEnumerable<ProductEntity> products,
         ProductsFilter? filter)
     {
         return filter switch
@@ -167,8 +167,16 @@ public class ProductsController : Controller
                 .OrderByDescending(p => p.Orders.Select(o => o.Rating).Average()),
             ProductsFilter.RatingAsc => products
                 .OrderBy(p => p.Orders.Select(o => o.Rating).Average()),
-            ProductsFilter.PriceDesc => products,
-            ProductsFilter.PriceAsc => products,
+            ProductsFilter.PriceDesc => products
+                .OrderByDescending(p => p.Attributes
+                    .Where(a => a.Attribute.Name.ToLower().StartsWith("price"))
+                    .Select(a => Convert.ToDecimal(a.Value)) 
+                    .FirstOrDefault()),
+            ProductsFilter.PriceAsc => products
+                .OrderBy(p => p.Attributes
+                    .Where(a => a.Attribute.Name.ToLower().StartsWith("price"))
+                    .Select(a => Convert.ToDecimal(a.Value)) 
+                    .FirstOrDefault()),
             null => products,
             _ => products
         };
