@@ -1,19 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using GreenMarket.DAL.Entities;
 
-namespace GreenMarket.Models.Category;
+namespace GreenMarket.Models.Moderator;
 
-public record CreateCategoryViewModel
+public record EditCategoryViewModel
 {
     [Required]
-    public string Name { get; set; }
-    public string? ImgUrl { get; set; }
     public IEnumerable<AttributeViewModel> Attributes { get; set; } = [];
-    public IEnumerable<CategoryEntity> Categories { get; set; } = [];
-    public Guid SelectedCategoryId { get; set; }
-    
-    public class AttributeViewModel
+    public CategoryEntity Category { get; set; }
+    public record AttributeViewModel
     {
+        public Guid? Id { get; set; }
         public string Name { get; set; } = null!;
         public bool IsRequired { get; set; }
         public Guid CategoryId { get; set; }

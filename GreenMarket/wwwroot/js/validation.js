@@ -4,7 +4,7 @@ const requiredInputs = document.querySelectorAll(".validation_required");
 const requiredInputsStatus = new Map();
 
 for (const input of requiredInputs) {
-    requiredInputsStatus.set(input, false);
+    requiredInputsStatus.set(input, input.value.trim() !== "");
     input.addEventListener("input", handleRequiredInput);
 }
 
@@ -15,7 +15,7 @@ for (const input of equalInputs) {
 
 function handleRequiredInput(e) {
     const input = e.target;
-
+    
     if (input.value.trim() === "") {
         requiredInputsStatus.set(input, false);
         input.classList.add('border');

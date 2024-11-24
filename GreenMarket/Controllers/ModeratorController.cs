@@ -1,6 +1,8 @@
-﻿using GreenMarket.Common.Enums;
+﻿using System.Text.Json;
+using GreenMarket.Common.Enums;
 using GreenMarket.DAL.Entities;
 using GreenMarket.DAL.Repositories.Interfaces;
+using GreenMarket.Models.Moderator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -11,10 +13,14 @@ namespace GreenMarket.Controllers;
 public class ModeratorController : Controller
 {
     private readonly ICategoryRepository _categoryRepository;
+    private readonly IAttributeRepository _attributeRepository;
 
-    public ModeratorController(ICategoryRepository categoryRepository)
+    public ModeratorController(
+        ICategoryRepository categoryRepository,
+        IAttributeRepository attributeRepository)
     {
         _categoryRepository = categoryRepository;
+        _attributeRepository = attributeRepository;
     }
     
     public IActionResult Index()
@@ -48,24 +54,86 @@ public class ModeratorController : Controller
     {
         var category = _categoryRepository.GetById(id);
 
-        return View(category);
+        if (category == null)
+        {
+            return NotFound();
+        }
+        
+        var categoryViewModel = new EditCategoryViewModel
+        {
+            Category = category,
+            Attributes = category.Attributes.Select(a 
+                => new EditCategoryViewModel.AttributeViewModel
+                {
+                    Id = a.Id,
+                    CategoryId = a.CategoryId,
+                    Name = a.Name,
+                    IsRequired = a.IsRequired
+                })
+        };
+        return View(categoryViewModel);
     }
     
     [HttpPost]
-    public IActionResult Edit(CategoryEntity category)
+    public IActionResult Edit(EditCategoryViewModel categoryViewModel, [FromForm] string attributes)
     {
-        if (category.Name.IsNullOrEmpty())
+        if (categoryViewModel.Category.Name.IsNullOrEmpty())
         {
             ModelState.AddModelError("Name", "Name is required");
-            return View(category);
+            return View(categoryViewModel);
+        }
+
+        List<EditCategoryViewModel.AttributeViewModel>? attributeList;
+        try
+        {
+            attributeList = JsonSerializer
+                .Deserialize<List<EditCategoryViewModel.AttributeViewModel>>(attributes);
+        }
+        catch(JsonException)
+        {
+            return BadRequest();
         }
         
-        _categoryRepository.Update(category);
-        TempData["message"] = $"You edited {category.Name}";
+        UpdateCategoryAttributes(attributeList);
+        
+        _categoryRepository.Update(categoryViewModel.Category);
+        TempData["message"] = $"You edited {categoryViewModel.Category.Name}";
         return RedirectToAction(nameof(Added));
     }
     
-    
+    private void UpdateCategoryAttributes(
+        List<EditCategoryViewModel.AttributeViewModel>? attributeList)
+    {
+        if (attributeList == null)
+        {
+            return;
+        }
+        
+        foreach (var attribute in attributeList)
+        {
+            if (attribute.Id == null)
+            {
+                _attributeRepository.Create(new AttributeEntity
+                {
+                    Id = Guid.NewGuid(),
+                    CategoryId = attribute.CategoryId,
+                    Name = attribute.Name,
+                    IsRequired = attribute.IsRequired
+                });
+            }
+            else
+            {
+                _attributeRepository.Update(new AttributeEntity
+                {
+                    Id = attribute.Id.Value,
+                    Name = attribute.Name,
+                    CategoryId = attribute.CategoryId,
+                    IsRequired = attribute.IsRequired
+                });
+            }
+        }
+    }
+
     public IActionResult Delete(Guid id)
     {
         var category = _categoryRepository.GetById(id);

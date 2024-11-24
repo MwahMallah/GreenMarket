@@ -1,37 +1,55 @@
-﻿@model CategoryEntity
+﻿@model EditCategoryViewModel
 
 <div class="container">
     <div class="row">
         <h2 class="text-primary">Edit Category</h2>
     </div>
-    <form method="post">
+    <form method="post" id="edit-category-form">
         <div class="row gy-2">
             <div class="form-floating">
-                <input asp-for="Name" type="text" id="name" 
+                <input asp-for="Category.Name" type="text" id="name" 
                        class="form-control" placeholder="Name">
                 <label for="name" class="form-label">Name</label>
-                <span asp-validation-for="Name" class="text-danger field-validation-error"></span>
+                <span asp-validation-for="Category.Name" 
+                      class="text-danger field-validation-error"></span>
             </div>
             <div class="form-floating">
-                <input asp-for="ImgUrl" type="text" id="img" 
+                <input asp-for="Category.ImgUrl" type="text" id="img" 
                        class="form-control" placeholder="Image">
                 <label for="img" class="form-label">Image</label>
-                <span asp-validation-for="ImgUrl" class="text-danger field-validation-error"></span>
+                <span asp-validation-for="Category.ImgUrl" 
+                      class="text-danger field-validation-error"></span>
             </div>
-            <div class="attributes">
+            <div id="attributes">
                 @foreach (var (attr, index) in Model.Attributes.Select((value, i) => (value, i)))
                 {
-                    <div class="col-md-6 mb-3">
-                        <strong>Attribute name</strong>
-                        <input name="Attributes[@index].Name" value="@attr.Name" class="form-control" />
-                        <input type="hidden" name="Attributes[@index].Id" value="@attr.Id" class="form-control" />
-                        <input type="hidden" name="Attributes[@index].CategoryId" value="@attr.CategoryId" class="form-control" />
+                    <div class="row gy-2 mb-2">
+                        <div class="col-md-6 form-floating">
+                            <input name="Attributes[@index].Name" value="@attr.Name" 
+                                   class="form-control" placeholder="Attribute Name" required>
+                            <label>Attribute Name</label>
+                        </div>
+                        <div class="col-md-6 form-check mt-2">
+                            <input type="checkbox" 
+                                   name="Attributes[@index].IsRequired" 
+                                   class="form-check-input" 
+                                   id="isRequired@(index)" @(attr.IsRequired ? "checked" : "")>
+                            <label class="form-check-label" 
+                                   for="isRequired@(index)">Is Required</label>
+                        </div>
+                        <input type="hidden" name="Attributes[@index].Id" value="@attr.Id" />
+                        <input type="hidden" name="Attributes[@index].CategoryId" value="@attr.CategoryId" />
                     </div>
                 }
             </div>
-            
-            <input asp-for="ParentId" type="hidden" />
-            <input asp-for="Status" type="hidden" />
+            <div class="row">
+                <div class="col-12 text-center mt-2">
+                    <button type="button" class="btn btn-secondary" id="add-attribute-button">Add Attribute</button>
+                </div>
+            </div>
+            <input asp-for="Category.Id" type="hidden" />
+            <input asp-for="Category.ParentId" type="hidden" />
+            <input asp-for="Category.Status" type="hidden" />
         </div>
         <div class="row mt-2">
             <div>
@@ -41,3 +59,59 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.getElementById("add-attribute-button").addEventListener("click", function () {
+        const attributesList = document.getElementById("attributes");
+
+        const attributeCount = attributesList.children.length;
+        const attributeDiv = document.createElement("div");
+        attributeDiv.classList.add("row", "gy-2", "mb-2");
+
+        attributeDiv.innerHTML = `
+            <div class="col-md-6 form-floating">
+                    <input name="Attributes[${attributeCount}].Name" 
+                           class="form-control" placeholder="Attribute Name" required>
+                    <label>Attribute Name</label>
+            </div>
+            <div class="col-md-6 form-check mt-2">
+                <input type="checkbox" 
+                       name="Attributes[${attributeCount}].IsRequired" 
+                       class="form-check-input" 
+                       id="isRequired${attributeCount}">
+                <label class="form-check-label" 
+                       for="isRequired${attributeCount}">Is Required</label>
+            </div>
+            <input type="hidden" name="Attributes[${attributeCount}].CategoryId" value="@Model.Category.Id">
+        `;
+
+        attributesList.appendChild(attributeDiv);
+    });
+
+    document.getElementById("edit-category-form").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const attributes = [];
+
+        document.querySelectorAll("#attributes .row").forEach((row, index) => {
+            const name = row.querySelector("input[name^='Attributes']").value;
+            const isRequired = row.querySelector("input[type='checkbox']").checked;
+            const idInput = row.querySelector("input[type='hidden'][name*='.Id']");
+            const id = idInput == null? null : idInput.value;
+            const categoryId = row.querySelector("input[type='hidden'][name*='.CategoryId']").value;
+            attributes.push({ Name: name, Id: id, CategoryId: categoryId, IsRequired: isRequired });
+        });
+
+        formData.append("Attributes", JSON.stringify(attributes));
+        
+        const response = await fetch(this.action, {
+            method: "POST",
+            body: formData,
+        });
+
+        if (response.ok) {
+            window.location.href = "/Moderator/Added";
+        }
+    });
+</script>

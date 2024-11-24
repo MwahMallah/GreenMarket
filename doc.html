@@ -1,0 +1,98 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Projekt IIS</title>
+    <style type="text/css">
+    	table { border-collapse: collapse; }
+    	td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+    	dt { font-weight: bold; margin-top: 0.5em; }
+    </style>
+</head>
+<body>
+
+<!-- Zkontrolujte prosím nastavení kódování v hlavičce dokumentu 
+     podle použitého editoru -->
+
+<h1>Zelený trh</h1> <!-- Nahradte názvem svého zadání -->
+
+<dl>
+	<dt>Autoři</dt>
+	<dd>Maksim Dubrovin <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
+	    <a href="mailto:xdubro01@stud.fit.vutbr.cz">xdubro01@stud.fit.vutbr.cz</a> -
+		<ul>
+            <li>Implementace roli administator, moderator, registrovany uživatel (včetně farmař a zákazník) a neregistrovany</li>
+            <li>Administrator: uživatele, tvorba moderátory</li>
+            <li>Moderator: správa kategorií, atributu a schvalení návrhů kategorií uživatelů</li>
+            <li>Stránka Products - hlavní stranka</li>
+            <li>Stránka Farmers - seznam farmařů</li>
+            <li>Stránka Orders and harvests - seznam objednávek produktů a samosběrů na které je uživatel přihlašen</li>
+            <li>Stránka My products - seznam produktů k prodeje</li>
+            <li>Stránka Propose Category</li>
+            <li>Stránka Orders from customers</li>
+            <li>Systém hodnocení produktů</li>
+        </ul>
+	</dd>
+	<dd>Anton Havlovskyi <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
+	    <a href="mailto:xhavlo01@stud.fit.vutbr.cz">xhavlo01@stud.fit.vutbr.cz</a> - 
+        <ul>
+            <li>Databasová schéma</li>
+            <li>Přihlašení a registrace uživatelu (včetně kontrola spravnosti údaju na stráně klienta)</li>
+            <li>Profil uživatele a editace profilu</li>
+            <li>Stránka Produktu</li>
+            <li>Stránka objednáni produktu</li>
+            <li>QA kontrola</li>
+            <li>Dokumentace</li>
+        </ul>
+	</dd>
+    <dd>Anastasiia Mironova <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
+	    <a href="mailto:xmiron05@stud.fit.vutbr.cz">xmiron05@stud.fit.vutbr.cz</a> - 
+		<ul>
+            <li></li>
+        </ul>
+	</dd>
+	<dt>URL aplikace</dt>
+	<dd><a href="http://www.stud.fit.vutbr.cz/~xautor01/IIS">http://www.stud.fit.vutbr.cz/~xautor01/IIS</a></dd>
+	<dd>(pokud má aplikace více vstupních stránek, napište obdobně další URL)</dd>
+</dl>
+
+<h2>Uživatelé systému pro testování</h2>
+<p>Uveďte prosím existující zástupce <strong>všech rolí uživatelů</strong>.</p>
+<table>
+<tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
+<tr><td>admin</td><td>admin</td><td>Administrátor</td></tr>
+<tr><td>prodavac</td><td>prodavac</td><td>Prodavač</td></tr>
+<tr><td>franta</td><td>franta</td><td>Zákazník</td></tr>
+</table>
+
+<p>(Diagram případů užití není nutné vkládat, pokud IS implementuje role a případy užití definované zadáním.)</p> 
+
+<h3>Video</h3>
+
+<p>Přiložte odkaz na komentované video demostrující použití informačního systému. Zaměřte se na případy užití definované zadáním (např. registrace uživatele, správa uživatelů a činnosti jednotlivých rolí). Video nahrajte například na VUT Google Drive, kde ho bude možné přímo spustit z odkazu.</p> 
+
+<h2>Implementace</h2>
+<p>Stručná dokumentace k implementaci, která popisuje, které části projektu (např. PHP skripty) implementují jednotlivé případy použití.</p>
+
+<h3>Databáze</h3>
+
+<a href="https://drive.google.com/file/d/1Kv0v97ElUJ67jOWdonarFQMOReqMfM6D/view?usp=sharing">SchemaDatabase.png</a>
+
+<h2>Instalace</h2>
+
+Stručně popište: 
+<ul>
+    <li>.NET v8.0.403</li>
+    <li>Přikaz pro spuštění serveru: dotnet run --project GreenMarket</li>
+    <li>postup instalace na server,</li>
+    <li>softwarové požadavky (verze PHP apod.),</li>
+    <li>jak rozbalit, konfigurovat, inicializovat databázi, ...</li>
+</ul>
+
+<h2>Známé problémy</h2>
+<p>Zde popište, které body zadání nejsou implementovány a z jakého důvodu. Např. &bdquo;Z časových důvodů nebyla implementována správa uživatelů.&rdquo; Pomůžete tím zrychlit hodnocení, když neimplementované funkce nebudeme muset dlouze hledat.</p>
+
+</body>
+</html>

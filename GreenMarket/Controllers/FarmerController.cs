@@ -17,18 +17,21 @@ public class FarmerController : Controller
     private readonly IProductRepository _productRepository;
     private readonly IProductAttributeRepository _productAttributeRepository;
     private readonly IHarvestRepository _harvestRepository;
+    private readonly IAttributeRepository _attributeRepository;
 
     public FarmerController(IUserRepository userRepository, 
         ICategoryRepository categoryRepository,
         IProductRepository productRepository,
         IProductAttributeRepository productAttributeRepository,
-        IHarvestRepository harvestRepository)
+        IHarvestRepository harvestRepository,
+        IAttributeRepository attributeRepository)
     {
         _userRepository = userRepository;
         _categoryRepository = categoryRepository;
         _productRepository = productRepository;
         _productAttributeRepository = productAttributeRepository;
         _harvestRepository = harvestRepository;
+        _attributeRepository = attributeRepository;
     }
     public ActionResult Index()
     {
@@ -72,7 +75,7 @@ public class FarmerController : Controller
     }
 
     [HttpPost]
-    public ActionResult Create([FromBody] ProductCreateRequest request)
+    public IActionResult Create([FromBody] ProductCreateRequest request)
     {
         if (!ModelState.IsValid)
         {
@@ -90,17 +93,50 @@ public class FarmerController : Controller
             });
         }
 
+        if (!RequiredAttributesAreSet(request.Attributes))
+        {
+            var errors = new Dictionary<string, string[]>()
+            {
+                { "Attributes", new[] { "Required attributes are not set" } }
+            };
+            
+            return BadRequest(new
+            {
+                Message = "Validation failed",
+                Errors = errors
+            });
+        }
+
         var newProduct = CreateProductEntityFrom(request);
         if (newProduct == null)
         {
             return Unauthorized();
         }
         _productRepository.Create(newProduct);
-
         CreateAttributeEntitiesFrom(request.Attributes, newProduct);
         
         TempData["message"] = "You created new product";
         return RedirectToAction("Index");
+    }
+
+    private bool RequiredAttributesAreSet(
+        IList<ProductCreateRequest.AttributeRequest> requestAttributes)
+    {
+        foreach (var attr in requestAttributes)
+        {
+            var attributeEntity = _attributeRepository.GetById(attr.Id);
+            if (attributeEntity == null)
+            {
+                return false;
+            }
+
+            if (attributeEntity.IsRequired && attr.Value.IsNullOrEmpty())
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public IActionResult CreateHarvest()

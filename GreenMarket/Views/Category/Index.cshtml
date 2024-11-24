@@ -74,12 +74,34 @@
 
         attributeDiv.innerHTML = `
             <div class="col-md-12 form-floating">
-                <input type="text" name="Attributes[${attributesList.children.length}].Name" 
-                       class="form-control" placeholder="Attribute Name" required>
-                <label>Attribute Name</label>
-            </div>
-            <input type="hidden" name="Attributes[${attributesList.children.length}].CategoryId" 
-                   value="${selectedCategoryId}">
+                    <input 
+                        type="text" 
+                        name="Attributes[${attributesList.children.length}].Name" 
+                        class="form-control" 
+                        placeholder="Attribute Name" 
+                        required
+                    >
+                    <div class="form-check mt-2">
+                        <input 
+                            type="checkbox" 
+                            name="Attributes[${attributesList.children.length}].IsRequired" 
+                            class="form-check-input" 
+                            id="isRequired${attributesList.children.length}"
+                        >
+                        <label 
+                            class="form-check-label" 
+                            for="isRequired${attributesList.children.length}"
+                        >
+                            Is Required
+                        </label>
+                    </div>
+                    <label>Attribute Name</label>
+                </div>
+                <input 
+                    type="hidden" 
+                    name="Attributes[${attributesList.children.length}].CategoryId" 
+                    value="${selectedCategoryId}"
+                >
         `;
 
         attributesList.appendChild(attributeDiv);
@@ -93,8 +115,10 @@
     
         document.querySelectorAll("#attributes_list .row").forEach((row, index) => {
             const name = row.querySelector("input[type='text']").value;
+            const isRequired = row.querySelector("input[type='checkbox']").checked;
             const categoryId = row.querySelector("input[type='hidden']").value;
-            attributes.push({ Name: name, CategoryId: categoryId });
+            
+            attributes.push({ Name: name, CategoryId: categoryId, IsRequired: isRequired });
         });
     
         formData.append("Attributes", JSON.stringify(attributes));

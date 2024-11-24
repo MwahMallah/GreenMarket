@@ -85,6 +85,7 @@ public class CategoryController : Controller
             Id = Guid.NewGuid(),
             Name = attr.Name,
             CategoryId = attr.CategoryId,
+            IsRequired = attr.IsRequired
         }).ToList() ?? [];
     }
 }

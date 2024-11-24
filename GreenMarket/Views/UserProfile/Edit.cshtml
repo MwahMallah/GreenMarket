@@ -19,6 +19,12 @@
                 <span asp-validation-for="Name" class="text-danger field-validation-error"></span>
             </div>
             <div class="form-floating">
+                <input asp-for="Email" type="text" id="email" 
+                       class="form-control" placeholder="Email">
+                <label for="img" class="form-label">Email</label>
+                <span asp-validation-for="Email" class="text-danger field-validation-error"></span>
+            </div>
+            <div class="form-floating">
                 <input asp-for="Username" type="text" id="username" 
                        class="form-control" placeholder="Username">
                 <label for="username" class="form-label">Username</label>
